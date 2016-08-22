@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">GiaoThong</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="test">Test</string>
+    <string name="copy_right">Copy right of BaoTran</string>
+    <string name="tim_kiem">Tìm kiếm</string>
+
+    <string-array name="huongdan">
+        <item>1) Thời gian làm bài sẽ đếm ngược hiển thị trên góc phải màn hình</item>
+        <item>2) Vuốt sang phải hoặc sang trái để chuyển câu hỏi, hoặc nhấn vào nút dưới góc phải màn hình</item>
+        <item>3) Bấm vào kí hiệu dưới góc trái sẽ tạm dừng bài thi và hiển thị danh sách câu hỏi</item>
+        <item>4) Nếu thoát chương trình, bài thi sẽ tạm dừng</item>
+        <item>5) Nếu bấm quay về màn hình trước bài thi sẽ bị hủy và không thể tiếp tục</item>
+        <item>6) Sau khi hết giờ làm bài sẽ tự động hiển thị kết quả trên màn hình</item>
+        <item>7) Nếu nộp bài sớm trước khi hết giờ sẽ không thể tiếp tục</item>
+    </string-array>
+</resources>
