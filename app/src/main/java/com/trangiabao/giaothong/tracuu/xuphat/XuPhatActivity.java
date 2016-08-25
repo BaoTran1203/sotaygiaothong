@@ -65,6 +65,7 @@ public class XuPhatActivity extends AppCompatActivity {
     }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {
+
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
 

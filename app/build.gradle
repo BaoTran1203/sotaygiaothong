@@ -23,27 +23,37 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
 
+
+    compile('com.mikepenz:materialdrawer:5.3.3@aar') {      // Drawer
+        transitive = true
+    }
+    // Drawer
+    compile('com.mikepenz:fastadapter:1.5.2@aar') {         // Fast Adapter
+        transitive = true
+    }
+    // Fast Adapter
+    // Fast Adapter
+    // Recyclerview Animators
+    // App Intro
+    // materialsearchview
+    // spinner
+    // recyclerviewheader2
+    // FAB
+    // dialog
     compile 'com.android.support:appcompat-v7:24.1.1'
     compile 'com.android.support:design:24.1.1'
     compile 'com.android.support:cardview-v7:24.1.1'
     compile 'com.android.support:recyclerview-v7:24.1.1'
     compile 'com.android.support:support-v4:24.1.1'
-
-    compile('com.mikepenz:materialdrawer:5.3.3@aar') {      // Drawer
-        transitive = true
-    }
-    compile 'com.mikepenz:crossfadedrawerlayout:0.3.4@aar'  // Drawer
-    compile('com.mikepenz:fastadapter:1.5.2@aar') {         // Fast Adapter
-        transitive = true
-    }
-    compile 'com.mikepenz:fastadapter-extensions:1.5.1@aar' // Fast Adapter
-    compile 'com.mikepenz:materialize:0.9.0@aar'            // Fast Adapter
-    compile 'jp.wasabeef:recyclerview-animators:2.2.3'      // Recyclerview Animators
-    compile 'com.github.paolorotolo:appintro:4.0.0'         // App Intro
-    compile 'com.miguelcatalan:materialsearchview:1.4.0'    // materialsearchview
-    compile 'com.jaredrummler:material-spinner:1.0.9'       // spinner
-    compile 'com.bartoszlipinski:recyclerviewheader2:2.0.1' // recyclerviewheader2
-    compile 'com.melnykov:floatingactionbutton:1.3.0'       // FAB
-    compile 'com.afollestad.material-dialogs:core:0.9.0.1'  // dialog
+    compile 'com.mikepenz:crossfadedrawerlayout:0.3.4@aar'
+    compile 'com.mikepenz:fastadapter-extensions:1.5.1@aar'
+    compile 'com.mikepenz:materialize:0.9.0@aar'
+    compile 'jp.wasabeef:recyclerview-animators:2.2.3'
+    compile 'com.github.paolorotolo:appintro:4.0.0'
+    compile 'com.miguelcatalan:materialsearchview:1.4.0'
+    compile 'com.jaredrummler:material-spinner:1.0.9'
+    compile 'com.bartoszlipinski:recyclerviewheader2:2.0.1'
+    compile 'com.melnykov:floatingactionbutton:1.3.0'
+    compile 'com.afollestad.material-dialogs:core:0.9.0.1'
     compile 'pl.droidsonroids.gif:android-gif-drawable:1.2.0'
 }
