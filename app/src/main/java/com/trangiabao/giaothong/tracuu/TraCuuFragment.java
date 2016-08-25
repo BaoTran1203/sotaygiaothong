@@ -18,6 +18,7 @@ import com.mikepenz.fastadapter.adapters.FastItemAdapter;
 import com.trangiabao.giaothong.R;
 import com.trangiabao.giaothong.tracuu.bienbao.BienBaoActivity;
 import com.trangiabao.giaothong.tracuu.luat.VanBanActivity;
+import com.trangiabao.giaothong.tracuu.xuphat.XuPhatActivity;
 
 import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter;
 
@@ -65,6 +66,9 @@ public class TraCuuFragment extends Fragment {
                         break;
                     case 1:
                         startActivity(new Intent(getActivity(), BienBaoActivity.class));
+                        break;
+                    case 2:
+                        startActivity(new Intent(getActivity(), XuPhatActivity.class));
                         break;
                     default:
                         break;
