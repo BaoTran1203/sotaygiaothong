@@ -1,5 +1,9 @@
 package com.trangiabao.giaothong.tracuu.xuphat;
 
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -27,13 +31,16 @@ public class XuPhatActivity extends AppCompatActivity {
             R.drawable.ic_tra_cuu
     };
 
+
+    private List<PhuongTien> lstPhuongTien;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_xu_phat);
 
+        new LoadData().execute();
         addControls();
-
     }
 
     private void addControls() {
@@ -43,25 +50,25 @@ public class XuPhatActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
-        setupViewPager(viewPager);
-
         tabLayout = (TabLayout) findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(viewPager);
-        setupTabIcons();
     }
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new TraCuuFragment(), "ONE");
-        adapter.addFragment(new SatHachFragment(), "TWO");
-        adapter.addFragment(new TraCuuFragment(), "THREE");
+        for (int i = 0; i < lstPhuongTien.size(); i++) {
+            PhuongTien phuongTien = lstPhuongTien.get(i);
+            adapter.addFragment(new TraCuuFragment(), phuongTien.getVietTat());
+        }
         viewPager.setAdapter(adapter);
     }
 
-    private void setupTabIcons() {
-        tabLayout.getTabAt(0).setIcon(tabIcons[0]);
-        tabLayout.getTabAt(1).setIcon(tabIcons[1]);
-        tabLayout.getTabAt(2).setIcon(tabIcons[2]);
+    private void setupIcon() {
+        for (int i = 0; i < lstPhuongTien.size(); i++) {
+            PhuongTien phuongTien = lstPhuongTien.get(i);
+            byte[] img = phuongTien.getIcon();
+            Drawable image = new BitmapDrawable(BitmapFactory.decodeByteArray(img, 0, img.length));
+            tabLayout.getTabAt(i).setIcon(image);
+        }
     }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {
@@ -91,6 +98,33 @@ public class XuPhatActivity extends AppCompatActivity {
         @Override
         public CharSequence getPageTitle(int position) {
             return mFragmentTitleList.get(position);
+        }
+    }
+
+    class LoadData extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            setupViewPager(viewPager);
+            tabLayout.setupWithViewPager(viewPager);
+            //setupIcon();
+        }
+
+        @Override
+        protected void onProgressUpdate(Void... values) {
+            super.onProgressUpdate(values);
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            lstPhuongTien = new PhuongTienDB(XuPhatActivity.this).getAll();
+            return null;
         }
     }
 }
