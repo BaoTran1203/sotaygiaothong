@@ -12,7 +12,9 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 
+import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.trangiabao.giaothong.R;
 import com.trangiabao.giaothong.sathach.SatHachFragment;
 import com.trangiabao.giaothong.tracuu.TraCuuFragment;
@@ -25,14 +27,11 @@ public class XuPhatActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
-    private int[] tabIcons = {
-            R.drawable.ic_home,
-            R.drawable.ic_sat_hach,
-            R.drawable.ic_tra_cuu
-    };
-
+    private ViewPagerAdapter pagerAdapter;
 
     private List<PhuongTien> lstPhuongTien;
+    private List<List<MucXuPhat>> lstMucXuPhat;
+    private List<LoaiViPham> lstLoaiViPham;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,15 +50,15 @@ public class XuPhatActivity extends AppCompatActivity {
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         tabLayout = (TabLayout) findViewById(R.id.tabs);
+        pagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
     }
 
     private void setupViewPager(ViewPager viewPager) {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         for (int i = 0; i < lstPhuongTien.size(); i++) {
             PhuongTien phuongTien = lstPhuongTien.get(i);
-            adapter.addFragment(new TraCuuFragment(), phuongTien.getVietTat());
+            pagerAdapter.addFragment(new XuPhatFragment(lstMucXuPhat), phuongTien.getVietTat());
         }
-        viewPager.setAdapter(adapter);
+        viewPager.setAdapter(pagerAdapter);
     }
 
     private void setupIcon() {
@@ -114,6 +113,7 @@ public class XuPhatActivity extends AppCompatActivity {
             setupViewPager(viewPager);
             tabLayout.setupWithViewPager(viewPager);
             //setupIcon();
+
         }
 
         @Override
@@ -124,6 +124,18 @@ public class XuPhatActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... voids) {
             lstPhuongTien = new PhuongTienDB(XuPhatActivity.this).getAll();
+            lstLoaiViPham = new LoaiViPhamDB(XuPhatActivity.this).getAll();
+            lstMucXuPhat = new ArrayList<>();
+            int sumSize = 0;
+            for (int i = 0; i < lstPhuongTien.size(); i++) {
+                for (int j = 0; j < lstLoaiViPham.size(); j++) {
+                    List<MucXuPhat> lstTemp = new MucXuPhatDB(XuPhatActivity.this).getList(i + 1, j + 1);
+                    lstMucXuPhat.add(lstTemp);
+                    Log.d("Size", lstTemp.size() + "");
+                    sumSize += lstTemp.size();
+                }
+            }
+            Log.d("SumSize", sumSize + "");
             return null;
         }
     }
