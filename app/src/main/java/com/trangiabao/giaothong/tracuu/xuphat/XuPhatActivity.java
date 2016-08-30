@@ -1,7 +1,5 @@
 package com.trangiabao.giaothong.tracuu.xuphat;
 
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -14,10 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
-import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.trangiabao.giaothong.R;
-import com.trangiabao.giaothong.sathach.SatHachFragment;
-import com.trangiabao.giaothong.tracuu.TraCuuFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,9 +59,8 @@ public class XuPhatActivity extends AppCompatActivity {
     private void setupIcon() {
         for (int i = 0; i < lstPhuongTien.size(); i++) {
             PhuongTien phuongTien = lstPhuongTien.get(i);
-            byte[] img = phuongTien.getIcon();
-            Drawable image = new BitmapDrawable(BitmapFactory.decodeByteArray(img, 0, img.length));
-            tabLayout.getTabAt(i).setIcon(image);
+            int resID = getResources().getIdentifier(phuongTien.getIconName(), "drawable", getPackageName());
+            tabLayout.getTabAt(i).setIcon(resID);
         }
     }
 
@@ -112,8 +106,7 @@ public class XuPhatActivity extends AppCompatActivity {
             super.onPostExecute(aVoid);
             setupViewPager(viewPager);
             tabLayout.setupWithViewPager(viewPager);
-            //setupIcon();
-
+            setupIcon();
         }
 
         @Override
@@ -126,16 +119,12 @@ public class XuPhatActivity extends AppCompatActivity {
             lstPhuongTien = new PhuongTienDB(XuPhatActivity.this).getAll();
             lstLoaiViPham = new LoaiViPhamDB(XuPhatActivity.this).getAll();
             lstMucXuPhat = new ArrayList<>();
-            int sumSize = 0;
             for (int i = 0; i < lstPhuongTien.size(); i++) {
                 for (int j = 0; j < lstLoaiViPham.size(); j++) {
                     List<MucXuPhat> lstTemp = new MucXuPhatDB(XuPhatActivity.this).getList(i + 1, j + 1);
                     lstMucXuPhat.add(lstTemp);
-                    Log.d("Size", lstTemp.size() + "");
-                    sumSize += lstTemp.size();
                 }
             }
-            Log.d("SumSize", sumSize + "");
             return null;
         }
     }

@@ -42,9 +42,11 @@
                     android:id="@+id/spinnerHang"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:ms_arrow_tint="@color/accent" />
+                    app:ms_arrow_tint="@color/accent"
+                    app:ms_dropdown_max_height="300dp" />
 
                 <TextView
+                    android:layout_marginTop="5dp"
                     android:id="@+id/txtMoTa"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -92,7 +94,6 @@
                     android:textAppearance="?android:attr/textAppearanceLarge" />
 
                 <RadioGroup
-                    android:id="@+id/radSapXep"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checkedButton="@+id/radTheoThuTu">

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -21,7 +22,7 @@ public class TuyChonBaiThiActivity extends AppCompatActivity {
     // controls
     private Toolbar toolbar;
     private MaterialSpinner spinnerHang;
-    private TextView txtQuyTac,txtMoTa;
+    private TextView txtQuyTac, txtMoTa;
     private Button btnStart;
 
     //data
@@ -46,7 +47,6 @@ public class TuyChonBaiThiActivity extends AppCompatActivity {
     private void addControls() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         spinnerHang = (MaterialSpinner) findViewById(R.id.spinnerHang);
         spinnerHang.setItems(loaiBangDB.getTenBang(lstLoaiBang));
@@ -79,5 +79,14 @@ public class TuyChonBaiThiActivity extends AppCompatActivity {
         LoaiBang loaiBang = lstLoaiBang.get(i);
         txtMoTa.setText(Html.fromHtml(loaiBang.getMoTa()));
         txtQuyTac.setText(Html.fromHtml(loaiBang.getQuyTac()));
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == android.R.id.home) {
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

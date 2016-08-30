@@ -22,7 +22,7 @@ public class PhuongTienDB extends AbstractDB {
                     c.getInt(0),
                     c.getString(1),
                     c.getString(2),
-                    c.getBlob(3)
+                    c.getString(3)
             );
             data.add(temp);
         }

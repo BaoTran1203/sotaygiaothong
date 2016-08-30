@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
     tools:context=".tracuu.xuphat.XuPhatFragment">
 
     <RelativeLayout
@@ -14,15 +13,16 @@
             android:id="@+id/spinnerXuPhat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/custom_border"
-            app:ms_arrow_tint="@color/accent" />
+            app:ms_arrow_tint="@color/accent"
+            app:ms_dropdown_max_height="300dp" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rvXuPhat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/spinnerXuPhat"
-            android:layout_marginTop="10dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
             android:adjustViewBounds="true" />
 
     </RelativeLayout>

@@ -42,8 +42,8 @@ public class TraCuuAdapter extends AbstractItem<TraCuuAdapter, TraCuuAdapter.Vie
 
     public static List<TraCuuAdapter> createStaticData() {
         List<TraCuuAdapter> data = new ArrayList<>();
-        data.add(new TraCuuAdapter("Luật giao thông", R.drawable.ic_home));
-        data.add(new TraCuuAdapter("Biển báo", R.drawable.ic_home));
+        data.add(new TraCuuAdapter("Luật giao thông", R.drawable.ic_law));
+        data.add(new TraCuuAdapter("Biển báo", R.drawable.ic_sign));
         data.add(new TraCuuAdapter("Các mức phạt", R.drawable.ic_home));
         data.add(new TraCuuAdapter("Biển số xe", R.drawable.ic_home));
         return data;

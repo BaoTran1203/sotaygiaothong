@@ -41,10 +41,10 @@ public class SatHachAdapter extends AbstractItem<SatHachAdapter, SatHachAdapter.
 
     public static List<SatHachAdapter> createStaticData() {
         List<SatHachAdapter> data = new ArrayList<>();
-        data.add(new SatHachAdapter("Ngân hàng câu hỏi", R.drawable.ic_home));
-        data.add(new SatHachAdapter("Làm bài thi", R.drawable.ic_home));
-        data.add(new SatHachAdapter("Bài thi sa hình", R.drawable.ic_home));
-        data.add(new SatHachAdapter("Mẹo ghi nhớ", R.drawable.ic_home));
+        data.add(new SatHachAdapter("Ngân hàng câu hỏi", R.drawable.ic_question));
+        data.add(new SatHachAdapter("Làm bài thi", R.drawable.ic_exam));
+        data.add(new SatHachAdapter("Bài thi sa hình", R.drawable.ic_wheel));
+        data.add(new SatHachAdapter("Mẹo ghi nhớ", R.drawable.ic_idea));
         return data;
     }
 

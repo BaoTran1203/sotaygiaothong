@@ -71,7 +71,6 @@ public class TuyChonCauHoiActivity extends AppCompatActivity {
     private void addControls() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         spinnerHang = (MaterialSpinner) findViewById(R.id.spinnerHang);
         spinnerHang.setItems(loaiBangDB.getTenBang(lstLoaiBang));
@@ -145,7 +144,7 @@ public class TuyChonCauHoiActivity extends AppCompatActivity {
                         query += "IdNhomCauHoi = " + lstCheckBoxNhomCauHoi.get(i).getHint() + " or ";
                     }
                 }
-                query = query.substring(0,query.length()-4) + ")";
+                query = query.substring(0, query.length() - 4) + ")";
             }
             if (radNgauNhien.isChecked())
                 query += " order by random()";
@@ -198,7 +197,7 @@ public class TuyChonCauHoiActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == android.R.id.home) {
-            NavUtils.navigateUpFromSameTask(this);
+            super.onBackPressed();
         }
         return super.onOptionsItemSelected(item);
     }

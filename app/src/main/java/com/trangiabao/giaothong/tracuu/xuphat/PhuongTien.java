@@ -1,19 +1,17 @@
 package com.trangiabao.giaothong.tracuu.xuphat;
 
-import android.graphics.Bitmap;
-
 public class PhuongTien {
 
     private int id;
     private String phuongTien;
     private String vietTat;
-    private byte[] icon;
+    private String iconName;
 
-    public PhuongTien(int id, String phuongTien, String vietTat, byte[] icon) {
+    public PhuongTien(int id, String phuongTien, String vietTat, String iconName) {
         this.id = id;
         this.phuongTien = phuongTien;
         this.vietTat = vietTat;
-        this.icon = icon;
+        this.iconName = iconName;
     }
 
     public int getId() {
@@ -28,7 +26,7 @@ public class PhuongTien {
         return vietTat;
     }
 
-    public byte[] getIcon() {
-        return icon;
+    public String getIconName() {
+        return iconName;
     }
 }

@@ -60,7 +60,8 @@
         <activity android:name=".sathach.cauhoi.CauHoiActivity" />
         <activity android:name=".sathach.lambaithi.BaiThiActivity" />
         <activity android:name=".TestActivity" />
-        <activity android:name=".tracuu.xuphat.XuPhatActivity"></activity>
+        <activity android:name=".tracuu.xuphat.XuPhatActivity" />
+        <activity android:name=".ThongTinActivity" />
     </application>
 
 </manifest>

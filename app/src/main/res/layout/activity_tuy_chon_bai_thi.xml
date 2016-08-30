@@ -38,13 +38,14 @@
                 android:id="@+id/spinnerHang"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:ms_arrow_tint="@color/accent" />
+                app:ms_arrow_tint="@color/accent"
+                app:ms_dropdown_max_height="300dp" />
 
             <TextView
-                android:layout_marginTop="5dp"
                 android:id="@+id/txtMoTa"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:background="@drawable/custom_border"
                 android:padding="10dp" />
 
@@ -70,8 +71,8 @@
         <Button
             android:id="@+id/btnStart"
             android:layout_width="match_parent"
-            android:layout_marginBottom="5dp"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
             android:background="@drawable/custom_button_state"
             android:text="Chuyển đến trang làm bài" />
     </RelativeLayout>

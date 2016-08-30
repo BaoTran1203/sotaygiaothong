@@ -2,6 +2,7 @@ package com.trangiabao.giaothong.tracuu.xuphat;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.OvershootInterpolator;
+import android.widget.Toast;
 
 import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.mikepenz.fastadapter.adapters.FastItemAdapter;
@@ -53,14 +55,28 @@ public class XuPhatFragment extends Fragment {
         animationAdapter.setFirstOnly(false);
 
         rvXuPhat.setAdapter(animationAdapter);
-        adapter.add(this.lstMucXuPhat.get(0));
         adapter.withSavedInstanceState(savedInstanceState);
+
+        addEvents();
         return view;
+    }
+
+    private void addEvents() {
+        selectSpinner(0);
+        spinnerXuPhat.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(MaterialSpinner view, int position, long id, Object item) {
+                selectSpinner(position);
+            }
+        });
     }
 
     private void selectSpinner(int flag) {
         adapter.clear();
         adapter.add(this.lstMucXuPhat.get(flag));
+        if (this.lstMucXuPhat.get(flag).size() == 0) {
+            Toast.makeText(getActivity(), "Wait for updating", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
