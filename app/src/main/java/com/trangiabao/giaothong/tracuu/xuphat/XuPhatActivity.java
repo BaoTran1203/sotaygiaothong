@@ -1,6 +1,5 @@
 package com.trangiabao.giaothong.tracuu.xuphat;
 
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -10,9 +9,14 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 
 import com.trangiabao.giaothong.R;
+import com.trangiabao.giaothong.tracuu.xuphat.db.LoaiViPhamDB;
+import com.trangiabao.giaothong.tracuu.xuphat.db.MucXuPhatDB;
+import com.trangiabao.giaothong.tracuu.xuphat.db.PhuongTienDB;
+import com.trangiabao.giaothong.tracuu.xuphat.model.LoaiViPham;
+import com.trangiabao.giaothong.tracuu.xuphat.model.MucXuPhat;
+import com.trangiabao.giaothong.tracuu.xuphat.model.PhuongTien;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,9 +62,7 @@ public class XuPhatActivity extends AppCompatActivity {
 
     private void setupIcon() {
         for (int i = 0; i < lstPhuongTien.size(); i++) {
-            PhuongTien phuongTien = lstPhuongTien.get(i);
-            int resID = getResources().getIdentifier(phuongTien.getIconName(), "drawable", getPackageName());
-            tabLayout.getTabAt(i).setIcon(resID);
+            tabLayout.getTabAt(i).setIcon(lstPhuongTien.get(i).getIcon());
         }
     }
 

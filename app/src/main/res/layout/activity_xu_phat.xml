@@ -24,7 +24,6 @@
             app:title="Các mức xử phạt">
 
             <ImageSwitcher
-                android:id="@+id/imgSwiHeader"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fitsSystemWindows="true"

@@ -25,17 +25,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
-        <!-- Thông tin -->
-        <!-- <activity -->
-        <!-- android:name=".ThongTinActivity" -->
-        <!-- android:label="Thông tin"> -->
-
-
-        <!-- <meta-data -->
-        <!-- android:name="android.support.PARENT_ACTIVITY" -->
-        <!-- android:value=".MainActivity" /> -->
-        <!-- </activity> -->
-        <!-- xxx -->
         <activity android:name=".sathach.cauhoi.TuyChonCauHoiActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -62,6 +51,7 @@
         <activity android:name=".TestActivity" />
         <activity android:name=".tracuu.xuphat.XuPhatActivity" />
         <activity android:name=".ThongTinActivity" />
+        <activity android:name=".tracuu.luat.ChuongActivity"></activity>
     </application>
 
 </manifest>

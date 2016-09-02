@@ -2,9 +2,7 @@ package com.trangiabao.giaothong.tracuu.xuphat;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,6 +14,8 @@ import android.widget.Toast;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.mikepenz.fastadapter.adapters.FastItemAdapter;
 import com.trangiabao.giaothong.R;
+import com.trangiabao.giaothong.tracuu.xuphat.db.LoaiViPhamDB;
+import com.trangiabao.giaothong.tracuu.xuphat.model.MucXuPhat;
 
 import java.util.List;
 

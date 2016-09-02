@@ -1,6 +1,6 @@
 package com.trangiabao.giaothong.sathach.lambaithi;
 
-import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -17,7 +17,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -25,23 +24,22 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.DialogAction;
-import com.afollestad.materialdialogs.GravityEnum;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.trangiabao.giaothong.R;
-import com.trangiabao.giaothong.database.CauHoiDB;
-import com.trangiabao.giaothong.database.CauTraLoiDB;
-import com.trangiabao.giaothong.database.DanhMucHinhDB;
-import com.trangiabao.giaothong.database.HinhCauHoiDB;
-import com.trangiabao.giaothong.database.LoaiBangDB;
-import com.trangiabao.giaothong.database.NhomCauHoiDB;
-import com.trangiabao.giaothong.database.QuyTacRaDeDB;
-import com.trangiabao.giaothong.model.CauHoi;
-import com.trangiabao.giaothong.model.CauTraLoi;
-import com.trangiabao.giaothong.model.DanhMucHinh;
-import com.trangiabao.giaothong.model.HinhCauHoi;
-import com.trangiabao.giaothong.model.LoaiBang;
-import com.trangiabao.giaothong.model.NhomCauHoi;
+import com.trangiabao.giaothong.sathach.db.CauHoiDB;
+import com.trangiabao.giaothong.sathach.db.CauTraLoiDB;
+import com.trangiabao.giaothong.sathach.db.HinhCauHoiDB;
+import com.trangiabao.giaothong.sathach.db.LoaiBangDB;
+import com.trangiabao.giaothong.sathach.db.NhomCauHoiDB;
+import com.trangiabao.giaothong.sathach.db.QuyTacRaDeDB;
+import com.trangiabao.giaothong.sathach.model.CauHoi;
+import com.trangiabao.giaothong.sathach.model.CauTraLoi;
+import com.trangiabao.giaothong.sathach.model.HinhCauHoi;
+import com.trangiabao.giaothong.sathach.model.LoaiBang;
+import com.trangiabao.giaothong.sathach.model.NhomCauHoi;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -279,11 +277,11 @@ public class BaiThiActivity extends AppCompatActivity {
         toolbar.setTitle(flag + "/" + soCauHoi);
         txtCauHoi.startAnimation(animation);
         txtCauHoi.setText(Html.fromHtml("Câu " + flag + ": " + cauHoi.getCauHoi()));
-        setLayoutImage(cauHoi.getLstHinh(), animation);
+        setLayoutImage(cauHoi.getLstHinhCauHoi(), animation);
         setLayoutCauTraLoi(cauHoi.getLstCauTraLoi(), animation);
     }
 
-    private void setLayoutCauTraLoi(ArrayList<CauTraLoi> lstCauTraLoi, Animation animation) {
+    private void setLayoutCauTraLoi(List<CauTraLoi> lstCauTraLoi, Animation animation) {
         layoutCauTraLoi.removeAllViews();
         lstCheckBoxCauTraLoi = new ArrayList<>();
         for (CauTraLoi cauTraLoi : lstCauTraLoi) {
@@ -299,7 +297,7 @@ public class BaiThiActivity extends AppCompatActivity {
         }
     }
 
-    private void setLayoutImage(ArrayList<DanhMucHinh> lstImage, Animation animation) {
+    private void setLayoutImage(List<HinhCauHoi> lstImage, Animation animation) {
         int size = lstImage.size();
         layoutImage.removeAllViews();
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
@@ -313,7 +311,14 @@ public class BaiThiActivity extends AppCompatActivity {
         int height = size == 1 ? getDip(200) : getDip(100);
         int margin = getDip(5);
         for (int i = 0; i < size; i++) {
-            ImageView img = createImageView(lstImage.get(i).getHinh(), width, height, margin);
+            Drawable drawable = null;
+            try {
+                InputStream is = getAssets().open(lstImage.get(i).getHinh());
+                drawable = Drawable.createFromStream(is, null);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            ImageView img = createImageView(drawable, width, height, margin);
             img.startAnimation(animation);
             layoutImage.addView(img);
         }
@@ -323,13 +328,13 @@ public class BaiThiActivity extends AppCompatActivity {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, pixel, getResources().getDisplayMetrics());
     }
 
-    private ImageView createImageView(byte[] image, int width, int height, int margin) {
+    private ImageView createImageView(Drawable image, int width, int height, int margin) {
         ImageView img = new ImageView(this);
         LinearLayout.LayoutParams imageParams = new LinearLayout.LayoutParams(width, height, 1f);
         imageParams.gravity = Gravity.CENTER;
         imageParams.setMargins(margin, margin, margin, margin);
         img.setLayoutParams(imageParams);
-        img.setImageBitmap(BitmapFactory.decodeByteArray(image, 0, image.length));
+        img.setImageDrawable(image);
         img.requestLayout();
         return img;
     }
@@ -498,7 +503,7 @@ public class BaiThiActivity extends AppCompatActivity {
             else {
                 query = "select * from CauHoi where IdNhomCauHoi = ";
             }
-            List<CauHoi> lstCauHoiTemp = new ArrayList<>();
+            lstCauHoi = new ArrayList<>();
             lstNhomCauHoi = new NhomCauHoiDB(BaiThiActivity.this).getAll();
             for (int i = 0; i < lstNhomCauHoi.size(); i++) {
                 List<CauHoi> temp = new CauHoiDB(BaiThiActivity.this).getCauHoi(query + (i + 1));
@@ -506,24 +511,9 @@ public class BaiThiActivity extends AppCompatActivity {
                 if (soCau != 0) {
                     for (int j = 1; j <= soCau; j++) {
                         CauHoi cauHoi = temp.get(new Random().nextInt(temp.size()));
-                        lstCauHoiTemp.add(cauHoi);
+                        lstCauHoi.add(cauHoi);
                     }
                 }
-            }
-            lstCauHoi = new ArrayList<>();
-            for (CauHoi cauHoi : lstCauHoiTemp) {
-                int idCauHoi = cauHoi.getId();
-                ArrayList<HinhCauHoi> lstHinhCauHoi = new HinhCauHoiDB(BaiThiActivity.this).getByIdCauHoi(idCauHoi);
-                ArrayList<DanhMucHinh> lstDanhMucHinh = new ArrayList<>();
-                if (lstHinhCauHoi.size() > 0) {
-                    for (HinhCauHoi hinhCauHoi : lstHinhCauHoi) {
-                        lstDanhMucHinh.add(new DanhMucHinhDB(BaiThiActivity.this).getById(hinhCauHoi.getIdHinh()));
-                    }
-                }
-                cauHoi.setLstHinh(lstDanhMucHinh);
-                ArrayList<CauTraLoi> lstCauTraLoi = new CauTraLoiDB(BaiThiActivity.this).getCauTraLoiByIdCauHoi(idCauHoi);
-                cauHoi.setLstCauTraLoi(lstCauTraLoi);
-                lstCauHoi.add(cauHoi);
             }
             return null;
         }

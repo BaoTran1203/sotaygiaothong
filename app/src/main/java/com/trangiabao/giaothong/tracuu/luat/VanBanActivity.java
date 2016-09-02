@@ -13,8 +13,8 @@ import com.mikepenz.fastadapter.FastAdapter;
 import com.mikepenz.fastadapter.IAdapter;
 import com.mikepenz.fastadapter.adapters.FastItemAdapter;
 import com.trangiabao.giaothong.R;
-import com.trangiabao.giaothong.database.VanBanDB;
-import com.trangiabao.giaothong.model.VanBan;
+import com.trangiabao.giaothong.tracuu.luat.db.VanBanDB;
+import com.trangiabao.giaothong.tracuu.luat.model.VanBan;
 
 import java.util.List;
 
@@ -26,7 +26,6 @@ public class VanBanActivity extends AppCompatActivity {
     private FastItemAdapter<VanBan> adapter;
     private RecyclerView rvVanBan;
 
-    private VanBanDB vanBanDB;
     private List<VanBan> lstVanBan;
     private VanBan vanBan;
 
@@ -41,12 +40,12 @@ public class VanBanActivity extends AppCompatActivity {
     }
 
     private void loadData() {
-        vanBanDB = new VanBanDB(this);
-        lstVanBan = vanBanDB.getAll();
+        lstVanBan = new VanBanDB(VanBanActivity.this).getAll();
     }
 
     private void addControls(Bundle savedInstanceState) {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("Văn bản");
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -60,7 +59,7 @@ public class VanBanActivity extends AppCompatActivity {
         adapter.withSelectable(true);
 
         ScaleInAnimationAdapter animationAdapter = new ScaleInAnimationAdapter(adapter);
-        animationAdapter.setDuration(1500);
+        animationAdapter.setDuration(1000);
         animationAdapter.setInterpolator(new OvershootInterpolator());
         animationAdapter.setFirstOnly(false);
 
@@ -74,8 +73,8 @@ public class VanBanActivity extends AppCompatActivity {
             @Override
             public boolean onClick(View v, IAdapter<VanBan> adapter, VanBan item, int position) {
                 vanBan = lstVanBan.get(position);
-                Intent intent = new Intent(VanBanActivity.this, NoiDungActivity.class);
-                intent.putExtra("ID_VAN_BAN", vanBan.getId());
+                Intent intent = new Intent(VanBanActivity.this, ChuongActivity.class);
+                intent.putExtra("ID_VAN_BAN", vanBan.getId() + "");
                 startActivity(intent);
                 return false;
             }

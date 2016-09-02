@@ -18,10 +18,10 @@ import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.melnykov.fab.FloatingActionButton;
 import com.mikepenz.fastadapter.adapters.FastItemAdapter;
 import com.trangiabao.giaothong.R;
-import com.trangiabao.giaothong.database.BienBaoDB;
-import com.trangiabao.giaothong.database.NhomBienBaoDB;
-import com.trangiabao.giaothong.model.BienBao;
-import com.trangiabao.giaothong.model.NhomBienBao;
+import com.trangiabao.giaothong.tracuu.bienbao.db.BienBaoDB;
+import com.trangiabao.giaothong.tracuu.bienbao.db.NhomBienBaoDB;
+import com.trangiabao.giaothong.tracuu.bienbao.model.BienBao;
+import com.trangiabao.giaothong.tracuu.bienbao.model.NhomBienBao;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,9 +39,7 @@ public class BienBaoActivity extends AppCompatActivity {
     private MaterialDialog dialog;
     private FrameLayout frame_container;
 
-    private NhomBienBaoDB nhomBienBaoDB;
     private List<NhomBienBao> lstNhomBienBao;
-    private BienBaoDB bienBaoDB;
     private List<FastItemAdapter<BienBao>> lstAdapter;
     private FastItemAdapter<BienBao> adapter = new FastItemAdapter<>();
 
@@ -61,6 +59,7 @@ public class BienBaoActivity extends AppCompatActivity {
 
     private void addControls() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("Tra cứu biển báo");
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -140,7 +139,7 @@ public class BienBaoActivity extends AppCompatActivity {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             dialog.dismiss();
-            spinnerNhomBienBao.setItems(nhomBienBaoDB.getTenNhomBienBao(lstNhomBienBao));
+            spinnerNhomBienBao.setItems(new NhomBienBaoDB(BienBaoActivity.this).getTenNhomBienBao(lstNhomBienBao));
             hienThiDanhSachBienBao(0);
         }
 
@@ -155,13 +154,11 @@ public class BienBaoActivity extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            nhomBienBaoDB = new NhomBienBaoDB(BienBaoActivity.this);
-            lstNhomBienBao = nhomBienBaoDB.getAll();
+            lstNhomBienBao = new NhomBienBaoDB(BienBaoActivity.this).getAll();
 
-            bienBaoDB = new BienBaoDB(BienBaoActivity.this);
             lstAdapter = new ArrayList<>();
             for (NhomBienBao nhomBienBao : lstNhomBienBao) {
-                List<BienBao> lstBienBao = bienBaoDB.getByNhom(nhomBienBao.getId());
+                List<BienBao> lstBienBao = new BienBaoDB(BienBaoActivity.this).getByNhom(nhomBienBao.getId());
                 publishProgress(lstBienBao);
             }
             return null;

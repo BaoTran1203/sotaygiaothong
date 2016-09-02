@@ -1,6 +1,6 @@
 package com.trangiabao.giaothong.sathach.cauhoi;
 
-import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -24,16 +24,15 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.trangiabao.giaothong.R;
-import com.trangiabao.giaothong.database.CauHoiDB;
-import com.trangiabao.giaothong.database.CauTraLoiDB;
-import com.trangiabao.giaothong.database.DanhMucHinhDB;
-import com.trangiabao.giaothong.database.HinhCauHoiDB;
-import com.trangiabao.giaothong.model.CauHoi;
-import com.trangiabao.giaothong.model.CauTraLoi;
-import com.trangiabao.giaothong.model.DanhMucHinh;
-import com.trangiabao.giaothong.model.HinhCauHoi;
+import com.trangiabao.giaothong.sathach.db.CauHoiDB;
+import com.trangiabao.giaothong.sathach.model.CauHoi;
+import com.trangiabao.giaothong.sathach.model.CauTraLoi;
+import com.trangiabao.giaothong.sathach.model.HinhCauHoi;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
 
 public class CauHoiActivity extends AppCompatActivity {
 
@@ -52,7 +51,7 @@ public class CauHoiActivity extends AppCompatActivity {
     private MaterialDialog dialog;
 
     private int flag = 1;
-    private ArrayList<CauHoi> lstCauHoi;
+    private List<CauHoi> lstCauHoi = new ArrayList<>();
     private CauHoi cauHoi;
 
     @Override
@@ -134,7 +133,7 @@ public class CauHoiActivity extends AppCompatActivity {
             dapAn = dapAn.substring(0, dapAn.length() - 1);
         }
         String ketQua = "Kết quả ";
-        ArrayList<CauTraLoi> lstCauTraLoi = cauHoi.getLstCauTraLoi();
+        List<CauTraLoi> lstCauTraLoi = cauHoi.getLstCauTraLoi();
         for (int i = 0; i < size; i++) {
             if (lstCauTraLoi.get(i).isDapAn())
                 ketQua += (i + 1) + ",";
@@ -159,12 +158,12 @@ public class CauHoiActivity extends AppCompatActivity {
         toolbar.setTitle("Câu " + flag + "/" + soCauHoi);
         txtCauHoi.startAnimation(animation);
         txtCauHoi.setText(Html.fromHtml("Câu " + flag + ": " + cauHoi.getCauHoi()));
-        setLayoutImage(cauHoi.getLstHinh(), animation);
+        setLayoutImage(cauHoi.getLstHinhCauHoi(), animation);
         setLayoutCauTraLoi(cauHoi.getLstCauTraLoi(), animation);
         btnDapAn.startAnimation(upFromBottom);
     }
 
-    private void setLayoutCauTraLoi(ArrayList<CauTraLoi> lstCauTraLoi, Animation animation) {
+    private void setLayoutCauTraLoi(List<CauTraLoi> lstCauTraLoi, Animation animation) {
         layoutCauTraLoi.removeAllViews();
         lstCheckBoxCauTraLoi = new ArrayList<>();
         for (CauTraLoi cauTraLoi : lstCauTraLoi) {
@@ -179,7 +178,7 @@ public class CauHoiActivity extends AppCompatActivity {
         }
     }
 
-    private void setLayoutImage(ArrayList<DanhMucHinh> lstImage, Animation animation) {
+    private void setLayoutImage(List<HinhCauHoi> lstImage, Animation animation) {
         int size = lstImage.size();
         layoutImage.removeAllViews();
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
@@ -193,7 +192,14 @@ public class CauHoiActivity extends AppCompatActivity {
         int height = size == 1 ? getDip(200) : getDip(100);
         int margin = getDip(5);
         for (int i = 0; i < size; i++) {
-            ImageView img = createImageView(lstImage.get(i).getHinh(), width, height, margin);
+            Drawable drawable = null;
+            try {
+                InputStream is = getAssets().open(lstImage.get(i).getHinh());
+                drawable = Drawable.createFromStream(is, null);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            ImageView img = createImageView(drawable, width, height, margin);
             img.startAnimation(animation);
             layoutImage.addView(img);
         }
@@ -203,13 +209,13 @@ public class CauHoiActivity extends AppCompatActivity {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, pixel, getResources().getDisplayMetrics());
     }
 
-    private ImageView createImageView(byte[] image, int width, int height, int margin) {
+    private ImageView createImageView(Drawable image, int width, int height, int margin) {
         ImageView img = new ImageView(this);
         LinearLayout.LayoutParams imageParams = new LinearLayout.LayoutParams(width, height, 1f);
         imageParams.gravity = Gravity.CENTER;
         imageParams.setMargins(margin, margin, margin, margin);
         img.setLayoutParams(imageParams);
-        img.setImageBitmap(BitmapFactory.decodeByteArray(image, 0, image.length));
+        img.setImageDrawable(image);
         img.requestLayout();
         return img;
     }
@@ -286,29 +292,9 @@ public class CauHoiActivity extends AppCompatActivity {
         }
 
         @Override
-        protected void onProgressUpdate(Void... values) {
-            super.onProgressUpdate(values);
-        }
-
-        @Override
         protected Void doInBackground(Void... voids) {
             String query = getIntent().getExtras().getString("QUERY");
-            lstCauHoi = new ArrayList<>();
-            ArrayList<CauHoi> temp = new CauHoiDB(CauHoiActivity.this).getCauHoi(query);
-            for (CauHoi cauHoi : temp) {
-                int idCauHoi = cauHoi.getId();
-                ArrayList<HinhCauHoi> lstHinhCauHoi = new HinhCauHoiDB(CauHoiActivity.this).getByIdCauHoi(idCauHoi);
-                ArrayList<DanhMucHinh> lstDanhMucHinh = new ArrayList<>();
-                if (lstHinhCauHoi.size() > 0) {
-                    for (HinhCauHoi hinhCauHoi : lstHinhCauHoi) {
-                        lstDanhMucHinh.add(new DanhMucHinhDB(CauHoiActivity.this).getById(hinhCauHoi.getIdHinh()));
-                    }
-                }
-                cauHoi.setLstHinh(lstDanhMucHinh);
-                ArrayList<CauTraLoi> lstCauTraLoi = new CauTraLoiDB(CauHoiActivity.this).getCauTraLoiByIdCauHoi(idCauHoi);
-                cauHoi.setLstCauTraLoi(lstCauTraLoi);
-                lstCauHoi.add(cauHoi);
-            }
+            lstCauHoi = new CauHoiDB(CauHoiActivity.this).getCauHoi(query);
             return null;
         }
     }

@@ -12,8 +12,8 @@ import android.widget.TextView;
 
 import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.trangiabao.giaothong.R;
-import com.trangiabao.giaothong.database.LoaiBangDB;
-import com.trangiabao.giaothong.model.LoaiBang;
+import com.trangiabao.giaothong.sathach.db.LoaiBangDB;
+import com.trangiabao.giaothong.sathach.model.LoaiBang;
 
 import java.util.ArrayList;
 
@@ -46,6 +46,7 @@ public class TuyChonBaiThiActivity extends AppCompatActivity {
 
     private void addControls() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("Tùy chọn bài thi");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         spinnerHang = (MaterialSpinner) findViewById(R.id.spinnerHang);

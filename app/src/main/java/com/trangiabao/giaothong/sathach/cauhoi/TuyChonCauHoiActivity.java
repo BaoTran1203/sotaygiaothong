@@ -2,12 +2,10 @@ package com.trangiabao.giaothong.sathach.cauhoi;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -20,12 +18,12 @@ import android.widget.Toast;
 
 import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.trangiabao.giaothong.R;
-import com.trangiabao.giaothong.database.LoaiBangDB;
-import com.trangiabao.giaothong.database.NhomCauHoiDB;
-import com.trangiabao.giaothong.database.QuyTacRaDeDB;
-import com.trangiabao.giaothong.model.LoaiBang;
-import com.trangiabao.giaothong.model.NhomCauHoi;
-import com.trangiabao.giaothong.model.QuyTacRaDe;
+import com.trangiabao.giaothong.sathach.db.LoaiBangDB;
+import com.trangiabao.giaothong.sathach.db.NhomCauHoiDB;
+import com.trangiabao.giaothong.sathach.db.QuyTacRaDeDB;
+import com.trangiabao.giaothong.sathach.model.LoaiBang;
+import com.trangiabao.giaothong.sathach.model.NhomCauHoi;
+import com.trangiabao.giaothong.sathach.model.QuyTacRaDe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,9 +43,7 @@ public class TuyChonCauHoiActivity extends AppCompatActivity {
     //data
     private LoaiBangDB loaiBangDB;
     private ArrayList<LoaiBang> lstLoaiBang;
-    private NhomCauHoiDB nhomCauHoiDB;
     private ArrayList<NhomCauHoi> lstNhomCauHoi;
-    private QuyTacRaDeDB quyTacRaDeDB;
     private ArrayList<QuyTacRaDe> lstQuyTacRaDe;
     private int count = 0;
 
@@ -62,14 +58,13 @@ public class TuyChonCauHoiActivity extends AppCompatActivity {
     }
 
     private void loadDatas() {
-        loaiBangDB = new LoaiBangDB(this);
+        loaiBangDB = new LoaiBangDB(TuyChonCauHoiActivity.this);
         lstLoaiBang = loaiBangDB.getAll();
-        nhomCauHoiDB = new NhomCauHoiDB(this);
-        quyTacRaDeDB = new QuyTacRaDeDB(this);
     }
 
     private void addControls() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("Tùy chọn câu hỏi");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         spinnerHang = (MaterialSpinner) findViewById(R.id.spinnerHang);
@@ -156,11 +151,11 @@ public class TuyChonCauHoiActivity extends AppCompatActivity {
         chkTatCa.setChecked(false);
         LoaiBang loaiBang = lstLoaiBang.get(i);
         txtMoTa.setText(Html.fromHtml(loaiBang.getMoTa()));
-        lstQuyTacRaDe = quyTacRaDeDB.getByIdLoaiBang(loaiBang.getId());
+        lstQuyTacRaDe = new QuyTacRaDeDB(TuyChonCauHoiActivity.this).getByIdLoaiBang(loaiBang.getId());
         // create List Nhom Cau Hoi
         lstNhomCauHoi = new ArrayList<>();
         for (QuyTacRaDe quyTacRaDe : lstQuyTacRaDe) {
-            NhomCauHoi nhomCauHoi = nhomCauHoiDB.getItemById(quyTacRaDe.getIdNhomCauHoi());
+            NhomCauHoi nhomCauHoi = new NhomCauHoiDB(TuyChonCauHoiActivity.this).getItemById(quyTacRaDe.getIdNhomCauHoi());
             lstNhomCauHoi.add(nhomCauHoi);
         }
         // create Layout CheckBox

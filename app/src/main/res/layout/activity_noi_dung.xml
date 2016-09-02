@@ -5,25 +5,13 @@
     android:layout_height="match_parent"
     tools:context=".tracuu.luat.NoiDungActivity">
 
-    <FrameLayout
-        android:id="@+id/toolbar_container"
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            android:elevation="4dp"
-            tools:targetApi="lollipop" />
-
-        <com.miguelcatalan.materialsearchview.MaterialSearchView
-            android:id="@+id/search_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:theme="@style/MaterialSearchViewStyle" />
-    </FrameLayout>
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        tools:targetApi="lollipop" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -47,26 +35,28 @@
                     android:id="@+id/txtChuong"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="Chuong" />
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtMuc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textStyle="italic" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="@android:color/black" />
 
-                <TextView
+                <TextSwitcher
                     android:id="@+id/txtDieu"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="Dieu" />
+                    android:layout_height="wrap_content" />
 
-                <TextView
+                <TextSwitcher
                     android:id="@+id/txtNoiDung"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="NoiDung" />
+                    android:layout_height="wrap_content" />
 
             </LinearLayout>
         </ScrollView>
@@ -101,7 +91,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@drawable/round_button"
-                        android:src="@drawable/ic_truoc" />
+                        android:src="@drawable/ic_truoc"
+                        android:visibility="gone" />
                 </LinearLayout>
 
                 <LinearLayout
