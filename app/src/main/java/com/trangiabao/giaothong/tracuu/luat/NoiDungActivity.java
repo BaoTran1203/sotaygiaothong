@@ -55,7 +55,6 @@ public class NoiDungActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Nội dung");
         setSupportActionBar(toolbar);
-        getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         txtDieu = (TextSwitcher) findViewById(R.id.txtDieu);
@@ -148,7 +147,7 @@ public class NoiDungActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (android.R.id.home == id) {
-            finish();
+            super.onBackPressed();
         }
         return super.onOptionsItemSelected(item);
     }

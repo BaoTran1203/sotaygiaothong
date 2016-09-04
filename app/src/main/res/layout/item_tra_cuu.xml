@@ -34,8 +34,7 @@
                 <ImageView
                     android:id="@+id/imgIcon"
                     android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:src="@drawable/ic_home" />
+                    android:layout_height="100dp" />
 
             </LinearLayout>
 
@@ -46,7 +45,6 @@
                 android:layout_weight="0.5"
                 android:background="?attr/colorPrimary"
                 android:gravity="center"
-                android:text="Large Text"
                 android:textColor="@color/material_drawer_dark_primary_text" />
 
         </LinearLayout>

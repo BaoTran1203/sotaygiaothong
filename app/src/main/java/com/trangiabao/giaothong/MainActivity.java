@@ -23,13 +23,16 @@ import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.util.DrawerUIUtils;
 import com.mikepenz.materialize.util.UIUtils;
+import com.trangiabao.giaothong.chiase.ChiaSeFragment;
+import com.trangiabao.giaothong.gioithieu.GioiThieu2Activity;
+import com.trangiabao.giaothong.gioithieu.GioiThieuFragment;
+import com.trangiabao.giaothong.lienhe.LienHeActivity;
 import com.trangiabao.giaothong.sathach.SatHachFragment;
 import com.trangiabao.giaothong.tracuu.TraCuuFragment;
 
 public class MainActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
-    private AccountHeader headerResult;
     private Drawer result;
     private MiniDrawer miniResult;
     private CrossfadeDrawerLayout crossfadeDrawerLayout;
@@ -39,19 +42,33 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        DataProvider db = new DataProvider(MainActivity.this, "giaothong.db");
-        db.processCopy();
+        new DataProvider(MainActivity.this, "giaothong.db").processCopy();
+        addControls();
+        selectItemDrawer(1);
+    }
 
+    private void selectItemDrawer(int id) {
+        result.setSelection(id, true);
+        toolbar.setTitle(((PrimaryDrawerItem) result.getDrawerItem(id)).getName() + "");
+    }
+
+    private void setFragment(Fragment fragment) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right);
+        transaction.replace(R.id.frame_container, fragment);
+        transaction.commit();
+        result.closeDrawer();
+    }
+
+    private void addControls() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        headerResult = new AccountHeaderBuilder()
-                .withActivity(this)
-                .withTranslucentStatusBar(true)
-                .withHeaderBackground(R.drawable.banner)
-                .build();
+        createDrawer();
+    }
 
+    private void createDrawer() {
         result = new DrawerBuilder()
                 .withActivity(this)
                 .withToolbar(toolbar)
@@ -60,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
                 .withHasStableIds(true)
                 .withDrawerWidthDp(72)
                 .withGenerateMiniDrawer(true)
-                .withAccountHeader(headerResult)
+                .withAccountHeader(createHeader())
                 .addDrawerItems(
                         new PrimaryDrawerItem().withIdentifier(1).withName("Giới thiệu ứng dụng").withIcon(R.drawable.ic_home),
                         new DividerDrawerItem(),
@@ -72,14 +89,14 @@ public class MainActivity extends AppCompatActivity {
                         new PrimaryDrawerItem().withIdentifier(6).withName("Chia sẽ với mọi người").withIcon(R.drawable.ic_share),
                         new PrimaryDrawerItem().withIdentifier(7).withName("Liên hệ nhà phát triển").withIcon(R.drawable.ic_contact)
                 )
-                .withSavedInstance(savedInstanceState)
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                         int id = (int) drawerItem.getIdentifier();
                         switch (id) {
                             case 1:
-                                startActivity(new Intent(MainActivity.this, GioiThieuActivity.class));
+                                setFragment(new GioiThieuFragment());
+                                toolbar.setTitle(((PrimaryDrawerItem) result.getDrawerItem(id)).getName() + "");
                                 break;
 
                             case 2:
@@ -101,12 +118,12 @@ public class MainActivity extends AppCompatActivity {
                                 break;
 
                             case 6:
-                                Toast.makeText(MainActivity.this, "Chờ cập nhật", Toast.LENGTH_SHORT).show();
+                                setFragment(new ChiaSeFragment(MainActivity.this));
+                                toolbar.setTitle(((PrimaryDrawerItem) result.getDrawerItem(id)).getName() + "");
                                 break;
 
                             case 7:
-                                Toast.makeText(MainActivity.this, "Chờ cập nhật", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(MainActivity.this, ThongTinActivity.class));
+                                startActivity(new Intent(MainActivity.this, LienHeActivity.class));
                                 break;
                         }
                         return false;
@@ -122,7 +139,6 @@ public class MainActivity extends AppCompatActivity {
                 com.mikepenz.materialdrawer.R.attr.material_drawer_background,
                 com.mikepenz.materialdrawer.R.color.material_drawer_primary_dark));
         crossfadeDrawerLayout.getSmallView().addView(view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        crossfadeDrawerLayout.setDrawerTitle(0, "ABC");
         miniResult.withCrossFader(new ICrossfader() {
             @Override
             public void crossfade() {
@@ -138,24 +154,14 @@ public class MainActivity extends AppCompatActivity {
                 return crossfadeDrawerLayout.isCrossfaded();
             }
         });
-
-        if (savedInstanceState == null) {
-            result.setSelection(2, true);
-            toolbar.setTitle(((PrimaryDrawerItem) result.getDrawerItem(2)).getName() + "");
-        }
     }
 
-    private void setFragment(Fragment fragment) {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.frame_container, fragment);
-        transaction.commit();
-        result.closeDrawer();
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        outState = result.saveInstanceState(outState);
-        super.onSaveInstanceState(outState);
+    private AccountHeader createHeader() {
+        return new AccountHeaderBuilder()
+                .withActivity(this)
+                .withTranslucentStatusBar(true)
+                .withHeaderBackground(R.drawable.banner)
+                .build();
     }
 
     @Override

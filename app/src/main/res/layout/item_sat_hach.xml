@@ -31,8 +31,7 @@
                 <ImageView
                     android:id="@+id/imgIcon"
                     android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:src="@drawable/ic_home" />
+                    android:layout_height="50dp" />
 
             </LinearLayout>
 
@@ -42,7 +41,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginLeft="10dp"
-                android:text="@string/test"
                 android:textSize="15sp" />
 
         </LinearLayout>

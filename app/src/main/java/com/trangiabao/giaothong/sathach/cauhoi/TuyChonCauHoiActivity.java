@@ -191,7 +191,7 @@ public class TuyChonCauHoiActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == android.R.id.home) {
+        if (android.R.id.home == id) {
             super.onBackPressed();
         }
         return super.onOptionsItemSelected(item);

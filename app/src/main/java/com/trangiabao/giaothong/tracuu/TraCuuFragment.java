@@ -1,6 +1,5 @@
 package com.trangiabao.giaothong.tracuu;
 
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,7 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.OvershootInterpolator;
 
 import com.mikepenz.fastadapter.FastAdapter;
 import com.mikepenz.fastadapter.IAdapter;
@@ -19,7 +17,6 @@ import com.trangiabao.giaothong.tracuu.bienbao.BienBaoActivity;
 import com.trangiabao.giaothong.tracuu.luat.VanBanActivity;
 import com.trangiabao.giaothong.tracuu.xuphat.XuPhatActivity;
 
-import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter;
 
 public class TraCuuFragment extends Fragment {
 
@@ -42,12 +39,7 @@ public class TraCuuFragment extends Fragment {
         adapter.setHasStableIds(true);
         adapter.withSelectable(true);
 
-        ScaleInAnimationAdapter animationAdapter = new ScaleInAnimationAdapter(adapter);
-        animationAdapter.setDuration(1500);
-        animationAdapter.setInterpolator(new OvershootInterpolator());
-        animationAdapter.setFirstOnly(false);
-
-        rvTraCuu.setAdapter(animationAdapter);
+        rvTraCuu.setAdapter(adapter);
         adapter.add(TraCuuAdapter.createStaticData());
         adapter.withSavedInstanceState(savedInstanceState);
 

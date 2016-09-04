@@ -1,9 +1,6 @@
 <resources>
     <string name="app_name">Sổ tay giao thông</string>
 
-    <string name="test">Test</string>
-    <string name="tim_kiem">Tìm kiếm</string>
-
     <string-array name="huongdan">
         <item>1) Thời gian làm bài sẽ đếm ngược hiển thị trên góc phải màn hình</item>
         <item>2) Vuốt sang phải hoặc sang trái để chuyển câu hỏi, hoặc nhấn vào nút dưới góc phải màn hình</item>
@@ -13,4 +10,15 @@
         <item>6) Sau khi hết giờ làm bài sẽ tự động hiển thị kết quả trên màn hình</item>
         <item>7) Nếu nộp bài sớm trước khi hết giờ sẽ không thể tiếp tục</item>
     </string-array>
+
+    <string name="gioithieu1">Ứng dụng sổ tay giao thông</string>
+    <string name="gioithieu2">Ôn tập các câu hỏi sát hạch lái xe</string>
+    <string name="gioithieu3">- Câu hỏi được phân loại \n- Dễ dàng ôn tập \n- Giải thích đầy đủ</string>
+    <string name="gioithieu4">Tra cứu mọi thông tin</string>
+    <string name="gioithieu5">Hệ thống biển báo</string>
+    <string name="gioithieu6">Văn bản pháp luật</string>
+    <string name="gioithieu7">- Thông tin đầy đủ và chính xác \n- Tra cứu mọi lúc, mọi nơi</string>
+    <string name="gioithieu8">Cẩm nang giao thông</string>
+    <string name="gioithieu9">- Bổ sung kiến thức về giao thông\n- Các kỹ năng xử lý tình huống\n- Cập nhật tin tức</string>
+    <string name="gioithieu10">Tiện ích của bạn</string>
 </resources>

@@ -1,6 +1,5 @@
 package com.trangiabao.giaothong.sathach;
 
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,8 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.OvershootInterpolator;
-import android.widget.Toast;
 
 import com.mikepenz.fastadapter.FastAdapter;
 import com.mikepenz.fastadapter.IAdapter;
@@ -18,10 +15,6 @@ import com.mikepenz.fastadapter.adapters.FastItemAdapter;
 import com.trangiabao.giaothong.R;
 import com.trangiabao.giaothong.sathach.cauhoi.TuyChonCauHoiActivity;
 import com.trangiabao.giaothong.sathach.lambaithi.TuyChonBaiThiActivity;
-import com.trangiabao.giaothong.tracuu.bienbao.BienBaoActivity;
-import com.trangiabao.giaothong.tracuu.luat.VanBanActivity;
-
-import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter;
 
 public class SatHachFragment extends Fragment {
 
@@ -45,12 +38,7 @@ public class SatHachFragment extends Fragment {
         adapter.setHasStableIds(true);
         adapter.withSelectable(true);
 
-        ScaleInAnimationAdapter animationAdapter = new ScaleInAnimationAdapter(adapter);
-        animationAdapter.setDuration(1500);
-        animationAdapter.setInterpolator(new OvershootInterpolator());
-        animationAdapter.setFirstOnly(false);
-
-        rvSatHach.setAdapter(animationAdapter);
+        rvSatHach.setAdapter(adapter);
         adapter.add(SatHachAdapter.createStaticData());
         adapter.withSavedInstanceState(savedInstanceState);
 

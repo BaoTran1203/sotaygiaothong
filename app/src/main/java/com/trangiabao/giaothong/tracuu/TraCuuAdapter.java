@@ -17,6 +17,7 @@ public class TraCuuAdapter extends AbstractItem<TraCuuAdapter, TraCuuAdapter.Vie
     private String title;
     private int icon;
 
+
     public TraCuuAdapter(String title, int icon) {
         this.title = title;
         this.icon = icon;
@@ -28,16 +29,6 @@ public class TraCuuAdapter extends AbstractItem<TraCuuAdapter, TraCuuAdapter.Vie
 
     public int getIcon() {
         return icon;
-    }
-
-    public TraCuuAdapter setTitle(String title) {
-        this.title = title;
-        return this;
-    }
-
-    public TraCuuAdapter setIcon(int icon) {
-        this.icon = icon;
-        return this;
     }
 
     public static List<TraCuuAdapter> createStaticData() {

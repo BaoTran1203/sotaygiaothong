@@ -55,7 +55,7 @@ public class Chuong extends AbstractItem<Chuong, Chuong.ViewHolder> {
 
         viewHolder.txtChuong.setText(getTenChuong());
 
-        if (getMuc().equals("")) {
+        if (getMuc() == null) {
             viewHolder.txtMuc.setVisibility(View.GONE);
         } else {
             viewHolder.txtMuc.setVisibility(View.VISIBLE);

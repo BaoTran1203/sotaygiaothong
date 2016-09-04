@@ -29,16 +29,6 @@ public class SatHachAdapter extends AbstractItem<SatHachAdapter, SatHachAdapter.
         return icon;
     }
 
-    public SatHachAdapter setTitle(String title) {
-        this.title = title;
-        return this;
-    }
-
-    public SatHachAdapter setIcon(int icon) {
-        this.icon = icon;
-        return this;
-    }
-
     public static List<SatHachAdapter> createStaticData() {
         List<SatHachAdapter> data = new ArrayList<>();
         data.add(new SatHachAdapter("Ngân hàng câu hỏi", R.drawable.ic_question));
@@ -61,7 +51,6 @@ public class SatHachAdapter extends AbstractItem<SatHachAdapter, SatHachAdapter.
     @Override
     public void bindView(ViewHolder viewHolder) {
         super.bindView(viewHolder);
-
         viewHolder.txtTitle.setText(getTitle());
         viewHolder.imgIcon.setImageResource(getIcon());
     }

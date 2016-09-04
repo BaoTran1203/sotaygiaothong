@@ -13,16 +13,9 @@
         android:elevation="4dp"
         tools:targetApi="lollipop" />
 
-    <LinearLayout
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rvChuong"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar"
-        android:paddingBottom="10dp"
-        android:paddingTop="10dp">
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rvChuong"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </LinearLayout>
+        android:layout_below="@+id/toolbar" />
 </RelativeLayout>

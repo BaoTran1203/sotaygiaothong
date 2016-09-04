@@ -7,15 +7,4 @@
         <item name="colorAccent">@color/material_drawer_accent</item>
     </style>
 
-    <style name="MaterialSearchViewStyle">
-        <item name="searchBackground">@color/material_drawer_primary</item>
-        <item name="searchVoiceIcon">@drawable/ic_voice</item>
-        <item name="searchCloseIcon">@drawable/ic_close</item>
-        <item name="searchBackIcon">@drawable/ic_back</item>
-        <item name="searchSuggestionIcon">@drawable/ic_suggestion</item>
-        <item name="searchSuggestionBackground">@android:color/white</item>
-        <item name="android:textColor">@color/material_drawer_primary_text</item>
-        <item name="android:textColorHint">@color/material_drawer_secondary_text</item>
-        <item name="android:hint">@string/search_hint</item>
-    </style>
 </resources>

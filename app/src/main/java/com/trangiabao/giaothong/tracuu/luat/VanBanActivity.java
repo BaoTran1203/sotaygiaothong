@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.OvershootInterpolator;
 
@@ -47,7 +48,6 @@ public class VanBanActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Văn bản");
         setSupportActionBar(toolbar);
-        getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         rvVanBan = (RecyclerView) findViewById(R.id.rvVanBan);
@@ -85,5 +85,14 @@ public class VanBanActivity extends AppCompatActivity {
     public void onSaveInstanceState(Bundle outState) {
         outState = adapter.saveInstanceState(outState);
         super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (android.R.id.home == id) {
+            super.onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

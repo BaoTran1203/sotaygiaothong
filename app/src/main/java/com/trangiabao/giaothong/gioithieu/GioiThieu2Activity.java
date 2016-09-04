@@ -1,4 +1,4 @@
-package com.trangiabao.giaothong;
+package com.trangiabao.giaothong.gioithieu;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -8,8 +8,10 @@ import android.view.View;
 
 import com.github.paolorotolo.appintro.AppIntro2;
 import com.github.paolorotolo.appintro.AppIntroFragment;
+import com.trangiabao.giaothong.MainActivity;
+import com.trangiabao.giaothong.R;
 
-public class GioiThieuActivity extends AppIntro2 {
+public class GioiThieu2Activity extends AppIntro2 {
 
     @Override
     public void init(Bundle savedInstanceState) {
@@ -17,25 +19,25 @@ public class GioiThieuActivity extends AppIntro2 {
         addSlide(AppIntroFragment.newInstance(
                 "Giới thiệu",
                 "Ứng dụng sổ tay giao thông đường bộ Việt Nam",
-                R.drawable.header,
+                R.drawable.banner,
                 Color.parseColor("#FF0000")));
 
         addSlide(AppIntroFragment.newInstance(
                 "Sát hạch",
                 "Ôn tập các câu hỏi\nLàm bài thi thử",
-                R.drawable.header,
+                R.drawable.banner,
                 Color.parseColor("#FFC600")));
 
         addSlide(AppIntroFragment.newInstance(
                 "Tra cứu thông tin",
                 "Tra cứu về luật giao thông đường bộ, các nghị định khác\nTra cứu biển báo giao thông",
-                R.drawable.header,
+                R.drawable.banner,
                 Color.parseColor("#0011A4")));
 
         addSlide(AppIntroFragment.newInstance(
                 "Các mục khác",
                 "Các thông tin khác về giao thông đường bộ",
-                R.drawable.header,
+                R.drawable.banner,
                 Color.parseColor("#0FAD00")));
 
         showStatusBar(false);
@@ -44,7 +46,7 @@ public class GioiThieuActivity extends AppIntro2 {
     }
 
     private void loadMainActivity() {
-        Intent intent = new Intent(GioiThieuActivity.this, MainActivity.class);
+        Intent intent = new Intent(GioiThieu2Activity.this, MainActivity.class);
         startActivity(intent);
     }
 
