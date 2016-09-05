@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import com.mikepenz.fastadapter.IAdapter;
 import com.mikepenz.fastadapter.adapters.FastItemAdapter;
 import com.trangiabao.giaothong.R;
 import com.trangiabao.giaothong.tracuu.bienbao.BienBaoActivity;
+import com.trangiabao.giaothong.tracuu.biensoxe.BienSoXeActivity;
 import com.trangiabao.giaothong.tracuu.luat.VanBanActivity;
 import com.trangiabao.giaothong.tracuu.xuphat.XuPhatActivity;
 
@@ -61,7 +63,8 @@ public class TraCuuFragment extends Fragment {
                     case 2:
                         startActivity(new Intent(getActivity(), XuPhatActivity.class));
                         break;
-                    default:
+                    case 3:
+                        startActivity(new Intent(getActivity(), BienSoXeActivity.class));
                         break;
                 }
                 return false;
