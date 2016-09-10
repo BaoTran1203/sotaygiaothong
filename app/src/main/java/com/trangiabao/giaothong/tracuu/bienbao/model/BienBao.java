@@ -39,10 +39,6 @@ public class BienBao extends AbstractItem<BienBao, BienBao.ViewHolder> {
         return id;
     }
 
-    /*public int getIdNhomBienBao() {
-        return idNhomBienBao;
-    }*/
-
     public String getMaBienBao() {
         return maBienBao;
     }

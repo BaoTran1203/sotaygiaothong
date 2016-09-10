@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.trangiabao.giaothong"
-        minSdkVersion 16
+        minSdkVersion 17
         targetSdkVersion 24
         versionCode 1
         versionName "1.0"
@@ -38,7 +38,6 @@ dependencies {
     compile 'com.mikepenz:fastadapter-extensions:1.5.1@aar'
     compile 'com.mikepenz:materialize:0.9.0@aar'
     compile 'jp.wasabeef:recyclerview-animators:2.2.3'
-    compile 'com.github.paolorotolo:appintro:4.0.0'
     compile 'com.miguelcatalan:materialsearchview:1.4.0'
     compile 'com.jaredrummler:material-spinner:1.0.9'
     compile 'com.bartoszlipinski:recyclerviewheader2:2.0.1'
@@ -46,4 +45,5 @@ dependencies {
     compile 'com.afollestad.material-dialogs:core:0.9.0.1'
     compile 'pl.droidsonroids.gif:android-gif-drawable:1.2.0'
     compile 'com.github.flavienlaurent.discrollview:library:0.0.2@aar'
+    compile 'com.ramotion.foldingcell:folding-cell:1.0.1'
 }

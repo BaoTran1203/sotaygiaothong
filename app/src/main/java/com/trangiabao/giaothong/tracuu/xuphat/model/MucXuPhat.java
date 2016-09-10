@@ -30,14 +30,6 @@ public class MucXuPhat extends AbstractItem<MucXuPhat, MucXuPhat.ViewHolder> {
         return id;
     }
 
-    public int getIdPhuongTien() {
-        return idPhuongTien;
-    }
-
-    public int getIdLoaiViPham() {
-        return idLoaiViPham;
-    }
-
     public String getHanhVi() {
         return hanhVi;
     }

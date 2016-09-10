@@ -1,6 +1,7 @@
 package com.trangiabao.giaothong.tracuu.xuphat;
 
 import android.annotation.SuppressLint;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
