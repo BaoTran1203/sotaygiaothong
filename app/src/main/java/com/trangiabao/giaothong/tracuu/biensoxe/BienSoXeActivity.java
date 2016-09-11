@@ -8,22 +8,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.trangiabao.giaothong.R;
-import com.trangiabao.giaothong.gioithieu.GioiThieuFragment;
 import com.trangiabao.giaothong.tracuu.ViewPagerAdapter;
-import com.trangiabao.giaothong.tracuu.biensoxe.db.NuocNgoaiDB;
-import com.trangiabao.giaothong.tracuu.biensoxe.db.TinhDB;
-import com.trangiabao.giaothong.tracuu.biensoxe.fragment.Bien80Fragment;
-import com.trangiabao.giaothong.tracuu.biensoxe.fragment.BoQuocPhongFragment;
-import com.trangiabao.giaothong.tracuu.biensoxe.fragment.DanSuFragment;
-import com.trangiabao.giaothong.tracuu.biensoxe.fragment.NuocNgoaiFragment;
-import com.trangiabao.giaothong.tracuu.biensoxe.model.NuocNgoai;
-import com.trangiabao.giaothong.tracuu.biensoxe.model.Tinh;
-import com.trangiabao.giaothong.tracuu.xuphat.XuPhatFragment;
-import com.trangiabao.giaothong.tracuu.xuphat.db.LoaiViPhamDB;
-import com.trangiabao.giaothong.tracuu.xuphat.db.MucXuPhatDB;
-import com.trangiabao.giaothong.tracuu.xuphat.db.PhuongTienDB;
-import com.trangiabao.giaothong.tracuu.xuphat.model.MucXuPhat;
-import com.trangiabao.giaothong.tracuu.xuphat.model.PhuongTien;
+import com.trangiabao.giaothong.tracuu.biensoxe.db.KiHieuDB;
+import com.trangiabao.giaothong.tracuu.biensoxe.db.NhomBienSoXeDB;
+import com.trangiabao.giaothong.tracuu.biensoxe.model.KiHieu;
+import com.trangiabao.giaothong.tracuu.biensoxe.model.NhomBienSoXe;
 
 import java.util.List;
 
@@ -33,8 +22,8 @@ public class BienSoXeActivity extends AppCompatActivity {
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private ViewPagerAdapter pagerAdapter;
-    private List<Tinh> lstTinh;
-    private List<NuocNgoai> lstNuocNgoai;
+    private List<NhomBienSoXe> lstNhomBienSoXe;
+    private List<KiHieu> lstKiHieu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,10 +54,6 @@ public class BienSoXeActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            pagerAdapter.addFragment(new DanSuFragment(lstTinh), "Dân sự");
-            pagerAdapter.addFragment(new BoQuocPhongFragment(), "Quân đội");
-            pagerAdapter.addFragment(new Bien80Fragment(), "Biển 80");
-            pagerAdapter.addFragment(new NuocNgoaiFragment(lstNuocNgoai), "Nước ngoài");
             viewPager.setAdapter(pagerAdapter);
             tabLayout.setupWithViewPager(viewPager);
         }
@@ -80,8 +65,11 @@ public class BienSoXeActivity extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            lstTinh = new TinhDB(BienSoXeActivity.this).getAll();
-            lstNuocNgoai = new NuocNgoaiDB(BienSoXeActivity.this).getAll();
+            lstNhomBienSoXe = new NhomBienSoXeDB(BienSoXeActivity.this).getAll();
+            for (NhomBienSoXe nhomBienSoXe : lstNhomBienSoXe) {
+                lstKiHieu = new KiHieuDB(BienSoXeActivity.this).getByIdNhom(nhomBienSoXe.getId() + "");
+                pagerAdapter.addFragment(new BienSoXeFragment(lstKiHieu, nhomBienSoXe), nhomBienSoXe.getTen());
+            }
             return null;
         }
     }

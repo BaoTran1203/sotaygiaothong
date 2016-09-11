@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
                 .withActivity(this)
                 .withToolbar(toolbar)
                 .withTranslucentStatusBar(true)
-                .withDrawerLayout(R.layout.crossfade)
+                .withDrawerLayout(R.layout.custom_crossfade)
                 .withHasStableIds(true)
                 .withDrawerWidthDp(72)
                 .withGenerateMiniDrawer(true)
