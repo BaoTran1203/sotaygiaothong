@@ -18,13 +18,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".gioithieu.GioiThieu2Activity"
-            android:label="Giới thiệu">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
-        </activity>
         <activity android:name=".sathach.cauhoi.TuyChonCauHoiActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
