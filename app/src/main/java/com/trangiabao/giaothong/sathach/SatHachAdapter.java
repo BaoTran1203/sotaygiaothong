@@ -40,7 +40,7 @@ public class SatHachAdapter extends AbstractItem<SatHachAdapter, SatHachAdapter.
 
     @Override
     public int getType() {
-        return R.id.item_layout;
+        return R.id.item_layout_sat_hach;
     }
 
     @Override

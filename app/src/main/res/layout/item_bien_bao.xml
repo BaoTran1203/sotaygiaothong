@@ -1,31 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/item_layout"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/item_layout_bien_bao"
+    style="@style/CardViewStyle"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="10dp"
-    android:layout_marginLeft="10dp"
-    android:layout_marginRight="10dp"
-    android:background="@drawable/custom_border"
-    android:clickable="true">
+    android:layout_height="wrap_content">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_margin="10dp"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/txtTenBienBao"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
             android:gravity="center_vertical|center_horizontal"
-            android:text="Tên biển báo" />
+            android:textColor="@android:color/black"
+            android:textStyle="bold" />
 
-        <TextView
+        <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/line"
-            android:background="@android:color/black" />
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:background="@android:color/darker_gray" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -41,22 +40,15 @@
                     android:id="@+id/imgHinh"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
-                    android:padding="10dp"
-                    android:src="@android:color/black" />
+                    android:padding="10dp" />
 
                 <TextView
                     android:id="@+id/txtMaBienBao"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
-                    android:gravity="center"
-                    android:text="Mã biển báo" />
+                    android:gravity="center" />
             </LinearLayout>
-
-            <TextView
-                android:layout_width="@dimen/line"
-                android:layout_height="match_parent"
-                android:background="@android:color/black" />
 
             <TextView
                 android:id="@+id/txtNoiDungBienBao"
@@ -64,9 +56,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="3dp"
                 android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:text="Nội dung biển báo" />
+                android:layout_marginRight="5dp" />
 
         </LinearLayout>
     </LinearLayout>
-</FrameLayout>
+</android.support.v7.widget.CardView>

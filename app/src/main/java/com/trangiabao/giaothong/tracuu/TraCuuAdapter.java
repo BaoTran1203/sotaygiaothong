@@ -42,7 +42,7 @@ public class TraCuuAdapter extends AbstractItem<TraCuuAdapter, TraCuuAdapter.Vie
 
     @Override
     public int getType() {
-        return R.id.item_layout;
+        return R.id.item_layout_tra_cuu;
     }
 
     @Override

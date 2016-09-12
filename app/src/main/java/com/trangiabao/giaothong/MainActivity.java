@@ -1,6 +1,5 @@
 package com.trangiabao.giaothong;
 
-import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
@@ -25,7 +24,7 @@ import com.mikepenz.materialdrawer.util.DrawerUIUtils;
 import com.mikepenz.materialize.util.UIUtils;
 import com.trangiabao.giaothong.chiase.ChiaSeFragment;
 import com.trangiabao.giaothong.gioithieu.GioiThieuFragment;
-import com.trangiabao.giaothong.lienhe.LienHeActivity;
+import com.trangiabao.giaothong.lienhe.LienHeFragment;
 import com.trangiabao.giaothong.sathach.SatHachFragment;
 import com.trangiabao.giaothong.tracuu.TraCuuFragment;
 
@@ -46,19 +45,6 @@ public class MainActivity extends AppCompatActivity {
         selectItemDrawer(1);
     }
 
-    private void selectItemDrawer(int id) {
-        result.setSelection(id, true);
-        toolbar.setTitle(((PrimaryDrawerItem) result.getDrawerItem(id)).getName() + "");
-    }
-
-    private void setFragment(Fragment fragment) {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right);
-        transaction.replace(R.id.frame_container, fragment);
-        transaction.commit();
-        result.closeDrawer();
-    }
-
     private void addControls() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -68,6 +54,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void createDrawer() {
+        AccountHeader header = new AccountHeaderBuilder()
+                .withActivity(this)
+                .withTranslucentStatusBar(true)
+                .withHeaderBackground(R.drawable.banner)
+                .build();
+
         result = new DrawerBuilder()
                 .withActivity(this)
                 .withToolbar(toolbar)
@@ -76,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
                 .withHasStableIds(true)
                 .withDrawerWidthDp(72)
                 .withGenerateMiniDrawer(true)
-                .withAccountHeader(createHeader())
+                .withAccountHeader(header)
                 .addDrawerItems(
                         new PrimaryDrawerItem().withIdentifier(1).withName("Giới thiệu ứng dụng").withIcon(R.drawable.ic_home),
                         new DividerDrawerItem(),
@@ -95,17 +87,14 @@ public class MainActivity extends AppCompatActivity {
                         switch (id) {
                             case 1:
                                 setFragment(new GioiThieuFragment());
-                                toolbar.setTitle(((PrimaryDrawerItem) result.getDrawerItem(id)).getName() + "");
                                 break;
 
                             case 2:
                                 setFragment(new SatHachFragment());
-                                toolbar.setTitle(((PrimaryDrawerItem) result.getDrawerItem(id)).getName() + "");
                                 break;
 
                             case 3:
                                 setFragment(new TraCuuFragment());
-                                toolbar.setTitle(((PrimaryDrawerItem) result.getDrawerItem(id)).getName() + "");
                                 break;
 
                             case 4:
@@ -118,19 +107,21 @@ public class MainActivity extends AppCompatActivity {
 
                             case 6:
                                 setFragment(new ChiaSeFragment(MainActivity.this));
-                                toolbar.setTitle(((PrimaryDrawerItem) result.getDrawerItem(id)).getName() + "");
+
                                 break;
 
                             case 7:
-                                startActivity(new Intent(MainActivity.this, LienHeActivity.class));
+                                setFragment(new LienHeFragment(MainActivity.this));
                                 break;
                         }
+                        toolbar.setTitle(((PrimaryDrawerItem) result.getDrawerItem(id)).getName() + "");
                         return false;
                     }
                 })
                 .build();
         crossfadeDrawerLayout = (CrossfadeDrawerLayout) result.getDrawerLayout();
         crossfadeDrawerLayout.setMaxWidthPx(DrawerUIUtils.getOptimalDrawerWidth(this));
+
         miniResult = result.getMiniDrawer();
         View view = miniResult.build(this);
         view.setBackgroundColor(UIUtils.getThemeColorFromAttrOrRes(
@@ -155,12 +146,17 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private AccountHeader createHeader() {
-        return new AccountHeaderBuilder()
-                .withActivity(this)
-                .withTranslucentStatusBar(true)
-                .withHeaderBackground(R.drawable.banner)
-                .build();
+    private void selectItemDrawer(int id) {
+        result.setSelection(id, true);
+        toolbar.setTitle(((PrimaryDrawerItem) result.getDrawerItem(id)).getName() + "");
+    }
+
+    private void setFragment(Fragment fragment) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right);
+        transaction.replace(R.id.frame_container, fragment);
+        transaction.commit();
+        result.closeDrawer();
     }
 
     @Override

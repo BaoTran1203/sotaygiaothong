@@ -57,7 +57,7 @@ public class BienBao extends AbstractItem<BienBao, BienBao.ViewHolder> {
 
     @Override
     public int getType() {
-        return R.id.item_layout;
+        return R.id.item_layout_bien_bao;
     }
 
     @Override

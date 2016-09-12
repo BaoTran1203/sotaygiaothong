@@ -3,12 +3,9 @@ package com.trangiabao.giaothong.tracuu.biensoxe.model;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextSwitcher;
 import android.widget.TextView;
-import android.widget.ViewSwitcher;
 
 import com.mikepenz.fastadapter.items.AbstractItem;
 import com.trangiabao.giaothong.R;
@@ -42,10 +39,6 @@ public class KiHieu extends AbstractItem<KiHieu, KiHieu.ViewHolder> {
         return id;
     }
 
-    public int getIdNhom() {
-        return idNhom;
-    }
-
     public String getKiHieu() {
         return kiHieu;
     }
@@ -60,7 +53,7 @@ public class KiHieu extends AbstractItem<KiHieu, KiHieu.ViewHolder> {
 
     @Override
     public int getType() {
-        return R.id.item_layout;
+        return R.id.item_layout_bien_so_xe;
     }
 
     @Override

@@ -14,38 +14,19 @@
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".sathach.cauhoi.TuyChonCauHoiActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
-        </activity>
-        <activity android:name=".tracuu.luat.VanBanActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
-        </activity>
-        <activity android:name=".tracuu.bienbao.BienBaoActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
-        </activity>
-        <activity android:name=".sathach.lambaithi.TuyChonBaiThiActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
-        </activity>
+        <activity android:name=".sathach.cauhoi.TuyChonCauHoiActivity" />
+        <activity android:name=".tracuu.luat.VanBanActivity" />
+        <activity android:name=".tracuu.bienbao.BienBaoActivity" />
+        <activity android:name=".sathach.lambaithi.TuyChonBaiThiActivity" />
         <activity android:name=".tracuu.luat.NoiDungActivity" />
         <activity android:name=".sathach.cauhoi.CauHoiActivity" />
         <activity android:name=".sathach.lambaithi.BaiThiActivity" />
-        <activity android:name=".TestActivity" />
         <activity android:name=".tracuu.xuphat.XuPhatActivity" />
         <activity android:name=".tracuu.luat.ChuongActivity" />
-        <activity android:name=".lienhe.LienHeActivity" />
-        <activity android:name=".tracuu.biensoxe.BienSoXeActivity"></activity>
+        <activity android:name=".tracuu.biensoxe.BienSoXeActivity" />
     </application>
 
 </manifest>

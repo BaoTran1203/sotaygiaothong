@@ -36,6 +36,7 @@ public class BienSoXeActivity extends AppCompatActivity {
 
     private void addControls() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("Tra cứu biển số xe");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -56,11 +57,6 @@ public class BienSoXeActivity extends AppCompatActivity {
             super.onPostExecute(aVoid);
             viewPager.setAdapter(pagerAdapter);
             tabLayout.setupWithViewPager(viewPager);
-        }
-
-        @Override
-        protected void onProgressUpdate(Void... values) {
-            super.onProgressUpdate(values);
         }
 
         @Override

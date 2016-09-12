@@ -44,7 +44,7 @@ public class MucXuPhat extends AbstractItem<MucXuPhat, MucXuPhat.ViewHolder> {
 
     @Override
     public int getType() {
-        return R.id.item_layout;
+        return R.id.item_layout_xu_phat;
     }
 
     @Override

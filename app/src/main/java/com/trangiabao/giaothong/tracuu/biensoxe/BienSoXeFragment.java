@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bartoszlipinski.recyclerviewheader2.RecyclerViewHeader;
+import com.melnykov.fab.FloatingActionButton;
 import com.mikepenz.fastadapter.FastAdapter;
 import com.mikepenz.fastadapter.IAdapter;
 import com.mikepenz.fastadapter.adapters.FastItemAdapter;
@@ -29,12 +30,9 @@ public class BienSoXeFragment extends Fragment {
 
     private List<KiHieu> lstKiHieu;
     private NhomBienSoXe nhomBienSoXe;
-    private View view;
-    private RecyclerView rvBienSoXe;
-    private RecyclerViewHeader rvHeader;
-    private TextView txtMauSac, txtMoTa;
-    private ImageView imgHinh;
     private FastItemAdapter<KiHieu> adapter;
+    private RecyclerView rvBienSoXe;
+    private FloatingActionButton fab;
 
     public BienSoXeFragment(List<KiHieu> lstKiHieu, NhomBienSoXe nhomBienSoXe) {
         this.lstKiHieu = lstKiHieu;
@@ -45,11 +43,12 @@ public class BienSoXeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_bien_so_xe, container, false);
+        View view = inflater.inflate(R.layout.fragment_bien_so_xe, container, false);
 
         rvBienSoXe = (RecyclerView) view.findViewById(R.id.rvBienSoXe);
         rvBienSoXe.setLayoutManager(new LinearLayoutManager(getActivity()));
-        rvHeader = (RecyclerViewHeader) view.findViewById(R.id.rvHeader);
+
+        RecyclerViewHeader rvHeader = (RecyclerViewHeader) view.findViewById(R.id.rvHeader);
         rvHeader.attachTo(rvBienSoXe);
 
         adapter = new FastItemAdapter<>();
@@ -60,9 +59,9 @@ public class BienSoXeFragment extends Fragment {
         rvBienSoXe.setAdapter(adapter);
         adapter.withSavedInstanceState(savedInstanceState);
 
-        txtMauSac = (TextView) view.findViewById(R.id.txtMauSac);
-        txtMoTa = (TextView) view.findViewById(R.id.txtMoTa);
-        imgHinh = (ImageView) view.findViewById(R.id.imgHinh);
+        TextView txtMauSac = (TextView) view.findViewById(R.id.txtMauSac);
+        TextView txtMoTa = (TextView) view.findViewById(R.id.txtMoTa);
+        ImageView imgHinh = (ImageView) view.findViewById(R.id.imgHinh);
 
         txtMauSac.setText(nhomBienSoXe.getMauSac());
         txtMoTa.setText(nhomBienSoXe.getMoTa());
@@ -75,6 +74,14 @@ public class BienSoXeFragment extends Fragment {
         }
         imgHinh.setImageDrawable(drawable);
 
+        fab = (FloatingActionButton) view.findViewById(R.id.fab);
+        fab.attachToRecyclerView(rvBienSoXe);
+
+        addEvents();
+        return view;
+    }
+
+    private void addEvents() {
         adapter.withOnClickListener(new FastAdapter.OnClickListener<KiHieu>() {
             @Override
             public boolean onClick(View v, IAdapter<KiHieu> adapter, KiHieu item, int position) {
@@ -87,7 +94,30 @@ public class BienSoXeFragment extends Fragment {
                 return false;
             }
         });
-        return view;
+
+        rvBienSoXe.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                if (rvBienSoXe.computeVerticalScrollOffset() == 0 ||
+                        isMaxScrollReached(rvBienSoXe)) {
+                    fab.hide(true);
+                } else
+                    fab.show(true);
+            }
+
+            private boolean isMaxScrollReached(RecyclerView recyclerView) {
+                int maxScroll = recyclerView.computeVerticalScrollRange();
+                int currentScroll = recyclerView.computeVerticalScrollOffset() + recyclerView.computeVerticalScrollExtent();
+                return currentScroll >= maxScroll;
+            }
+        });
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                rvBienSoXe.smoothScrollToPosition(0);
+            }
+        });
     }
 
     @Override

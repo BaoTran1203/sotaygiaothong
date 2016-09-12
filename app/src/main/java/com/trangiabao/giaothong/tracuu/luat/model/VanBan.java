@@ -56,7 +56,7 @@ public class VanBan extends AbstractItem<VanBan, VanBan.ViewHolder> {
 
     @Override
     public int getType() {
-        return R.id.item_layout;
+        return R.id.item_layout_van_ban;
     }
 
     @Override

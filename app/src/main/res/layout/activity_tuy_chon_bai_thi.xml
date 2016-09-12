@@ -8,19 +8,16 @@
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
+        style="@style/ToolBarStyle"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        android:elevation="4dp"
-        tools:targetApi="lollipop" />
+        android:layout_height="?attr/actionBarSize" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/toolbar"
         android:layout_marginBottom="50dp"
-        android:fillViewport="true"
-        android:padding="16dp">
+        android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -28,52 +25,61 @@
             android:layout_marginBottom="5dp"
             android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Chọn hạng bằng"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
-
-            <com.jaredrummler.materialspinner.MaterialSpinner
-                android:id="@+id/spinnerHang"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:ms_arrow_tint="@color/accent"
-                app:ms_dropdown_max_height="300dp" />
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/txtMoTa"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Chọn hạng bằng"
+                    android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                <com.jaredrummler.materialspinner.MaterialSpinner
+                    android:id="@+id/spinnerHang"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    app:ms_arrow_tint="@color/accent"
+                    app:ms_dropdown_max_height="300dp" />
+            </LinearLayout>
+
+            <android.support.v7.widget.CardView
+                style="@style/CardViewStyle"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/custom_border"
-                android:padding="10dp" />
+                android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/txtQuyTac"
+                <TextView
+                    android:id="@+id/txtMoTa"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp" />
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                style="@style/CardViewStyle"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/custom_border"
-                android:padding="10dp" />
+                android:layout_height="wrap_content">
 
+                <TextView
+                    android:id="@+id/txtQuyTac"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp" />
+            </android.support.v7.widget.CardView>
 
         </LinearLayout>
     </ScrollView>
 
-    <RelativeLayout
+    <Button
+        android:id="@+id/btnStart"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp">
-
-        <Button
-            android:id="@+id/btnStart"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:background="@drawable/custom_button_state"
-            android:text="Chuyển đến trang làm bài" />
-    </RelativeLayout>
+        android:layout_margin="10dp"
+        android:text="Chuyển đến trang làm bài"
+        android:theme="@style/ButtonStyle" />
 </RelativeLayout>

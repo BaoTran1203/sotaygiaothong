@@ -2,6 +2,7 @@ package com.trangiabao.giaothong.tracuu.bienbao.db;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.util.Log;
 
 import com.trangiabao.giaothong.AbstractDB;
 import com.trangiabao.giaothong.tracuu.bienbao.model.NhomBienBao;
@@ -28,14 +29,6 @@ public class NhomBienBaoDB extends AbstractDB {
         }
         c.close();
         database.close();
-        return data;
-    }
-
-    public List<String> getTenNhomBienBao(List<NhomBienBao> arr) {
-        List<String> data = new ArrayList<>();
-        for (NhomBienBao temp : arr) {
-            data.add(temp.getTenNhomBienBao());
-        }
         return data;
     }
 }

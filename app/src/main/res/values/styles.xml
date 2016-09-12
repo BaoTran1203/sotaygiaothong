@@ -20,4 +20,46 @@
         </item>
     </style>
 
+    <style name="TabStyle" parent="Widget.Design.TabLayout">
+        <item name="tabTextColor">@android:color/white</item>
+        <item name="tabSelectedTextColor">@android:color/white</item>
+        <item name="tabIndicatorColor">@color/colorAccent</item>
+        <item name="tabMode">scrollable</item>
+        <item name="android:background">@color/material_drawer_primary</item>
+        <item name="android:layout_gravity">bottom</item>
+    </style>
+
+    <style name="ToolBarStyle" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="colorControlNormal">@android:color/white</item>
+        <item name="android:background">@color/material_drawer_primary</item>
+        <item name="titleTextColor">@android:color/white</item>
+        <item name="layout_scrollFlags">scroll|enterAlways</item>
+        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+    </style>
+
+    <style name="FloatActionButtonStyle" parent="Widget.Design.FloatingActionButton">
+        <item name="android:layout_alignParentBottom">true</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:layout_gravity">bottom|right</item>
+        <item name="android:layout_margin">16dp</item>
+        <item name="android:src">@drawable/ic_up</item>
+        <item name="fab_colorNormal">@color/colorAccent</item>
+        <item name="fab_colorPressed">@color/colorAccentPress</item>
+        <item name="fab_colorRipple">@color/ripple</item>
+        <item name="fab_shadow">true</item>
+        <item name="fab_type">normal</item>
+    </style>
+
+    <style name="CardViewStyle" parent="CardView">
+        <item name="cardBackgroundColor">@android:color/white</item>
+        <item name="cardElevation">5dp</item>
+        <item name="cardUseCompatPadding">true</item>
+        <item name="android:layout_marginRight">10dp</item>
+        <item name="android:layout_marginLeft">10dp</item>
+    </style>
+
+    <style name="ButtonStyle" parent="Widget.AppCompat.Button.Colored">
+        <item name="colorButtonNormal">@color/material_drawer_primary</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
 </resources>
