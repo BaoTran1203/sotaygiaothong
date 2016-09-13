@@ -7,11 +7,9 @@
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
+        style="@style/ToolBarStyle"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        android:elevation="4dp"
-        tools:targetApi="lollipop" />
+        android:layout_height="?attr/actionBarSize" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -35,18 +33,21 @@
                     android:id="@+id/txtChuong"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/txtMuc"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textStyle="italic" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="@android:color/black" />
+
 
                 <TextSwitcher
                     android:id="@+id/txtDieu"

@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.trangiabao.giaothong.R;
+import com.trangiabao.giaothong.ViewPagerTransformer;
 import com.trangiabao.giaothong.tracuu.ViewPagerAdapter;
 import com.trangiabao.giaothong.tracuu.xuphat.db.LoaiViPhamDB;
 import com.trangiabao.giaothong.tracuu.xuphat.db.MucXuPhatDB;
@@ -25,10 +26,6 @@ public class XuPhatActivity extends AppCompatActivity {
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private ViewPagerAdapter pagerAdapter;
-
-    private List<PhuongTien> lstPhuongTien;
-    private List<List<MucXuPhat>> lstMucXuPhat;
-    private List<LoaiViPham> lstLoaiViPham;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,21 +47,11 @@ public class XuPhatActivity extends AppCompatActivity {
         pagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
     }
 
-    private void setupViewPager(ViewPager viewPager) {
-        for (int i = 0; i < lstPhuongTien.size(); i++) {
-            PhuongTien phuongTien = lstPhuongTien.get(i);
-            pagerAdapter.addFragment(new XuPhatFragment(lstMucXuPhat), phuongTien.getVietTat());
-        }
-        viewPager.setAdapter(pagerAdapter);
-    }
-
     private void setupIcon() {
-        for (int i = 0; i < lstPhuongTien.size(); i++) {
-            tabLayout.getTabAt(i).setIcon(lstPhuongTien.get(i).getIcon());
-        }
+
     }
 
-    class LoadData extends AsyncTask<Void, Void, Void> {
+    class LoadData extends AsyncTask<Void, Void, List<PhuongTien>> {
 
         @Override
         protected void onPreExecute() {
@@ -72,30 +59,30 @@ public class XuPhatActivity extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            setupViewPager(viewPager);
+        protected void onPostExecute(List<PhuongTien> lstPhuongTien) {
+            super.onPostExecute(lstPhuongTien);
+            viewPager.setAdapter(pagerAdapter);
+            viewPager.setPageTransformer(true, new ViewPagerTransformer());
             tabLayout.setupWithViewPager(viewPager);
-            setupIcon();
-        }
-
-        @Override
-        protected void onProgressUpdate(Void... values) {
-            super.onProgressUpdate(values);
-        }
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-            lstPhuongTien = new PhuongTienDB(XuPhatActivity.this).getAll();
-            lstLoaiViPham = new LoaiViPhamDB(XuPhatActivity.this).getAll();
-            lstMucXuPhat = new ArrayList<>();
             for (int i = 0; i < lstPhuongTien.size(); i++) {
+                tabLayout.getTabAt(i).setIcon(lstPhuongTien.get(i).getIcon());
+            }
+        }
+
+        @Override
+        protected List<PhuongTien> doInBackground(Void... voids) {
+            List<PhuongTien> lstPhuongTien = new PhuongTienDB(XuPhatActivity.this).getAll();
+            List<LoaiViPham> lstLoaiViPham = new LoaiViPhamDB(XuPhatActivity.this).getAll();
+            for (int i = 0; i < lstPhuongTien.size(); i++) {
+                PhuongTien phuongTien = lstPhuongTien.get(i);
+                List<List<MucXuPhat>> lstMucXuPhat = new ArrayList<>();
                 for (int j = 0; j < lstLoaiViPham.size(); j++) {
                     List<MucXuPhat> lstTemp = new MucXuPhatDB(XuPhatActivity.this).getList(i + 1, j + 1);
                     lstMucXuPhat.add(lstTemp);
                 }
+                pagerAdapter.addFragment(new XuPhatFragment(lstMucXuPhat), phuongTien.getVietTat());
             }
-            return null;
+            return lstPhuongTien;
         }
     }
 }

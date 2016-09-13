@@ -7,6 +7,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
+import com.trangiabao.giaothong.ViewPagerTransformer;
 import com.trangiabao.giaothong.R;
 import com.trangiabao.giaothong.tracuu.ViewPagerAdapter;
 import com.trangiabao.giaothong.tracuu.biensoxe.db.KiHieuDB;
@@ -56,6 +57,7 @@ public class BienSoXeActivity extends AppCompatActivity {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             viewPager.setAdapter(pagerAdapter);
+            viewPager.setPageTransformer(true, new ViewPagerTransformer());
             tabLayout.setupWithViewPager(viewPager);
         }
 

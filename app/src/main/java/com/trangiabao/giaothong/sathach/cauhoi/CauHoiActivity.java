@@ -1,5 +1,8 @@
 package com.trangiabao.giaothong.sathach.cauhoi;
 
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -13,8 +16,6 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
@@ -46,7 +47,6 @@ public class CauHoiActivity extends AppCompatActivity {
     private LinearLayout layoutImage, layoutCauTraLoi, layoutDapAn;
     private TextView txtCauHoi, txtDapAn, txtGiaiThich;
     private ArrayList<CheckBox> lstCheckBoxCauTraLoi;
-    private Animation slideInLeft, slideOutLeft, downFromTop, upFromBottom;
     private ImageButton imgTruoc, imgSau;
     private MaterialDialog dialog;
 
@@ -80,11 +80,6 @@ public class CauHoiActivity extends AppCompatActivity {
         imgTruoc = (ImageButton) findViewById(R.id.imgTruoc);
         imgSau = (ImageButton) findViewById(R.id.imgSau);
 
-        slideInLeft = AnimationUtils.loadAnimation(this, R.anim.slide_in_left);
-        slideOutLeft = AnimationUtils.loadAnimation(this, R.anim.slide_out_left);
-        downFromTop = AnimationUtils.loadAnimation(this, R.anim.down_from_top);
-        upFromBottom = AnimationUtils.loadAnimation(this, R.anim.up_from_bottom);
-
         gestureDetector = new GestureDetector(new SwipeDetector());
     }
 
@@ -92,10 +87,9 @@ public class CauHoiActivity extends AppCompatActivity {
         btnDapAn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                txtDapAn.setText(kiemTraKetQua());
+                kiemTraKetQua();
                 txtGiaiThich.setText(Html.fromHtml(cauHoi.getGiaiThich()));
                 layoutDapAn.setVisibility(View.VISIBLE);
-                layoutDapAn.startAnimation(upFromBottom);
             }
         });
 
@@ -114,35 +108,22 @@ public class CauHoiActivity extends AppCompatActivity {
         });
     }
 
-    private String kiemTraKetQua() {
-        int size = lstCheckBoxCauTraLoi.size();
-        boolean flag = false;
-        for (int i = 0; i < size; i++) {
-            if (lstCheckBoxCauTraLoi.get(i).isChecked())
-                flag = true;
-        }
-        String dapAn;
-        if (!flag) {
-            dapAn = "Bạn chưa chọn đáp án!";
-        } else {
-            dapAn = "Bạn chọn ";
-            for (int i = 0; i < size; i++) {
-                if (lstCheckBoxCauTraLoi.get(i).isChecked())
-                    dapAn += (i + 1) + ",";
-            }
-            dapAn = dapAn.substring(0, dapAn.length() - 1);
-        }
-        String ketQua = "Kết quả ";
+    private void kiemTraKetQua() {
         List<CauTraLoi> lstCauTraLoi = cauHoi.getLstCauTraLoi();
-        for (int i = 0; i < size; i++) {
-            if (lstCauTraLoi.get(i).isDapAn())
-                ketQua += (i + 1) + ",";
+        for (int i = 0; i < lstCauTraLoi.size(); i++) {
+            if (lstCauTraLoi.get(i).isDapAn()) {
+                lstCheckBoxCauTraLoi.get(i).setTextColor(Color.BLUE);
+                lstCheckBoxCauTraLoi.get(i).setTypeface(Typeface.DEFAULT_BOLD);
+            } else {
+                lstCheckBoxCauTraLoi.get(i).setPaintFlags(lstCheckBoxCauTraLoi.get(i).getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            }
+            lstCheckBoxCauTraLoi.get(i).setEnabled(false);
         }
-        ketQua = ketQua.substring(0, ketQua.length() - 1);
-        return dapAn + "\n\n" + ketQua;
+        txtGiaiThich.setText(Html.fromHtml(cauHoi.getGiaiThich()));
+        btnDapAn.setVisibility(View.GONE);
     }
 
-    private void hienThiCauHoi(int flag, Animation animation) {
+    private void hienThiCauHoi(int flag) {
         if (flag == 1)
             imgTruoc.setVisibility(View.GONE);
         else if (flag == lstCauHoi.size())
@@ -151,19 +132,16 @@ public class CauHoiActivity extends AppCompatActivity {
             imgTruoc.setVisibility(View.VISIBLE);
             imgSau.setVisibility(View.VISIBLE);
         }
-        layoutDapAn.startAnimation(animation);
         layoutDapAn.setVisibility(View.GONE);
         int soCauHoi = lstCauHoi.size();
         cauHoi = lstCauHoi.get(flag - 1);
         toolbar.setTitle("Câu " + flag + "/" + soCauHoi);
-        txtCauHoi.startAnimation(animation);
         txtCauHoi.setText(Html.fromHtml("Câu " + flag + ": " + cauHoi.getCauHoi()));
-        setLayoutImage(cauHoi.getLstHinhCauHoi(), animation);
-        setLayoutCauTraLoi(cauHoi.getLstCauTraLoi(), animation);
-        btnDapAn.startAnimation(upFromBottom);
+        setLayoutImage(cauHoi.getLstHinhCauHoi());
+        setLayoutCauTraLoi(cauHoi.getLstCauTraLoi());
     }
 
-    private void setLayoutCauTraLoi(List<CauTraLoi> lstCauTraLoi, Animation animation) {
+    private void setLayoutCauTraLoi(List<CauTraLoi> lstCauTraLoi) {
         layoutCauTraLoi.removeAllViews();
         lstCheckBoxCauTraLoi = new ArrayList<>();
         for (CauTraLoi cauTraLoi : lstCauTraLoi) {
@@ -172,13 +150,12 @@ public class CauHoiActivity extends AppCompatActivity {
             chk.setGravity(Gravity.TOP);
             int padding = getDip(5);
             chk.setPadding(padding, padding, padding, padding);
-            chk.startAnimation(animation);
             lstCheckBoxCauTraLoi.add(chk);
             layoutCauTraLoi.addView(chk);
         }
     }
 
-    private void setLayoutImage(List<HinhCauHoi> lstImage, Animation animation) {
+    private void setLayoutImage(List<HinhCauHoi> lstImage) {
         int size = lstImage.size();
         layoutImage.removeAllViews();
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
@@ -200,7 +177,6 @@ public class CauHoiActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
             ImageView img = createImageView(drawable, width, height, margin);
-            img.startAnimation(animation);
             layoutImage.addView(img);
         }
     }
@@ -222,7 +198,7 @@ public class CauHoiActivity extends AppCompatActivity {
 
     private boolean previous() {
         if (flag - 1 > 0) {
-            hienThiCauHoi(--flag, slideInLeft);
+            hienThiCauHoi(--flag);
             return true;
         }
         return false;
@@ -230,7 +206,7 @@ public class CauHoiActivity extends AppCompatActivity {
 
     private boolean next() {
         if (flag + 1 <= lstCauHoi.size()) {
-            hienThiCauHoi(++flag, slideOutLeft);
+            hienThiCauHoi(++flag);
             return true;
         }
         return false;
@@ -288,7 +264,7 @@ public class CauHoiActivity extends AppCompatActivity {
             super.onPostExecute(aVoid);
             dialog.dismiss();
             btnDapAn.setVisibility(View.VISIBLE);
-            hienThiCauHoi(flag, downFromTop);
+            hienThiCauHoi(flag);
         }
 
         @Override
