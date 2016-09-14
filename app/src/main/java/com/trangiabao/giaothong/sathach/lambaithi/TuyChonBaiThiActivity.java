@@ -16,6 +16,7 @@ import com.trangiabao.giaothong.sathach.db.LoaiBangDB;
 import com.trangiabao.giaothong.sathach.model.LoaiBang;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class TuyChonBaiThiActivity extends AppCompatActivity {
 
@@ -27,7 +28,7 @@ public class TuyChonBaiThiActivity extends AppCompatActivity {
 
     //data
     private LoaiBangDB loaiBangDB;
-    private ArrayList<LoaiBang> lstLoaiBang;
+    private List<LoaiBang> lstLoaiBang;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +70,7 @@ public class TuyChonBaiThiActivity extends AppCompatActivity {
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                int idLoaiBang = spinnerHang.getSelectedIndex() + 1;
                 Intent intent = new Intent(TuyChonBaiThiActivity.this, BaiThiActivity.class);
                 intent.putExtra("IDLoaiBang", spinnerHang.getSelectedIndex() + 1 + "");
                 startActivity(intent);

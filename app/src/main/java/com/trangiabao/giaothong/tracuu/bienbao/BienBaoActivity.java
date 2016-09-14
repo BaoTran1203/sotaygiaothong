@@ -65,6 +65,7 @@ public class BienBaoActivity extends AppCompatActivity {
             for (NhomBienBao nhomBienBao : lstNhomBienBao) {
                 List<BienBao> lstBienBao = new BienBaoDB(BienBaoActivity.this).getByNhom(nhomBienBao.getId());
                 pagerAdapter.addFragment(new BienBaoFragment(lstBienBao, nhomBienBao), nhomBienBao.getTenNhomBienBao());
+
             }
             return null;
         }

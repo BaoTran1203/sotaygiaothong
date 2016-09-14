@@ -1,5 +1,7 @@
 package com.trangiabao.giaothong.sathach.lambaithi;
 
+import android.annotation.SuppressLint;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -15,20 +17,19 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextSwitcher;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.trangiabao.giaothong.R;
 import com.trangiabao.giaothong.sathach.db.CauHoiDB;
-import com.trangiabao.giaothong.sathach.db.CauTraLoiDB;
-import com.trangiabao.giaothong.sathach.db.HinhCauHoiDB;
 import com.trangiabao.giaothong.sathach.db.LoaiBangDB;
 import com.trangiabao.giaothong.sathach.db.NhomCauHoiDB;
 import com.trangiabao.giaothong.sathach.db.QuyTacRaDeDB;
@@ -47,27 +48,24 @@ import java.util.concurrent.TimeUnit;
 
 public class BaiThiActivity extends AppCompatActivity {
 
-    private static final int SWIPE_MIN_DISTANCE = 120;
-    private static final int SWIPE_MAX_OFF_PATH = 250;
-    private static final int SWIPE_THRESHOLD_VELOCITY = 200;
     private GestureDetector gestureDetector;
-
-    private Animation slideInLeft, slideOutLeft, downFromTop;
     private Toolbar toolbar;
-    private LinearLayout layoutImage, layoutCauTraLoi;
+    private ViewGroup container;
     private TextView txtCauHoi, txtThoiGian;
-    private ArrayList<CheckBox> lstCheckBoxCauTraLoi;
-    private ImageButton imgTruoc, imgSau, imgMucLuc, imgKetThuc;
+    private TextSwitcher txtGiaiThich;
+    private Button btnTruoc, btnSau;
+    private ImageButton imgMucLuc;
     private ImageView imgTamDung;
-    private MaterialDialog progessDialog;
+    private CountDown countDown;
 
-    private LoaiBang loaiBang;
-    private List<NhomCauHoi> lstNhomCauHoi;
+    private int flag = 1;
     private List<CauHoi> lstCauHoi;
     private CauHoi cauHoi;
-    private int flag = 1;
-
-    private CountDown countDown;
+    private List<CauTraLoi> lstCauTraLoi;
+    private List<HinhCauHoi> lstHinhCauHoi;
+    private ArrayList<AppCompatCheckBox> lstCheckBoxCauTraLoi;
+    private LoaiBang loaiBang;
+    private List<NhomCauHoi> lstNhomCauHoi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,32 +83,25 @@ public class BaiThiActivity extends AppCompatActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        txtCauHoi = (TextView) findViewById(R.id.txtCauHoi);
-        layoutImage = (LinearLayout) findViewById(R.id.layoutImage);
-        layoutCauTraLoi = (LinearLayout) findViewById(R.id.layoutCauTraLoi);
-        imgTruoc = (ImageButton) findViewById(R.id.imgTruoc);
-        imgSau = (ImageButton) findViewById(R.id.imgSau);
+        btnTruoc = (Button) findViewById(R.id.btnTruoc);
+        btnSau = (Button) findViewById(R.id.btnSau);
         imgMucLuc = (ImageButton) findViewById(R.id.imgMucLuc);
-        imgKetThuc = (ImageButton) findViewById(R.id.imgKetThuc);
+        container = (ViewGroup) findViewById(R.id.container);
+        gestureDetector = new GestureDetector(new SwipeDetector());
+
         imgTamDung = (ImageView) findViewById(R.id.imgTamDung);
         txtThoiGian = (TextView) findViewById(R.id.txtThoiGian);
-
-        slideInLeft = AnimationUtils.loadAnimation(this, R.anim.slide_in_left);
-        slideOutLeft = AnimationUtils.loadAnimation(this, R.anim.slide_out_left);
-        downFromTop = AnimationUtils.loadAnimation(this, R.anim.down_from_top);
-
-        gestureDetector = new GestureDetector(new SwipeDetector());
     }
 
     private void addEvents() {
-        imgTruoc.setOnClickListener(new View.OnClickListener() {
+        btnTruoc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 previous();
             }
         });
 
-        imgSau.setOnClickListener(new View.OnClickListener() {
+        btnSau.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 next();
@@ -129,7 +120,7 @@ public class BaiThiActivity extends AppCompatActivity {
                             @Override
                             public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
                                 flag = position + 1;
-                                hienThiCauHoi(flag, downFromTop);
+                                hienThiCauHoi(flag);
                                 dialog.dismiss();
                                 countDown.resume();
                             }
@@ -165,13 +156,6 @@ public class BaiThiActivity extends AppCompatActivity {
                             }
                         })
                         .show();
-            }
-        });
-
-        imgKetThuc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                tinhDiem();
             }
         });
     }
@@ -261,66 +245,66 @@ public class BaiThiActivity extends AppCompatActivity {
         return true;
     }
 
-    private void hienThiCauHoi(int flag, Animation animation) {
-        if (flag == 1)
-            imgTruoc.setVisibility(View.GONE);
-        else if (flag == lstCauHoi.size()) {
-            imgSau.setVisibility(View.GONE);
-            imgKetThuc.setVisibility(View.VISIBLE);
-        } else {
-            imgTruoc.setVisibility(View.VISIBLE);
-            imgSau.setVisibility(View.VISIBLE);
-            imgKetThuc.setVisibility(View.GONE);
-        }
+    private void hienThiCauHoi(int flag) {
         int soCauHoi = lstCauHoi.size();
+        btnTruoc.setEnabled(flag != 1);
+        btnSau.setEnabled(flag != soCauHoi);
+
         cauHoi = lstCauHoi.get(flag - 1);
-        toolbar.setTitle(flag + "/" + soCauHoi);
-        txtCauHoi.startAnimation(animation);
-        txtCauHoi.setText(Html.fromHtml("Câu " + flag + ": " + cauHoi.getCauHoi()));
-        setLayoutImage(cauHoi.getLstHinhCauHoi(), animation);
-        setLayoutCauTraLoi(cauHoi.getLstCauTraLoi(), animation);
-    }
+        toolbar.setTitle("Câu " + flag + "/" + soCauHoi);
 
-    private void setLayoutCauTraLoi(List<CauTraLoi> lstCauTraLoi, Animation animation) {
-        layoutCauTraLoi.removeAllViews();
-        lstCheckBoxCauTraLoi = new ArrayList<>();
-        for (CauTraLoi cauTraLoi : lstCauTraLoi) {
-            AppCompatCheckBox chk = new AppCompatCheckBox(BaiThiActivity.this);
-            chk.setText(Html.fromHtml(cauTraLoi.getCauTraLoi()));
-            chk.setGravity(Gravity.TOP);
-            int padding = getDip(5);
-            chk.setPadding(padding, padding, padding, padding);
-            chk.startAnimation(animation);
-            chk.setChecked(cauTraLoi.isChecked());
-            lstCheckBoxCauTraLoi.add(chk);
-            layoutCauTraLoi.addView(chk);
-        }
-    }
-
-    private void setLayoutImage(List<HinhCauHoi> lstImage, Animation animation) {
-        int size = lstImage.size();
-        layoutImage.removeAllViews();
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+        txtCauHoi = new TextView(BaiThiActivity.this);
+        txtCauHoi.setLayoutParams(new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-        );
-        layoutImage.setLayoutParams(params);
+                LinearLayout.LayoutParams.WRAP_CONTENT));
+        txtCauHoi.setTypeface(txtCauHoi.getTypeface(), Typeface.BOLD);
+        txtCauHoi.setText("Câu " + flag + ": " + cauHoi.getCauHoi());
+
+        lstHinhCauHoi = cauHoi.getLstHinhCauHoi();
+        int soHinh = lstHinhCauHoi.size();
+        LinearLayout layoutImage = new LinearLayout(BaiThiActivity.this);
+        layoutImage.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT));
         layoutImage.setOrientation(LinearLayout.HORIZONTAL);
-        layoutImage.setWeightSum(size);
-        int width = size == 1 ? LinearLayout.LayoutParams.MATCH_PARENT : getDip(100);
-        int height = size == 1 ? getDip(200) : getDip(100);
+        layoutImage.setWeightSum(soHinh);
+        int width = soHinh == 1 ? LinearLayout.LayoutParams.MATCH_PARENT : getDip(100);
+        int height = soHinh == 1 ? getDip(200) : getDip(100);
         int margin = getDip(5);
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < soHinh; i++) {
             Drawable drawable = null;
             try {
-                InputStream is = getAssets().open(lstImage.get(i).getHinh());
+                InputStream is = getAssets().open(lstHinhCauHoi.get(i).getHinh());
                 drawable = Drawable.createFromStream(is, null);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            ImageView img = createImageView(drawable, width, height, margin);
-            img.startAnimation(animation);
+            ImageView img = new ImageView(this);
+            LinearLayout.LayoutParams imageParams = new LinearLayout.LayoutParams(width, height, 1f);
+            imageParams.gravity = Gravity.CENTER;
+            imageParams.setMargins(margin, margin, margin, margin);
+            img.setLayoutParams(imageParams);
+            img.setImageDrawable(drawable);
+            img.requestLayout();
             layoutImage.addView(img);
+        }
+
+        lstCauTraLoi = cauHoi.getLstCauTraLoi();
+        LinearLayout layoutCauTraLoi = new LinearLayout(BaiThiActivity.this);
+        layoutCauTraLoi.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT));
+        layoutCauTraLoi.setOrientation(LinearLayout.VERTICAL);
+        lstCheckBoxCauTraLoi = new ArrayList<>();
+        for (CauTraLoi cauTraLoi : lstCauTraLoi) {
+            AppCompatCheckBox chk = new AppCompatCheckBox(BaiThiActivity.this);
+            chk.setText(cauTraLoi.getCauTraLoi());
+            chk.setGravity(Gravity.TOP);
+            int padding = getDip(5);
+            chk.setPadding(padding, padding, padding, padding);
+            chk.setChecked(cauTraLoi.isChecked());
+            lstCheckBoxCauTraLoi.add(chk);
+            layoutCauTraLoi.addView(chk);
         }
     }
 
@@ -339,22 +323,16 @@ public class BaiThiActivity extends AppCompatActivity {
         return img;
     }
 
-    private boolean previous() {
+    private void previous() {
         if (flag - 1 > 0) {
-            luuCauTraLoi();
-            hienThiCauHoi(--flag, slideInLeft);
-            return true;
+            hienThiCauHoi(--flag);
         }
-        return false;
     }
 
-    private boolean next() {
+    private void next() {
         if (flag + 1 <= lstCauHoi.size()) {
-            luuCauTraLoi();
-            hienThiCauHoi(++flag, slideOutLeft);
-            return true;
+            hienThiCauHoi(++flag);
         }
-        return false;
     }
 
     private void luuCauTraLoi() {
@@ -388,14 +366,21 @@ public class BaiThiActivity extends AppCompatActivity {
     }
 
     class SwipeDetector extends GestureDetector.SimpleOnGestureListener {
+
+        private static final int SWIPE_MIN_DISTANCE = 120;
+        private static final int SWIPE_MAX_OFF_PATH = 250;
+        private static final int SWIPE_THRESHOLD_VELOCITY = 200;
+
         @Override
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
             if (Math.abs(e1.getY() - e2.getY()) > SWIPE_MAX_OFF_PATH)
                 return false;
             else if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-                return next();
+                next();
+                return true;
             } else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-                return previous();
+                previous();
+                return true;
             }
             return false;
         }
@@ -417,8 +402,8 @@ public class BaiThiActivity extends AppCompatActivity {
         private void runTimer() {
             timer = new CountDownTimer(millisInFuture, COUNT_DOWN_INTERVAL) {
                 public void onTick(long millisUntilFinished) {
-                    String min = String.format("%02d", TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished));
-                    String sec = String.format("%02d", TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished)
+                    @SuppressLint("DefaultLocale") String min = String.format("%02d", TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished));
+                    @SuppressLint("DefaultLocale") String sec = String.format("%02d", TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished)
                             - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)));
                     txtThoiGian.setText(min + ":" + sec);
                     timeRemaining = millisUntilFinished;
@@ -446,6 +431,9 @@ public class BaiThiActivity extends AppCompatActivity {
     }
 
     class LoadDataTask extends AsyncTask<Void, Void, Void> {
+
+        private MaterialDialog progessDialog;
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -460,7 +448,7 @@ public class BaiThiActivity extends AppCompatActivity {
             super.onPostExecute(aVoid);
             progessDialog.dismiss();
             txtThoiGian.setText(loaiBang.getThoiGian() + ":00");
-            hienThiCauHoi(flag, downFromTop);
+            hienThiCauHoi(flag);
             new MaterialDialog.Builder(BaiThiActivity.this)
                     .title("Hướng dẫn")
                     .items(R.array.huongdan)

@@ -15,8 +15,8 @@ public class LoaiBangDB extends AbstractDB {
         super(context);
     }
 
-    public ArrayList<LoaiBang> getAll() {
-        ArrayList<LoaiBang> data = new ArrayList<>();
+    public List<LoaiBang> getAll() {
+        List<LoaiBang> data = new ArrayList<>();
         Cursor c = database.rawQuery("select * from LoaiBang", null);
         while (c.moveToNext()) {
             LoaiBang temp = new LoaiBang(
@@ -34,7 +34,7 @@ public class LoaiBangDB extends AbstractDB {
         return data;
     }
 
-    public List<String> getTenBang(ArrayList<LoaiBang> arr) {
+    public List<String> getTenBang(List<LoaiBang> arr) {
         List<String> data = new ArrayList<>();
         for (LoaiBang temp : arr) {
             data.add(temp.getTenBang());

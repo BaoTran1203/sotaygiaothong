@@ -11,6 +11,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
@@ -35,7 +36,7 @@ public class NoiDungActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private TextSwitcher txtDieu, txtNoiDung;
     private TextView txtChuong, txtMuc;
-    private ImageButton imgTruoc, imgSau;
+    private Button btnTruoc, btnSau;
     private Animation slideInLeft, slideOutLeft, slideOutRight, slideInRight;
 
     private int flag = 1;
@@ -73,8 +74,8 @@ public class NoiDungActivity extends AppCompatActivity {
         });
         txtChuong = (TextView) findViewById(R.id.txtChuong);
         txtMuc = (TextView) findViewById(R.id.txtMuc);
-        imgTruoc = (ImageButton) findViewById(R.id.imgTruoc);
-        imgSau = (ImageButton) findViewById(R.id.imgSau);
+        btnTruoc = (Button) findViewById(R.id.btnTruoc);
+        btnSau = (Button) findViewById(R.id.btnSau);
 
         gestureDetector = new GestureDetector(new SwipeDetector());
         slideInLeft = AnimationUtils.loadAnimation(this, R.anim.slide_in_left);
@@ -84,14 +85,14 @@ public class NoiDungActivity extends AppCompatActivity {
     }
 
     private void addEvents() {
-        imgTruoc.setOnClickListener(new View.OnClickListener() {
+        btnTruoc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 previous();
             }
         });
 
-        imgSau.setOnClickListener(new View.OnClickListener() {
+        btnSau.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 next();
@@ -101,12 +102,12 @@ public class NoiDungActivity extends AppCompatActivity {
 
     private void hienThiNoiDung(int flag) {
         if (flag == 1)
-            imgTruoc.setVisibility(View.GONE);
+            btnTruoc.setVisibility(View.GONE);
         else if (flag == lstDieu.size())
-            imgSau.setVisibility(View.GONE);
+            btnSau.setVisibility(View.GONE);
         else {
-            imgTruoc.setVisibility(View.VISIBLE);
-            imgSau.setVisibility(View.VISIBLE);
+            btnTruoc.setVisibility(View.VISIBLE);
+            btnSau.setVisibility(View.VISIBLE);
         }
 
         Dieu dieu = lstDieu.get(flag - 1);

@@ -42,9 +42,9 @@ public class TuyChonCauHoiActivity extends AppCompatActivity {
 
     //data
     private LoaiBangDB loaiBangDB;
-    private ArrayList<LoaiBang> lstLoaiBang;
-    private ArrayList<NhomCauHoi> lstNhomCauHoi;
-    private ArrayList<QuyTacRaDe> lstQuyTacRaDe;
+    private List<LoaiBang> lstLoaiBang;
+    private List<NhomCauHoi> lstNhomCauHoi;
+    private List<QuyTacRaDe> lstQuyTacRaDe;
     private int count = 0;
 
     @Override

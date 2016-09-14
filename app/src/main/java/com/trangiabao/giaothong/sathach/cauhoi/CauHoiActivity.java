@@ -16,12 +16,13 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextSwitcher;
 import android.widget.TextView;
+import android.widget.ViewSwitcher;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.trangiabao.giaothong.R;
@@ -37,179 +38,181 @@ import java.util.List;
 
 public class CauHoiActivity extends AppCompatActivity {
 
-    private static final int SWIPE_MIN_DISTANCE = 120;
-    private static final int SWIPE_MAX_OFF_PATH = 250;
-    private static final int SWIPE_THRESHOLD_VELOCITY = 200;
     private GestureDetector gestureDetector;
-
     private Toolbar toolbar;
-    private Button btnDapAn;
-    private LinearLayout layoutImage, layoutCauTraLoi, layoutDapAn;
-    private TextView txtCauHoi, txtDapAn, txtGiaiThich;
-    private ArrayList<CheckBox> lstCheckBoxCauTraLoi;
-    private ImageButton imgTruoc, imgSau;
-    private MaterialDialog dialog;
+    private ViewGroup container;
+    private TextView txtCauHoi;
+    private TextSwitcher txtGiaiThich;
+    private Button btnDapAn, btnTruoc, btnSau;
 
     private int flag = 1;
     private List<CauHoi> lstCauHoi = new ArrayList<>();
     private CauHoi cauHoi;
+    private List<CauTraLoi> lstCauTraLoi;
+    private List<HinhCauHoi> lstHinhCauHoi;
+    private ArrayList<AppCompatCheckBox> lstCheckBoxCauTraLoi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cau_hoi);
 
-        new LoadDataTask().execute();
+        new LoadData().execute();
         addControls();
-        addEvents();
     }
 
     private void addControls() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        txtCauHoi = (TextView) findViewById(R.id.txtCauHoi);
-        layoutImage = (LinearLayout) findViewById(R.id.layoutImage);
-        layoutCauTraLoi = (LinearLayout) findViewById(R.id.layoutCauTraLoi);
-        layoutDapAn = (LinearLayout) findViewById(R.id.layoutDapAn);
-        btnDapAn = (Button) findViewById(R.id.btnDapAn);
-        txtDapAn = (TextView) findViewById(R.id.txtDapAn);
-        txtGiaiThich = (TextView) findViewById(R.id.txtGiaiThich);
-        imgTruoc = (ImageButton) findViewById(R.id.imgTruoc);
-        imgSau = (ImageButton) findViewById(R.id.imgSau);
-
         gestureDetector = new GestureDetector(new SwipeDetector());
+        container = (ViewGroup) findViewById(R.id.container);
+        btnDapAn = (Button) findViewById(R.id.btnDapAn);
+        btnTruoc = (Button) findViewById(R.id.btnTruoc);
+        btnSau = (Button) findViewById(R.id.btnSau);
     }
 
-    private void addEvents() {
-        btnDapAn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                kiemTraKetQua();
-                txtGiaiThich.setText(Html.fromHtml(cauHoi.getGiaiThich()));
-                layoutDapAn.setVisibility(View.VISIBLE);
-            }
-        });
-
-        imgTruoc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                previous();
-            }
-        });
-
-        imgSau.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                next();
-            }
-        });
-    }
-
-    private void kiemTraKetQua() {
-        List<CauTraLoi> lstCauTraLoi = cauHoi.getLstCauTraLoi();
-        for (int i = 0; i < lstCauTraLoi.size(); i++) {
-            if (lstCauTraLoi.get(i).isDapAn()) {
-                lstCheckBoxCauTraLoi.get(i).setTextColor(Color.BLUE);
-                lstCheckBoxCauTraLoi.get(i).setTypeface(Typeface.DEFAULT_BOLD);
-            } else {
-                lstCheckBoxCauTraLoi.get(i).setPaintFlags(lstCheckBoxCauTraLoi.get(i).getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-            }
-            lstCheckBoxCauTraLoi.get(i).setEnabled(false);
-        }
-        txtGiaiThich.setText(Html.fromHtml(cauHoi.getGiaiThich()));
-        btnDapAn.setVisibility(View.GONE);
-    }
-
-    private void hienThiCauHoi(int flag) {
-        if (flag == 1)
-            imgTruoc.setVisibility(View.GONE);
-        else if (flag == lstCauHoi.size())
-            imgSau.setVisibility(View.GONE);
-        else {
-            imgTruoc.setVisibility(View.VISIBLE);
-            imgSau.setVisibility(View.VISIBLE);
-        }
-        layoutDapAn.setVisibility(View.GONE);
+    private void hienThiCauHoi(final int flag) {
         int soCauHoi = lstCauHoi.size();
+        btnTruoc.setEnabled(flag != 1);
+        btnSau.setEnabled(flag != soCauHoi);
+        btnDapAn.setVisibility(View.VISIBLE);
         cauHoi = lstCauHoi.get(flag - 1);
         toolbar.setTitle("Câu " + flag + "/" + soCauHoi);
-        txtCauHoi.setText(Html.fromHtml("Câu " + flag + ": " + cauHoi.getCauHoi()));
-        setLayoutImage(cauHoi.getLstHinhCauHoi());
-        setLayoutCauTraLoi(cauHoi.getLstCauTraLoi());
-    }
 
-    private void setLayoutCauTraLoi(List<CauTraLoi> lstCauTraLoi) {
-        layoutCauTraLoi.removeAllViews();
+        txtCauHoi = new TextView(CauHoiActivity.this);
+        txtCauHoi.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT));
+        txtCauHoi.setTypeface(txtCauHoi.getTypeface(), Typeface.BOLD);
+        txtCauHoi.setText("Câu " + flag + ": " + cauHoi.getCauHoi());
+
+        lstHinhCauHoi = cauHoi.getLstHinhCauHoi();
+        int soHinh = lstHinhCauHoi.size();
+        LinearLayout layoutImage = new LinearLayout(CauHoiActivity.this);
+        layoutImage.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT));
+        layoutImage.setOrientation(LinearLayout.HORIZONTAL);
+        layoutImage.setWeightSum(soHinh);
+        int width = soHinh == 1 ? LinearLayout.LayoutParams.MATCH_PARENT : getDip(100);
+        int height = soHinh == 1 ? getDip(200) : getDip(100);
+        int margin = getDip(5);
+        for (int i = 0; i < soHinh; i++) {
+            Drawable drawable = null;
+            try {
+                InputStream is = getAssets().open(lstHinhCauHoi.get(i).getHinh());
+                drawable = Drawable.createFromStream(is, null);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            ImageView img = new ImageView(this);
+            LinearLayout.LayoutParams imageParams = new LinearLayout.LayoutParams(width, height, 1f);
+            imageParams.gravity = Gravity.CENTER;
+            imageParams.setMargins(margin, margin, margin, margin);
+            img.setLayoutParams(imageParams);
+            img.setImageDrawable(drawable);
+            img.requestLayout();
+            layoutImage.addView(img);
+        }
+
+        lstCauTraLoi = cauHoi.getLstCauTraLoi();
+        LinearLayout layoutCauTraLoi = new LinearLayout(CauHoiActivity.this);
+        layoutCauTraLoi.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT));
+        layoutCauTraLoi.setOrientation(LinearLayout.VERTICAL);
         lstCheckBoxCauTraLoi = new ArrayList<>();
         for (CauTraLoi cauTraLoi : lstCauTraLoi) {
             AppCompatCheckBox chk = new AppCompatCheckBox(CauHoiActivity.this);
-            chk.setText(Html.fromHtml(cauTraLoi.getCauTraLoi()));
+            chk.setText(cauTraLoi.getCauTraLoi());
             chk.setGravity(Gravity.TOP);
             int padding = getDip(5);
             chk.setPadding(padding, padding, padding, padding);
             lstCheckBoxCauTraLoi.add(chk);
             layoutCauTraLoi.addView(chk);
         }
+
+        txtGiaiThich = new TextSwitcher(CauHoiActivity.this);
+        txtGiaiThich.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT));
+        txtGiaiThich.setFactory(new ViewSwitcher.ViewFactory() {
+            @Override
+            public View makeView() {
+                return new TextView(CauHoiActivity.this);
+            }
+        });
+
+        container.removeAllViews();
+        container.addView(txtCauHoi);
+        container.addView(layoutImage);
+        container.addView(layoutCauTraLoi);
+        container.removeView(btnDapAn);
+        container.addView(btnDapAn);
+        container.addView(txtGiaiThich);
+
+        addEvents();
     }
 
-    private void setLayoutImage(List<HinhCauHoi> lstImage) {
-        int size = lstImage.size();
-        layoutImage.removeAllViews();
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-        );
-        layoutImage.setLayoutParams(params);
-        layoutImage.setOrientation(LinearLayout.HORIZONTAL);
-        layoutImage.setWeightSum(size);
-        int width = size == 1 ? LinearLayout.LayoutParams.MATCH_PARENT : getDip(100);
-        int height = size == 1 ? getDip(200) : getDip(100);
-        int margin = getDip(5);
-        for (int i = 0; i < size; i++) {
-            Drawable drawable = null;
-            try {
-                InputStream is = getAssets().open(lstImage.get(i).getHinh());
-                drawable = Drawable.createFromStream(is, null);
-            } catch (IOException e) {
-                e.printStackTrace();
+    private void addEvents() {
+        container.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+            @Override
+            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                for (int i = 0; i < lstCauTraLoi.size(); i++) {
+                    boolean isChecked = lstCheckBoxCauTraLoi.get(i).isChecked();
+                    lstCauHoi.get(flag - 1).getLstCauTraLoi().get(i).setChecked(isChecked);
+                }
             }
-            ImageView img = createImageView(drawable, width, height, margin);
-            layoutImage.addView(img);
-        }
+        });
+
+        btnDapAn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                for (int i = 0; i < lstCauTraLoi.size(); i++) {
+                    if (lstCauTraLoi.get(i).isDapAn()) {
+                        lstCheckBoxCauTraLoi.get(i).setTextColor(Color.BLUE);
+                        lstCheckBoxCauTraLoi.get(i).setTypeface(Typeface.DEFAULT_BOLD);
+                    } else {
+                        lstCheckBoxCauTraLoi.get(i).setPaintFlags(lstCheckBoxCauTraLoi.get(i).getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                    }
+                    lstCheckBoxCauTraLoi.get(i).setEnabled(false);
+                }
+                txtGiaiThich.setText(Html.fromHtml("<h3>Giải thích</h3>" + cauHoi.getGiaiThich()));
+                btnDapAn.setVisibility(View.GONE);
+            }
+        });
+
+        btnTruoc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                truoc();
+            }
+        });
+
+        btnSau.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sau();
+            }
+        });
     }
 
     private int getDip(int pixel) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, pixel, getResources().getDisplayMetrics());
     }
 
-    private ImageView createImageView(Drawable image, int width, int height, int margin) {
-        ImageView img = new ImageView(this);
-        LinearLayout.LayoutParams imageParams = new LinearLayout.LayoutParams(width, height, 1f);
-        imageParams.gravity = Gravity.CENTER;
-        imageParams.setMargins(margin, margin, margin, margin);
-        img.setLayoutParams(imageParams);
-        img.setImageDrawable(image);
-        img.requestLayout();
-        return img;
-    }
-
-    private boolean previous() {
+    private void truoc() {
         if (flag - 1 > 0) {
             hienThiCauHoi(--flag);
-            return true;
         }
-        return false;
     }
 
-    private boolean next() {
+    private void sau() {
         if (flag + 1 <= lstCauHoi.size()) {
             hienThiCauHoi(++flag);
-            return true;
         }
-        return false;
     }
 
     @Override
@@ -236,20 +239,30 @@ public class CauHoiActivity extends AppCompatActivity {
     }
 
     class SwipeDetector extends GestureDetector.SimpleOnGestureListener {
+
+        private static final int SWIPE_MIN_DISTANCE = 120;
+        private static final int SWIPE_MAX_OFF_PATH = 250;
+        private static final int SWIPE_THRESHOLD_VELOCITY = 200;
+
         @Override
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
             if (Math.abs(e1.getY() - e2.getY()) > SWIPE_MAX_OFF_PATH)
                 return false;
             else if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-                return next();
+                sau();
+                return true;
             } else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-                return previous();
+                truoc();
+                return true;
             }
             return false;
         }
     }
 
-    public class LoadDataTask extends AsyncTask<Void, Void, Void> {
+    public class LoadData extends AsyncTask<Void, Void, Void> {
+
+        private MaterialDialog dialog;
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -263,7 +276,6 @@ public class CauHoiActivity extends AppCompatActivity {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             dialog.dismiss();
-            btnDapAn.setVisibility(View.VISIBLE);
             hienThiCauHoi(flag);
         }
 
