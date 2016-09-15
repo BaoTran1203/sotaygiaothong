@@ -19,7 +19,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -65,7 +64,6 @@ public class BaiThiActivity extends AppCompatActivity {
     private List<HinhCauHoi> lstHinhCauHoi;
     private ArrayList<AppCompatCheckBox> lstCheckBoxCauTraLoi;
     private LoaiBang loaiBang;
-    private List<NhomCauHoi> lstNhomCauHoi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,26 +72,31 @@ public class BaiThiActivity extends AppCompatActivity {
 
         new LoadDataTask().execute();
         addControls();
-        addEvents();
     }
 
     private void addControls() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        gestureDetector = new GestureDetector(new SwipeDetector());
+        container = (ViewGroup) findViewById(R.id.container);
 
         btnTruoc = (Button) findViewById(R.id.btnTruoc);
         btnSau = (Button) findViewById(R.id.btnSau);
         imgMucLuc = (ImageButton) findViewById(R.id.imgMucLuc);
-        container = (ViewGroup) findViewById(R.id.container);
-        gestureDetector = new GestureDetector(new SwipeDetector());
-
         imgTamDung = (ImageView) findViewById(R.id.imgTamDung);
         txtThoiGian = (TextView) findViewById(R.id.txtThoiGian);
     }
 
     private void addEvents() {
+        container.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+            @Override
+            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                luuTrangThai();
+            }
+        });
+
         btnTruoc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -111,7 +114,10 @@ public class BaiThiActivity extends AppCompatActivity {
         imgMucLuc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                luuCauTraLoi();
+                for (int i = 0; i < lstCauTraLoi.size(); i++) {
+                    boolean isChecked = lstCheckBoxCauTraLoi.get(i).isChecked();
+                    lstCauHoi.get(flag - 1).getLstCauTraLoi().get(i).setChecked(isChecked);
+                }
                 List<String> lst = createStaticData();
                 new MaterialDialog.Builder(BaiThiActivity.this)
                         .title("Danh sách câu hỏi")
@@ -158,6 +164,13 @@ public class BaiThiActivity extends AppCompatActivity {
                         .show();
             }
         });
+    }
+
+    private void luuTrangThai() {
+        for (int i = 0; i < lstCauTraLoi.size(); i++) {
+            boolean isChecked = lstCheckBoxCauTraLoi.get(i).isChecked();
+            lstCauHoi.get(flag - 1).getLstCauTraLoi().get(i).setChecked(isChecked);
+        }
     }
 
     private void tinhDiem() {
@@ -306,39 +319,30 @@ public class BaiThiActivity extends AppCompatActivity {
             lstCheckBoxCauTraLoi.add(chk);
             layoutCauTraLoi.addView(chk);
         }
+
+        container.removeAllViews();
+        container.addView(txtCauHoi);
+        container.addView(layoutImage);
+        container.addView(layoutCauTraLoi);
+
+        addEvents();
     }
 
     private int getDip(int pixel) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, pixel, getResources().getDisplayMetrics());
     }
 
-    private ImageView createImageView(Drawable image, int width, int height, int margin) {
-        ImageView img = new ImageView(this);
-        LinearLayout.LayoutParams imageParams = new LinearLayout.LayoutParams(width, height, 1f);
-        imageParams.gravity = Gravity.CENTER;
-        imageParams.setMargins(margin, margin, margin, margin);
-        img.setLayoutParams(imageParams);
-        img.setImageDrawable(image);
-        img.requestLayout();
-        return img;
-    }
-
     private void previous() {
         if (flag - 1 > 0) {
+            luuTrangThai();
             hienThiCauHoi(--flag);
         }
     }
 
     private void next() {
         if (flag + 1 <= lstCauHoi.size()) {
+            luuTrangThai();
             hienThiCauHoi(++flag);
-        }
-    }
-
-    private void luuCauTraLoi() {
-        CauHoi cauHoi = lstCauHoi.get(flag - 1);
-        for (int i = 0; i < lstCheckBoxCauTraLoi.size(); i++) {
-            cauHoi.getLstCauTraLoi().get(i).setChecked(lstCheckBoxCauTraLoi.get(i).isChecked());
         }
     }
 
@@ -447,8 +451,8 @@ public class BaiThiActivity extends AppCompatActivity {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             progessDialog.dismiss();
-            txtThoiGian.setText(loaiBang.getThoiGian() + ":00");
             hienThiCauHoi(flag);
+            txtThoiGian.setText(loaiBang.getThoiGian() + ":00");
             new MaterialDialog.Builder(BaiThiActivity.this)
                     .title("Hướng dẫn")
                     .items(R.array.huongdan)
@@ -492,7 +496,7 @@ public class BaiThiActivity extends AppCompatActivity {
                 query = "select * from CauHoi where IdNhomCauHoi = ";
             }
             lstCauHoi = new ArrayList<>();
-            lstNhomCauHoi = new NhomCauHoiDB(BaiThiActivity.this).getAll();
+            List<NhomCauHoi> lstNhomCauHoi = new NhomCauHoiDB(BaiThiActivity.this).getAll();
             for (int i = 0; i < lstNhomCauHoi.size(); i++) {
                 List<CauHoi> temp = new CauHoiDB(BaiThiActivity.this).getCauHoi(query + (i + 1));
                 int soCau = new QuyTacRaDeDB(BaiThiActivity.this).getSoCau(loaiBang.getId() + "", (i + 1) + "");

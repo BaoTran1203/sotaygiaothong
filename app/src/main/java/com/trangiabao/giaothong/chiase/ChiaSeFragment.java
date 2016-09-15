@@ -41,8 +41,7 @@ public class ChiaSeFragment extends Fragment {
             "com.skype.raider",
     };
 
-    public ChiaSeFragment(Context context) {
-        this.context = context;
+    public ChiaSeFragment() {
     }
 
 
@@ -50,6 +49,8 @@ public class ChiaSeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_chia_se, container, false);
+        this.context = getActivity();
+
         txtSubject = (EditText) view.findViewById(R.id.txtSubject);
         txtContent = (EditText) view.findViewById(R.id.txtContent);
         btnGui = (Button) view.findViewById(R.id.btnGui);

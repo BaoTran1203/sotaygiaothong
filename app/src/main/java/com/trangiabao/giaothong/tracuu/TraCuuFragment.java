@@ -1,6 +1,8 @@
 package com.trangiabao.giaothong.tracuu;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -14,16 +16,23 @@ import com.mikepenz.fastadapter.FastAdapter;
 import com.mikepenz.fastadapter.IAdapter;
 import com.mikepenz.fastadapter.adapters.FastItemAdapter;
 import com.trangiabao.giaothong.R;
+import com.trangiabao.giaothong.sathach.SatHachAdapter;
 import com.trangiabao.giaothong.tracuu.bienbao.BienBaoActivity;
 import com.trangiabao.giaothong.tracuu.biensoxe.BienSoXeActivity;
 import com.trangiabao.giaothong.tracuu.luat.VanBanActivity;
 import com.trangiabao.giaothong.tracuu.xuphat.XuPhatActivity;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class TraCuuFragment extends Fragment {
 
     private FastItemAdapter<TraCuuAdapter> adapter;
     private RecyclerView rvTraCuu;
+    private Context context;
 
     public TraCuuFragment() {
     }
@@ -32,6 +41,7 @@ public class TraCuuFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tra_cuu, container, false);
+        this.context = getActivity();
 
         rvTraCuu = (RecyclerView) view.findViewById(R.id.rvTraCuu);
         rvTraCuu.setLayoutManager(new GridLayoutManager(getActivity(), 2));
@@ -42,11 +52,31 @@ public class TraCuuFragment extends Fragment {
         adapter.withSelectable(true);
 
         rvTraCuu.setAdapter(adapter);
-        adapter.add(TraCuuAdapter.createStaticData());
+        adapter.add(createList());
         adapter.withSavedInstanceState(savedInstanceState);
 
         addEvents();
         return view;
+    }
+
+    private List<TraCuuAdapter> createList() {
+        List<TraCuuAdapter> data = new ArrayList<>();
+        data.add(new TraCuuAdapter("Luật giao thông", getDrawable("image/icon/ic_luat.png")));
+        data.add(new TraCuuAdapter("Biển báo", getDrawable("image/icon/ic_bien_bao.png")));
+        data.add(new TraCuuAdapter("Các mức phạt", getDrawable("image/icon/ic_phat.png")));
+        data.add(new TraCuuAdapter("Biển số xe", getDrawable("image/icon/ic_bang_so_xe.png")));
+        return data;
+    }
+
+    private Drawable getDrawable(String path) {
+        Drawable drawable = null;
+        try {
+            InputStream is = this.context.getAssets().open(path);
+            drawable = Drawable.createFromStream(is, null);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return drawable;
     }
 
     private void addEvents() {

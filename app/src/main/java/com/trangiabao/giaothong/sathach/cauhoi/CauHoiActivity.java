@@ -157,16 +157,6 @@ public class CauHoiActivity extends AppCompatActivity {
     }
 
     private void addEvents() {
-        container.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
-            @Override
-            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-                for (int i = 0; i < lstCauTraLoi.size(); i++) {
-                    boolean isChecked = lstCheckBoxCauTraLoi.get(i).isChecked();
-                    lstCauHoi.get(flag - 1).getLstCauTraLoi().get(i).setChecked(isChecked);
-                }
-            }
-        });
-
         btnDapAn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -203,14 +193,23 @@ public class CauHoiActivity extends AppCompatActivity {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, pixel, getResources().getDisplayMetrics());
     }
 
+    private void luuTrangThai() {
+        for (int i = 0; i < lstCauTraLoi.size(); i++) {
+            boolean isChecked = lstCheckBoxCauTraLoi.get(i).isChecked();
+            lstCauHoi.get(flag - 1).getLstCauTraLoi().get(i).setChecked(isChecked);
+        }
+    }
+
     private void truoc() {
         if (flag - 1 > 0) {
+            luuTrangThai();
             hienThiCauHoi(--flag);
         }
     }
 
     private void sau() {
         if (flag + 1 <= lstCauHoi.size()) {
+            luuTrangThai();
             hienThiCauHoi(++flag);
         }
     }

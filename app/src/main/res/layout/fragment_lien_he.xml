@@ -42,10 +42,10 @@
                         tools:ignore="RtlSymmetry">
 
                         <ImageView
+                            android:id="@+id/imgGmail"
                             android:layout_width="40dp"
                             android:layout_height="40dp"
-                            android:paddingRight="5dp"
-                            android:src="@drawable/ic_gmail" />
+                            android:paddingRight="5dp" />
 
                         <TextView
                             android:layout_width="match_parent"
@@ -71,10 +71,10 @@
                         tools:ignore="RtlSymmetry">
 
                         <ImageView
+                            android:id="@+id/imgCall"
                             android:layout_width="40dp"
                             android:layout_height="40dp"
-                            android:paddingRight="5dp"
-                            android:src="@drawable/ic_call" />
+                            android:paddingRight="5dp" />
 
                         <TextView
                             android:layout_width="match_parent"
@@ -100,10 +100,10 @@
                         tools:ignore="RtlSymmetry">
 
                         <ImageView
+                            android:id="@+id/imgSms"
                             android:layout_width="40dp"
                             android:layout_height="40dp"
-                            android:paddingRight="5dp"
-                            android:src="@drawable/ic_sms" />
+                            android:paddingRight="5dp" />
 
                         <TextView
                             android:layout_width="match_parent"
@@ -136,10 +136,10 @@
                         tools:ignore="RtlSymmetry">
 
                         <ImageView
+                            android:id="@+id/imgGgplus"
                             android:layout_width="40dp"
                             android:layout_height="40dp"
-                            android:paddingRight="5dp"
-                            android:src="@drawable/ic_ggplus" />
+                            android:paddingRight="5dp" />
 
                         <TextView
                             android:layout_width="match_parent"
@@ -165,10 +165,10 @@
                         tools:ignore="RtlSymmetry">
 
                         <ImageView
+                            android:id="@+id/imgFacebook"
                             android:layout_width="40dp"
                             android:layout_height="40dp"
-                            android:paddingRight="5dp"
-                            android:src="@drawable/ic_facebook" />
+                            android:paddingRight="5dp" />
 
                         <TextView
                             android:layout_width="match_parent"
@@ -194,10 +194,10 @@
                         tools:ignore="RtlSymmetry">
 
                         <ImageView
+                            android:id="@+id/imgMessager"
                             android:layout_width="40dp"
                             android:layout_height="40dp"
-                            android:paddingRight="5dp"
-                            android:src="@drawable/ic_facebook" />
+                            android:paddingRight="5dp" />
 
                         <TextView
                             android:layout_width="match_parent"

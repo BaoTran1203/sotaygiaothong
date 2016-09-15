@@ -2,19 +2,19 @@ package com.trangiabao.giaothong.lienhe;
 
 
 import android.annotation.SuppressLint;
-import android.content.ActivityNotFoundException;
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+import android.widget.ImageView;
 
 import com.trangiabao.giaothong.R;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 @SuppressLint("ValidFragment")
 public class LienHeFragment extends Fragment implements View.OnClickListener {
@@ -25,21 +25,30 @@ public class LienHeFragment extends Fragment implements View.OnClickListener {
     private final static String FACEBOOK_ID = "nh0kba0";
 
     private Context context;
-    private CardView cardGmail;
-    private CardView cardPhone;
-    private CardView cardSms;
-    private CardView cardGooglePlus;
-    private CardView cardFacebook;
-    private CardView cardMessager;
+    private ImageView imgGmail;
+    private ImageView imgCall;
+    private ImageView imgSms;
+    private ImageView imgGgplus;
+    private ImageView imgFacebook;
+    private ImageView imgMessager;
 
-    public LienHeFragment(Context context) {
-        this.context = context;
+    private final static String PATH[] = {
+            "image/icon/ic_gmail.png",
+            "image/icon/ic_call.png",
+            "image/icon/ic_sms.png",
+            "image/icon/ic_ggplus.png",
+            "image/icon/ic_facebook.png",
+            "image/icon/ic_messenger.png"
+    };
+
+    public LienHeFragment() {
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_lien_he, container, false);
+        this.context = getActivity();
 
         view.findViewById(R.id.cardGmail).setOnClickListener(this);
         view.findViewById(R.id.cardPhone).setOnClickListener(this);
@@ -48,7 +57,35 @@ public class LienHeFragment extends Fragment implements View.OnClickListener {
         view.findViewById(R.id.cardFacebook).setOnClickListener(this);
         view.findViewById(R.id.cardMessager).setOnClickListener(this);
 
+        imgGmail = (ImageView) view.findViewById(R.id.imgGmail);
+        imgGmail.setImageDrawable(getDrawable(PATH[0]));
+
+        imgCall = (ImageView) view.findViewById(R.id.imgCall);
+        imgCall.setImageDrawable(getDrawable(PATH[1]));
+
+        imgSms = (ImageView) view.findViewById(R.id.imgSms);
+        imgSms.setImageDrawable(getDrawable(PATH[2]));
+
+        imgGgplus = (ImageView) view.findViewById(R.id.imgGgplus);
+        imgGgplus.setImageDrawable(getDrawable(PATH[3]));
+
+        imgFacebook = (ImageView) view.findViewById(R.id.imgFacebook);
+        imgFacebook.setImageDrawable(getDrawable(PATH[4]));
+
+        imgMessager = (ImageView) view.findViewById(R.id.imgMessager);
+        imgMessager.setImageDrawable(getDrawable(PATH[5]));
         return view;
+    }
+
+    private Drawable getDrawable(String path) {
+        Drawable drawable = null;
+        try {
+            InputStream is = this.context.getAssets().open(path);
+            drawable = Drawable.createFromStream(is, null);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return drawable;
     }
 
     @Override

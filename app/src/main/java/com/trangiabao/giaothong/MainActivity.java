@@ -106,12 +106,12 @@ public class MainActivity extends AppCompatActivity {
                                 break;
 
                             case 6:
-                                setFragment(new ChiaSeFragment(MainActivity.this));
+                                setFragment(new ChiaSeFragment());
 
                                 break;
 
                             case 7:
-                                setFragment(new LienHeFragment(MainActivity.this));
+                                setFragment(new LienHeFragment());
                                 break;
                         }
                         toolbar.setTitle(((PrimaryDrawerItem) result.getDrawerItem(id)).getName() + "");

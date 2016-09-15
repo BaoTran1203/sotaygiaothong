@@ -1,6 +1,7 @@
 package com.trangiabao.giaothong.tracuu;
 
 
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
@@ -15,10 +16,10 @@ import java.util.List;
 public class TraCuuAdapter extends AbstractItem<TraCuuAdapter, TraCuuAdapter.ViewHolder> {
 
     private String title;
-    private int icon;
+    private Drawable icon;
 
 
-    public TraCuuAdapter(String title, int icon) {
+    public TraCuuAdapter(String title, Drawable icon) {
         this.title = title;
         this.icon = icon;
     }
@@ -27,17 +28,8 @@ public class TraCuuAdapter extends AbstractItem<TraCuuAdapter, TraCuuAdapter.Vie
         return title;
     }
 
-    public int getIcon() {
+    public Drawable getIcon() {
         return icon;
-    }
-
-    public static List<TraCuuAdapter> createStaticData() {
-        List<TraCuuAdapter> data = new ArrayList<>();
-        data.add(new TraCuuAdapter("Luật giao thông", R.drawable.ic_law));
-        data.add(new TraCuuAdapter("Biển báo", R.drawable.ic_sign));
-        data.add(new TraCuuAdapter("Các mức phạt", R.drawable.ic_home));
-        data.add(new TraCuuAdapter("Biển số xe", R.drawable.ic_home));
-        return data;
     }
 
     @Override
@@ -54,7 +46,7 @@ public class TraCuuAdapter extends AbstractItem<TraCuuAdapter, TraCuuAdapter.Vie
     public void bindView(ViewHolder viewHolder) {
         super.bindView(viewHolder);
         viewHolder.txtTitle.setText(getTitle());
-        viewHolder.imgIcon.setImageResource(getIcon());
+        viewHolder.imgIcon.setImageDrawable(getIcon());
     }
 
     protected static class ViewHolder extends RecyclerView.ViewHolder {
