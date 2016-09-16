@@ -8,6 +8,8 @@ import android.widget.TextView;
 import com.mikepenz.fastadapter.items.AbstractItem;
 import com.trangiabao.giaothong.R;
 
+import java.util.List;
+
 public class MucXuPhat extends AbstractItem<MucXuPhat, MucXuPhat.ViewHolder> {
 
     private int id;
@@ -53,8 +55,8 @@ public class MucXuPhat extends AbstractItem<MucXuPhat, MucXuPhat.ViewHolder> {
     }
 
     @Override
-    public void bindView(ViewHolder viewHolder) {
-        super.bindView(viewHolder);
+    public void bindView(ViewHolder viewHolder, List payloads) {
+        super.bindView(viewHolder, payloads);
         viewHolder.txtHanhVi.setText(Html.fromHtml(getHanhVi()));
         viewHolder.txtMucGia.setText(Html.fromHtml(getMucPhat()));
         viewHolder.txtPhatKhac.setText(Html.fromHtml(getXuPhatKhac()));

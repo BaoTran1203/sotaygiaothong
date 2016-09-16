@@ -12,6 +12,7 @@ import com.trangiabao.giaothong.R;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 public class VanBan extends AbstractItem<VanBan, VanBan.ViewHolder> {
 
@@ -65,8 +66,8 @@ public class VanBan extends AbstractItem<VanBan, VanBan.ViewHolder> {
     }
 
     @Override
-    public void bindView(ViewHolder viewHolder) {
-        super.bindView(viewHolder);
+    public void bindView(ViewHolder viewHolder, List payloads) {
+        super.bindView(viewHolder, payloads);
         viewHolder.txtTenVanBan.setText(getTenVanBan());
         viewHolder.txtMoTa.setText(getMoTa());
         try {

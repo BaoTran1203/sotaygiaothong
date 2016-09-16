@@ -43,8 +43,8 @@ public class SatHachAdapter extends AbstractItem<SatHachAdapter, SatHachAdapter.
     }
 
     @Override
-    public void bindView(ViewHolder viewHolder) {
-        super.bindView(viewHolder);
+    public void bindView(ViewHolder viewHolder, List payloads) {
+        super.bindView(viewHolder, payloads);
         viewHolder.txtTitle.setText(getTitle());
         viewHolder.imgIcon.setImageDrawable(getIcon());
     }

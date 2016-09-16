@@ -62,8 +62,8 @@ public class KiHieu extends AbstractItem<KiHieu, KiHieu.ViewHolder> {
     }
 
     @Override
-    public void bindView(ViewHolder viewHolder) {
-        super.bindView(viewHolder);
+    public void bindView(ViewHolder viewHolder, List payloads) {
+        super.bindView(viewHolder, payloads);
         viewHolder.txtTenKiHieu.setText(getTenKiHieu());
         viewHolder.txtKiHieu.setText(getKiHieu());
         String seri = "";

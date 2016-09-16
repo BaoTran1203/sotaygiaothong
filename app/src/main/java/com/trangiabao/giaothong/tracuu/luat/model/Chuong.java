@@ -9,6 +9,8 @@ import android.widget.TextView;
 import com.mikepenz.fastadapter.items.AbstractItem;
 import com.trangiabao.giaothong.R;
 
+import java.util.List;
+
 public class Chuong extends AbstractItem<Chuong, Chuong.ViewHolder> {
 
     private int id;
@@ -46,8 +48,8 @@ public class Chuong extends AbstractItem<Chuong, Chuong.ViewHolder> {
     }
 
     @Override
-    public void bindView(ViewHolder viewHolder) {
-        super.bindView(viewHolder);
+    public void bindView(ViewHolder viewHolder, List payloads) {
+        super.bindView(viewHolder, payloads);
 
         viewHolder.txtChuong.setText(getTenChuong());
 

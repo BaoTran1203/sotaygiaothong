@@ -14,6 +14,7 @@ import com.trangiabao.giaothong.R;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 public class BienBao extends AbstractItem<BienBao, BienBao.ViewHolder> {
 
@@ -66,8 +67,8 @@ public class BienBao extends AbstractItem<BienBao, BienBao.ViewHolder> {
     }
 
     @Override
-    public void bindView(ViewHolder viewHolder) {
-        super.bindView(viewHolder);
+    public void bindView(ViewHolder viewHolder, List payloads) {
+        super.bindView(viewHolder, payloads);
         viewHolder.txtMaBienBao.setText(Html.fromHtml("Mã: " + getMaBienBao()));
         viewHolder.txtTenBienBao.setText(Html.fromHtml(getTenBienBao()));
         viewHolder.txtNoiDungBienBao.setText(Html.fromHtml(getNoiDungBienBao()));
