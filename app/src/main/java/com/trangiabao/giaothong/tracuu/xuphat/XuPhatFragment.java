@@ -1,7 +1,6 @@
 package com.trangiabao.giaothong.tracuu.xuphat;
 
 import android.annotation.SuppressLint;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,7 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.OvershootInterpolator;
 import android.widget.Toast;
 
 import com.jaredrummler.materialspinner.MaterialSpinner;
@@ -19,8 +17,6 @@ import com.trangiabao.giaothong.tracuu.xuphat.db.LoaiViPhamDB;
 import com.trangiabao.giaothong.tracuu.xuphat.model.MucXuPhat;
 
 import java.util.List;
-
-import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter;
 
 @SuppressLint("ValidFragment")
 public class XuPhatFragment extends Fragment {
@@ -50,12 +46,7 @@ public class XuPhatFragment extends Fragment {
         adapter.setHasStableIds(true);
         adapter.withSelectable(true);
 
-        ScaleInAnimationAdapter animationAdapter = new ScaleInAnimationAdapter(adapter);
-        animationAdapter.setDuration(1500);
-        animationAdapter.setInterpolator(new OvershootInterpolator());
-        animationAdapter.setFirstOnly(false);
-
-        rvXuPhat.setAdapter(animationAdapter);
+        rvXuPhat.setAdapter(adapter);
         adapter.withSavedInstanceState(savedInstanceState);
 
         addEvents();

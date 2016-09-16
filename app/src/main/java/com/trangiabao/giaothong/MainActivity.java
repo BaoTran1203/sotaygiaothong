@@ -1,10 +1,10 @@
 package com.trangiabao.giaothong;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +23,7 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.util.DrawerUIUtils;
 import com.mikepenz.materialize.util.UIUtils;
 import com.trangiabao.giaothong.chiase.ChiaSeFragment;
+import com.trangiabao.giaothong.ex.DataProvider;
 import com.trangiabao.giaothong.gioithieu.GioiThieuFragment;
 import com.trangiabao.giaothong.lienhe.LienHeFragment;
 import com.trangiabao.giaothong.sathach.SatHachFragment;
@@ -107,7 +108,6 @@ public class MainActivity extends AppCompatActivity {
 
                             case 6:
                                 setFragment(new ChiaSeFragment());
-
                                 break;
 
                             case 7:

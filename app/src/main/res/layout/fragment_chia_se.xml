@@ -22,14 +22,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <EditText
-                android:id="@+id/txtSubject"
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@android:color/transparent"
-                android:hint="Tiêu đề..."
-                android:inputType="text" />
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp">
+
+                <EditText
+                    android:id="@+id/txtSubject"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="@android:color/transparent"
+                    android:hint="Tiêu đề"
+                    android:inputType="text" />
+            </android.support.design.widget.TextInputLayout>
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
@@ -37,15 +44,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <EditText
-                android:id="@+id/txtContent"
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:layout_margin="10dp"
-                android:background="@android:color/transparent"
-                android:gravity="top"
-                android:hint="Nội dung..."
-                android:inputType="text|textMultiLine" />
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp">
+
+                <EditText
+                    android:id="@+id/txtContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:layout_margin="10dp"
+                    android:background="@android:color/transparent"
+                    android:gravity="top"
+                    android:hint="Nội dung"
+                    android:inputType="text|textMultiLine" />
+            </android.support.design.widget.TextInputLayout>
         </android.support.v7.widget.CardView>
 
         <Button
@@ -56,6 +70,17 @@
             android:layout_marginRight="10dp"
             android:text="Gửi"
             android:theme="@style/ButtonStyle" />
+
+        <TextView
+            android:id="@+id/txtInternet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:text="*Bạn phải kết nối Internet"
+            android:textColor="@android:color/holo_red_dark"
+            android:textSize="20sp"
+            android:textStyle="italic" />
 
     </LinearLayout>
 </FrameLayout>

@@ -1,11 +1,11 @@
-package com.trangiabao.giaothong.sathach.db;
+package com.trangiabao.giaothong.sathach.cauhoi.db;
 
 import android.content.Context;
 import android.database.Cursor;
 
 
-import com.trangiabao.giaothong.AbstractDB;
-import com.trangiabao.giaothong.sathach.model.QuyTacRaDe;
+import com.trangiabao.giaothong.ex.AbstractDB;
+import com.trangiabao.giaothong.sathach.cauhoi.model.QuyTacRaDe;
 
 import java.util.ArrayList;
 

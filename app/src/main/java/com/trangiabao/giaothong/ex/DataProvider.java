@@ -1,4 +1,4 @@
-package com.trangiabao.giaothong;
+package com.trangiabao.giaothong.ex;
 
 import android.content.Context;
 

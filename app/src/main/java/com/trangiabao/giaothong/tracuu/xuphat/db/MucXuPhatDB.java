@@ -3,7 +3,7 @@ package com.trangiabao.giaothong.tracuu.xuphat.db;
 import android.content.Context;
 import android.database.Cursor;
 
-import com.trangiabao.giaothong.AbstractDB;
+import com.trangiabao.giaothong.ex.AbstractDB;
 import com.trangiabao.giaothong.tracuu.xuphat.model.MucXuPhat;
 
 import java.util.ArrayList;

@@ -3,7 +3,7 @@ package com.trangiabao.giaothong.tracuu.luat.db;
 import android.content.Context;
 import android.database.Cursor;
 
-import com.trangiabao.giaothong.AbstractDB;
+import com.trangiabao.giaothong.ex.AbstractDB;
 import com.trangiabao.giaothong.tracuu.luat.model.Dieu;
 
 import java.util.ArrayList;

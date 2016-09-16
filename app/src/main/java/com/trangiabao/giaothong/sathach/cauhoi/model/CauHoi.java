@@ -1,9 +1,9 @@
-package com.trangiabao.giaothong.sathach.model;
+package com.trangiabao.giaothong.sathach.cauhoi.model;
 
 import android.content.Context;
 
-import com.trangiabao.giaothong.sathach.db.CauTraLoiDB;
-import com.trangiabao.giaothong.sathach.db.HinhCauHoiDB;
+import com.trangiabao.giaothong.sathach.cauhoi.db.CauTraLoiDB;
+import com.trangiabao.giaothong.sathach.cauhoi.db.HinhCauHoiDB;
 
 import java.util.ArrayList;
 import java.util.List;

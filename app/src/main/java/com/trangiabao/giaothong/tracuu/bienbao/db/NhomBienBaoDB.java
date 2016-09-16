@@ -2,13 +2,11 @@ package com.trangiabao.giaothong.tracuu.bienbao.db;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.util.Log;
 
-import com.trangiabao.giaothong.AbstractDB;
+import com.trangiabao.giaothong.ex.AbstractDB;
 import com.trangiabao.giaothong.tracuu.bienbao.model.NhomBienBao;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class NhomBienBaoDB extends AbstractDB {
 

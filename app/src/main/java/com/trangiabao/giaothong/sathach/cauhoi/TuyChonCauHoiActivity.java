@@ -18,12 +18,12 @@ import android.widget.Toast;
 
 import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.trangiabao.giaothong.R;
-import com.trangiabao.giaothong.sathach.db.LoaiBangDB;
-import com.trangiabao.giaothong.sathach.db.NhomCauHoiDB;
-import com.trangiabao.giaothong.sathach.db.QuyTacRaDeDB;
-import com.trangiabao.giaothong.sathach.model.LoaiBang;
-import com.trangiabao.giaothong.sathach.model.NhomCauHoi;
-import com.trangiabao.giaothong.sathach.model.QuyTacRaDe;
+import com.trangiabao.giaothong.sathach.cauhoi.db.LoaiBangDB;
+import com.trangiabao.giaothong.sathach.cauhoi.db.NhomCauHoiDB;
+import com.trangiabao.giaothong.sathach.cauhoi.db.QuyTacRaDeDB;
+import com.trangiabao.giaothong.sathach.cauhoi.model.LoaiBang;
+import com.trangiabao.giaothong.sathach.cauhoi.model.NhomCauHoi;
+import com.trangiabao.giaothong.sathach.cauhoi.model.QuyTacRaDe;
 
 import java.util.ArrayList;
 import java.util.List;

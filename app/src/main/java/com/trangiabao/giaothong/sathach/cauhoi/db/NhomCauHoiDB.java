@@ -1,13 +1,12 @@
-package com.trangiabao.giaothong.sathach.db;
+package com.trangiabao.giaothong.sathach.cauhoi.db;
 
 import android.content.Context;
 import android.database.Cursor;
 
-import com.trangiabao.giaothong.AbstractDB;
-import com.trangiabao.giaothong.sathach.model.NhomCauHoi;
+import com.trangiabao.giaothong.ex.AbstractDB;
+import com.trangiabao.giaothong.sathach.cauhoi.model.NhomCauHoi;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class NhomCauHoiDB extends AbstractDB {
 

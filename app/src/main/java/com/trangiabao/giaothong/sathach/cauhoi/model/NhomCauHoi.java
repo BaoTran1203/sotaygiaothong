@@ -1,4 +1,4 @@
-package com.trangiabao.giaothong.sathach.model;
+package com.trangiabao.giaothong.sathach.cauhoi.model;
 
 public class NhomCauHoi {
 

@@ -8,7 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.trangiabao.giaothong.R;
-import com.trangiabao.giaothong.ViewPagerTransformer;
+import com.trangiabao.giaothong.ex.ViewPagerTransformer;
 import com.trangiabao.giaothong.tracuu.ViewPagerAdapter;
 import com.trangiabao.giaothong.tracuu.xuphat.db.LoaiViPhamDB;
 import com.trangiabao.giaothong.tracuu.xuphat.db.MucXuPhatDB;

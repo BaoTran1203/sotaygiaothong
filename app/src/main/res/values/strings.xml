@@ -21,6 +21,8 @@
     <string name="gioithieu8">Cẩm nang giao thông</string>
     <string name="gioithieu9">- Bổ sung kiến thức về giao thông\n- Các kỹ năng xử lý tình huống\n- Cập nhật tin tức</string>
     <string name="gioithieu10">Tiện ích của bạn</string>
+    <string name="truoc">Trước</string>
+    <string name="sau">Sau</string>
 
     <!-- TODO: Remove or change this placeholder text -->
 </resources>

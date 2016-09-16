@@ -26,10 +26,10 @@ import android.widget.ViewSwitcher;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.trangiabao.giaothong.R;
-import com.trangiabao.giaothong.sathach.db.CauHoiDB;
-import com.trangiabao.giaothong.sathach.model.CauHoi;
-import com.trangiabao.giaothong.sathach.model.CauTraLoi;
-import com.trangiabao.giaothong.sathach.model.HinhCauHoi;
+import com.trangiabao.giaothong.sathach.cauhoi.db.CauHoiDB;
+import com.trangiabao.giaothong.sathach.cauhoi.model.CauHoi;
+import com.trangiabao.giaothong.sathach.cauhoi.model.CauTraLoi;
+import com.trangiabao.giaothong.sathach.cauhoi.model.HinhCauHoi;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -75,9 +75,17 @@ public class CauHoiActivity extends AppCompatActivity {
 
     private void hienThiCauHoi(final int flag) {
         int soCauHoi = lstCauHoi.size();
-        btnTruoc.setEnabled(flag != 1);
-        btnSau.setEnabled(flag != soCauHoi);
+
+        if (flag == 1) {
+            btnTruoc.setVisibility(View.GONE);
+        } else if (flag == soCauHoi) {
+            btnSau.setVisibility(View.GONE);
+        } else {
+            btnTruoc.setVisibility(View.VISIBLE);
+            btnSau.setVisibility(View.VISIBLE);
+        }
         btnDapAn.setVisibility(View.VISIBLE);
+
         cauHoi = lstCauHoi.get(flag - 1);
         toolbar.setTitle("Câu " + flag + "/" + soCauHoi);
 

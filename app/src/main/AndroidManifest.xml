@@ -21,10 +21,10 @@
         <activity android:name=".sathach.cauhoi.TuyChonCauHoiActivity" />
         <activity android:name=".tracuu.luat.VanBanActivity" />
         <activity android:name=".tracuu.bienbao.BienBaoActivity" />
-        <activity android:name=".sathach.lambaithi.TuyChonBaiThiActivity" />
+        <activity android:name=".sathach.cauhoi.TuyChonBaiThiActivity" />
         <activity android:name=".tracuu.luat.NoiDungActivity" />
         <activity android:name=".sathach.cauhoi.CauHoiActivity" />
-        <activity android:name=".sathach.lambaithi.BaiThiActivity" />
+        <activity android:name=".sathach.cauhoi.BaiThiActivity" />
         <activity android:name=".tracuu.xuphat.XuPhatActivity" />
         <activity android:name=".tracuu.luat.ChuongActivity" />
         <activity android:name=".tracuu.biensoxe.BienSoXeActivity" />

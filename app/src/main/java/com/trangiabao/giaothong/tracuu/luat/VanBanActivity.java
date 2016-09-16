@@ -8,7 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.OvershootInterpolator;
 
 import com.mikepenz.fastadapter.FastAdapter;
 import com.mikepenz.fastadapter.IAdapter;
@@ -19,7 +18,6 @@ import com.trangiabao.giaothong.tracuu.luat.model.VanBan;
 
 import java.util.List;
 
-import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter;
 
 public class VanBanActivity extends AppCompatActivity {
 
@@ -58,12 +56,7 @@ public class VanBanActivity extends AppCompatActivity {
         adapter.setHasStableIds(true);
         adapter.withSelectable(true);
 
-        ScaleInAnimationAdapter animationAdapter = new ScaleInAnimationAdapter(adapter);
-        animationAdapter.setDuration(1000);
-        animationAdapter.setInterpolator(new OvershootInterpolator());
-        animationAdapter.setFirstOnly(false);
-
-        rvVanBan.setAdapter(animationAdapter);
+        rvVanBan.setAdapter(adapter);
         adapter.add(lstVanBan);
         adapter.withSavedInstanceState(savedInstanceState);
     }

@@ -1,4 +1,4 @@
-package com.trangiabao.giaothong;
+package com.trangiabao.giaothong.ex;
 
 import android.support.v4.view.ViewPager;
 import android.view.View;

@@ -6,11 +6,9 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.OvershootInterpolator;
 import android.widget.TextView;
 
 import com.bartoszlipinski.recyclerviewheader2.RecyclerViewHeader;
@@ -21,8 +19,6 @@ import com.trangiabao.giaothong.tracuu.bienbao.model.BienBao;
 import com.trangiabao.giaothong.tracuu.bienbao.model.NhomBienBao;
 
 import java.util.List;
-
-import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter;
 
 @SuppressLint("ValidFragment")
 public class BienBaoFragment extends Fragment {
@@ -55,12 +51,7 @@ public class BienBaoFragment extends Fragment {
         adapter.withSelectable(true);
         adapter.add(this.lstBienBao);
 
-        ScaleInAnimationAdapter animationAdapter = new ScaleInAnimationAdapter(adapter);
-        animationAdapter.setDuration(1500);
-        animationAdapter.setInterpolator(new OvershootInterpolator());
-        animationAdapter.setFirstOnly(false);
-
-        rvBienBao.setAdapter(animationAdapter);
+        rvBienBao.setAdapter(adapter);
         adapter.withSavedInstanceState(savedInstanceState);
 
         TextView txtMoTa = (TextView) view.findViewById(R.id.txtMoTa);

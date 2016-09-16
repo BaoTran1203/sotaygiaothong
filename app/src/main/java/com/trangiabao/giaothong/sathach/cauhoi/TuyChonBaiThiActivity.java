@@ -1,4 +1,4 @@
-package com.trangiabao.giaothong.sathach.lambaithi;
+package com.trangiabao.giaothong.sathach.cauhoi;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,10 +12,9 @@ import android.widget.TextView;
 
 import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.trangiabao.giaothong.R;
-import com.trangiabao.giaothong.sathach.db.LoaiBangDB;
-import com.trangiabao.giaothong.sathach.model.LoaiBang;
+import com.trangiabao.giaothong.sathach.cauhoi.db.LoaiBangDB;
+import com.trangiabao.giaothong.sathach.cauhoi.model.LoaiBang;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class TuyChonBaiThiActivity extends AppCompatActivity {

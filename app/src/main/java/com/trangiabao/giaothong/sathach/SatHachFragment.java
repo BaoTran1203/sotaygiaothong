@@ -10,14 +10,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.mikepenz.fastadapter.FastAdapter;
 import com.mikepenz.fastadapter.IAdapter;
 import com.mikepenz.fastadapter.adapters.FastItemAdapter;
 import com.trangiabao.giaothong.R;
 import com.trangiabao.giaothong.sathach.cauhoi.TuyChonCauHoiActivity;
-import com.trangiabao.giaothong.sathach.lambaithi.TuyChonBaiThiActivity;
-import com.trangiabao.giaothong.tracuu.TraCuuAdapter;
+import com.trangiabao.giaothong.sathach.cauhoi.TuyChonBaiThiActivity;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -32,7 +32,6 @@ public class SatHachFragment extends Fragment {
 
     public SatHachFragment() {
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -50,7 +49,6 @@ public class SatHachFragment extends Fragment {
 
         rvSatHach.setAdapter(adapter);
         adapter.add(createList());
-        adapter.withSavedInstanceState(savedInstanceState);
 
         addEvents();
         return view;
@@ -87,19 +85,15 @@ public class SatHachFragment extends Fragment {
                     case 1:
                         startActivity(new Intent(getActivity(), TuyChonBaiThiActivity.class));
                         break;
-                    default:
+                    case 2:
+                        Toast.makeText(context, "Chờ cập nhật", Toast.LENGTH_SHORT).show();
+                        break;
+                    case 3:
+                        Toast.makeText(context, "Chờ cập nhật", Toast.LENGTH_SHORT).show();
                         break;
                 }
                 return false;
             }
         });
     }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        outState = adapter.saveInstanceState(outState);
-        super.onSaveInstanceState(outState);
-    }
-
-
 }

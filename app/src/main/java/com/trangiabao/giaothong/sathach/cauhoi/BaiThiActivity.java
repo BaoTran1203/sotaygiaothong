@@ -1,4 +1,4 @@
-package com.trangiabao.giaothong.sathach.lambaithi;
+package com.trangiabao.giaothong.sathach.cauhoi;
 
 import android.annotation.SuppressLint;
 import android.graphics.Typeface;
@@ -28,15 +28,15 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.trangiabao.giaothong.R;
-import com.trangiabao.giaothong.sathach.db.CauHoiDB;
-import com.trangiabao.giaothong.sathach.db.LoaiBangDB;
-import com.trangiabao.giaothong.sathach.db.NhomCauHoiDB;
-import com.trangiabao.giaothong.sathach.db.QuyTacRaDeDB;
-import com.trangiabao.giaothong.sathach.model.CauHoi;
-import com.trangiabao.giaothong.sathach.model.CauTraLoi;
-import com.trangiabao.giaothong.sathach.model.HinhCauHoi;
-import com.trangiabao.giaothong.sathach.model.LoaiBang;
-import com.trangiabao.giaothong.sathach.model.NhomCauHoi;
+import com.trangiabao.giaothong.sathach.cauhoi.db.CauHoiDB;
+import com.trangiabao.giaothong.sathach.cauhoi.db.LoaiBangDB;
+import com.trangiabao.giaothong.sathach.cauhoi.db.NhomCauHoiDB;
+import com.trangiabao.giaothong.sathach.cauhoi.db.QuyTacRaDeDB;
+import com.trangiabao.giaothong.sathach.cauhoi.model.CauHoi;
+import com.trangiabao.giaothong.sathach.cauhoi.model.CauTraLoi;
+import com.trangiabao.giaothong.sathach.cauhoi.model.HinhCauHoi;
+import com.trangiabao.giaothong.sathach.cauhoi.model.LoaiBang;
+import com.trangiabao.giaothong.sathach.cauhoi.model.NhomCauHoi;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -260,8 +260,15 @@ public class BaiThiActivity extends AppCompatActivity {
 
     private void hienThiCauHoi(int flag) {
         int soCauHoi = lstCauHoi.size();
-        btnTruoc.setEnabled(flag != 1);
-        btnSau.setEnabled(flag != soCauHoi);
+
+        if (flag == 1) {
+            btnTruoc.setVisibility(View.GONE);
+        } else if (flag == soCauHoi) {
+            btnSau.setVisibility(View.GONE);
+        } else {
+            btnTruoc.setVisibility(View.VISIBLE);
+            btnSau.setVisibility(View.VISIBLE);
+        }
 
         cauHoi = lstCauHoi.get(flag - 1);
         toolbar.setTitle("Câu " + flag + "/" + soCauHoi);

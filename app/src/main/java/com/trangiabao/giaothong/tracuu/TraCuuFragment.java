@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +15,6 @@ import com.mikepenz.fastadapter.FastAdapter;
 import com.mikepenz.fastadapter.IAdapter;
 import com.mikepenz.fastadapter.adapters.FastItemAdapter;
 import com.trangiabao.giaothong.R;
-import com.trangiabao.giaothong.sathach.SatHachAdapter;
 import com.trangiabao.giaothong.tracuu.bienbao.BienBaoActivity;
 import com.trangiabao.giaothong.tracuu.biensoxe.BienSoXeActivity;
 import com.trangiabao.giaothong.tracuu.luat.VanBanActivity;
@@ -26,7 +24,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-
 
 public class TraCuuFragment extends Fragment {
 
@@ -53,7 +50,6 @@ public class TraCuuFragment extends Fragment {
 
         rvTraCuu.setAdapter(adapter);
         adapter.add(createList());
-        adapter.withSavedInstanceState(savedInstanceState);
 
         addEvents();
         return view;
@@ -100,11 +96,5 @@ public class TraCuuFragment extends Fragment {
                 return false;
             }
         });
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        outState = adapter.saveInstanceState(outState);
-        super.onSaveInstanceState(outState);
     }
 }
