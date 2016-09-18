@@ -1,6 +1,7 @@
 package com.trangiabao.giaothong.tracuu.bienbao;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -23,6 +24,7 @@ import java.util.List;
 @SuppressLint("ValidFragment")
 public class BienBaoFragment extends Fragment {
 
+    private Context context;
     private List<BienBao> lstBienBao;
     private NhomBienBao nhomBienBao;
     private FastItemAdapter<BienBao> adapter;
@@ -39,26 +41,22 @@ public class BienBaoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_bien_bao, container, false);
-
+        context = getActivity();
         rvBienBao = (RecyclerView) view.findViewById(R.id.rvBienBao);
-        rvBienBao.setLayoutManager(new LinearLayoutManager(getActivity()));
-
         RecyclerViewHeader rvHeader = (RecyclerViewHeader) view.findViewById(R.id.rvHeader);
-        rvHeader.attachTo(rvBienBao);
+        TextView txtMoTa = (TextView) view.findViewById(R.id.txtMoTa);
+        fab = (FloatingActionButton) view.findViewById(R.id.fab);
 
         adapter = new FastItemAdapter<>();
         adapter.setHasStableIds(true);
         adapter.withSelectable(true);
-        adapter.add(this.lstBienBao);
+        adapter.add(lstBienBao);
 
+        rvBienBao.setLayoutManager(new LinearLayoutManager(context));
+        rvHeader.attachTo(rvBienBao);
         rvBienBao.setAdapter(adapter);
-        adapter.withSavedInstanceState(savedInstanceState);
-
-        TextView txtMoTa = (TextView) view.findViewById(R.id.txtMoTa);
-        txtMoTa.setText(Html.fromHtml(nhomBienBao.getMoTa()));
-
-        fab = (FloatingActionButton) view.findViewById(R.id.fab);
         fab.attachToRecyclerView(rvBienBao);
+        txtMoTa.setText(Html.fromHtml(nhomBienBao.getMoTa()));
 
         addEvents();
         return view;
@@ -88,11 +86,5 @@ public class BienBaoFragment extends Fragment {
                 rvBienBao.smoothScrollToPosition(0);
             }
         });
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        outState = adapter.saveInstanceState(outState);
-        super.onSaveInstanceState(outState);
     }
 }

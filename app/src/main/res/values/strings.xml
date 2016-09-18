@@ -1,16 +1,6 @@
 <resources>
     <string name="app_name">Sổ tay giao thông</string>
 
-    <string-array name="huongdan">
-        <item>1) Thời gian làm bài sẽ đếm ngược hiển thị trên góc phải màn hình</item>
-        <item>2) Vuốt sang phải hoặc sang trái để chuyển câu hỏi, hoặc nhấn vào nút dưới góc phải màn hình</item>
-        <item>3) Bấm vào kí hiệu dưới góc trái sẽ tạm dừng bài thi và hiển thị danh sách câu hỏi</item>
-        <item>4) Nếu thoát chương trình, bài thi sẽ tạm dừng</item>
-        <item>5) Nếu bấm quay về màn hình trước bài thi sẽ bị hủy và không thể tiếp tục</item>
-        <item>6) Sau khi hết giờ làm bài sẽ tự động hiển thị kết quả trên màn hình</item>
-        <item>7) Nếu nộp bài sớm trước khi hết giờ sẽ không thể tiếp tục</item>
-    </string-array>
-
     <string name="gioithieu1">Ứng dụng sổ tay giao thông</string>
     <string name="gioithieu2">Ôn tập các câu hỏi sát hạch lái xe</string>
     <string name="gioithieu3">- Câu hỏi được phân loại \n- Dễ dàng ôn tập \n- Giải thích đầy đủ</string>
@@ -23,6 +13,19 @@
     <string name="gioithieu10">Tiện ích của bạn</string>
     <string name="truoc">Trước</string>
     <string name="sau">Sau</string>
+    <string name="skype">Skype</string>
+    <string name="facebook">Facebook</string>
+    <string name="phone">+84 120 683 6908</string>
+    <string name="gmail">trangiabao1203@gmail.com</string>
+    <string name="name">Trần Gia Bảo</string>
+    <string name="android_developer">Android Developer</string>
+    <string name="hang_bang">Hạng bằng</string>
+    <string name="nhom_cau_hoi">Nhóm câu hỏi</string>
+    <string name="sap_xep">Sắp xếp</string>
+    <string name="bat_dau">Bắt đầu ôn thi</string>
+    <string name="ngau_nhien">Ngẫu nhiên</string>
+    <string name="theo_thu_tu">Theo thứ tự</string>
+    <string name="tat_ca">Tất cả</string>
+    <string name="lam_bai">Chuyển đến trang làm bài</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
 </resources>

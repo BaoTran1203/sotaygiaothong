@@ -1,5 +1,6 @@
 package com.trangiabao.giaothong.sathach.cauhoi;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
@@ -38,18 +39,17 @@ import java.util.List;
 
 public class CauHoiActivity extends AppCompatActivity {
 
+    private Context context = CauHoiActivity.this;
+
     private GestureDetector gestureDetector;
     private Toolbar toolbar;
     private ViewGroup container;
-    private TextView txtCauHoi;
     private TextSwitcher txtGiaiThich;
     private Button btnDapAn, btnTruoc, btnSau;
 
-    private int flag = 1;
+    private int index = 1;
     private List<CauHoi> lstCauHoi = new ArrayList<>();
     private CauHoi cauHoi;
-    private List<CauTraLoi> lstCauTraLoi;
-    private List<HinhCauHoi> lstHinhCauHoi;
     private ArrayList<AppCompatCheckBox> lstCheckBoxCauTraLoi;
 
     @Override
@@ -75,6 +75,7 @@ public class CauHoiActivity extends AppCompatActivity {
 
     private void hienThiCauHoi(final int flag) {
         int soCauHoi = lstCauHoi.size();
+        cauHoi = lstCauHoi.get(flag - 1);
 
         if (flag == 1) {
             btnTruoc.setVisibility(View.GONE);
@@ -86,19 +87,17 @@ public class CauHoiActivity extends AppCompatActivity {
         }
         btnDapAn.setVisibility(View.VISIBLE);
 
-        cauHoi = lstCauHoi.get(flag - 1);
         toolbar.setTitle("Câu " + flag + "/" + soCauHoi);
-
-        txtCauHoi = new TextView(CauHoiActivity.this);
+        TextView txtCauHoi = new TextView(context);
         txtCauHoi.setLayoutParams(new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT));
         txtCauHoi.setTypeface(txtCauHoi.getTypeface(), Typeface.BOLD);
         txtCauHoi.setText("Câu " + flag + ": " + cauHoi.getCauHoi());
 
-        lstHinhCauHoi = cauHoi.getLstHinhCauHoi();
+        List<HinhCauHoi> lstHinhCauHoi = cauHoi.getLstHinhCauHoi();
         int soHinh = lstHinhCauHoi.size();
-        LinearLayout layoutImage = new LinearLayout(CauHoiActivity.this);
+        LinearLayout layoutImage = new LinearLayout(context);
         layoutImage.setLayoutParams(new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT));
@@ -125,15 +124,15 @@ public class CauHoiActivity extends AppCompatActivity {
             layoutImage.addView(img);
         }
 
-        lstCauTraLoi = cauHoi.getLstCauTraLoi();
-        LinearLayout layoutCauTraLoi = new LinearLayout(CauHoiActivity.this);
+        List<CauTraLoi> lstCauTraLoi = cauHoi.getLstCauTraLoi();
+        LinearLayout layoutCauTraLoi = new LinearLayout(context);
         layoutCauTraLoi.setLayoutParams(new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT));
         layoutCauTraLoi.setOrientation(LinearLayout.VERTICAL);
         lstCheckBoxCauTraLoi = new ArrayList<>();
         for (CauTraLoi cauTraLoi : lstCauTraLoi) {
-            AppCompatCheckBox chk = new AppCompatCheckBox(CauHoiActivity.this);
+            AppCompatCheckBox chk = new AppCompatCheckBox(context);
             chk.setText(cauTraLoi.getCauTraLoi());
             chk.setGravity(Gravity.TOP);
             int padding = getDip(5);
@@ -142,14 +141,14 @@ public class CauHoiActivity extends AppCompatActivity {
             layoutCauTraLoi.addView(chk);
         }
 
-        txtGiaiThich = new TextSwitcher(CauHoiActivity.this);
+        txtGiaiThich = new TextSwitcher(context);
         txtGiaiThich.setLayoutParams(new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT));
         txtGiaiThich.setFactory(new ViewSwitcher.ViewFactory() {
             @Override
             public View makeView() {
-                return new TextView(CauHoiActivity.this);
+                return new TextView(context);
             }
         });
 
@@ -157,7 +156,6 @@ public class CauHoiActivity extends AppCompatActivity {
         container.addView(txtCauHoi);
         container.addView(layoutImage);
         container.addView(layoutCauTraLoi);
-        container.removeView(btnDapAn);
         container.addView(btnDapAn);
         container.addView(txtGiaiThich);
 
@@ -168,6 +166,7 @@ public class CauHoiActivity extends AppCompatActivity {
         btnDapAn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                List<CauTraLoi> lstCauTraLoi = cauHoi.getLstCauTraLoi();
                 for (int i = 0; i < lstCauTraLoi.size(); i++) {
                     if (lstCauTraLoi.get(i).isDapAn()) {
                         lstCheckBoxCauTraLoi.get(i).setTextColor(Color.BLUE);
@@ -202,23 +201,23 @@ public class CauHoiActivity extends AppCompatActivity {
     }
 
     private void luuTrangThai() {
-        for (int i = 0; i < lstCauTraLoi.size(); i++) {
+        for (int i = 0; i < lstCheckBoxCauTraLoi.size(); i++) {
             boolean isChecked = lstCheckBoxCauTraLoi.get(i).isChecked();
-            lstCauHoi.get(flag - 1).getLstCauTraLoi().get(i).setChecked(isChecked);
+            cauHoi.getLstCauTraLoi().get(i).setChecked(isChecked);
         }
     }
 
     private void truoc() {
-        if (flag - 1 > 0) {
+        if (index - 1 > 0) {
             luuTrangThai();
-            hienThiCauHoi(--flag);
+            hienThiCauHoi(--index);
         }
     }
 
     private void sau() {
-        if (flag + 1 <= lstCauHoi.size()) {
+        if (index + 1 <= lstCauHoi.size()) {
             luuTrangThai();
-            hienThiCauHoi(++flag);
+            hienThiCauHoi(++index);
         }
     }
 
@@ -226,18 +225,14 @@ public class CauHoiActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == android.R.id.home) {
-            finish();
+            super.onBackPressed();
         }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
-        if (gestureDetector != null) {
-            if (gestureDetector.onTouchEvent(ev))
-                return true;
-        }
-        return super.dispatchTouchEvent(ev);
+        return gestureDetector != null && gestureDetector.onTouchEvent(ev) || super.dispatchTouchEvent(ev);
     }
 
     @Override
@@ -273,7 +268,7 @@ public class CauHoiActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            dialog = new MaterialDialog.Builder(CauHoiActivity.this)
+            dialog = new MaterialDialog.Builder(context)
                     .title("Đang tải dữ liệu...")
                     .customView(R.layout.custom_dialog_loading, true)
                     .show();
@@ -283,13 +278,13 @@ public class CauHoiActivity extends AppCompatActivity {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             dialog.dismiss();
-            hienThiCauHoi(flag);
+            hienThiCauHoi(index);
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
             String query = getIntent().getExtras().getString("QUERY");
-            lstCauHoi = new CauHoiDB(CauHoiActivity.this).getCauHoi(query);
+            lstCauHoi = new CauHoiDB(context).getCauHoi(query);
             return null;
         }
     }

@@ -1,6 +1,5 @@
 package com.trangiabao.giaothong.tracuu;
 
-
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -10,14 +9,12 @@ import android.widget.TextView;
 import com.mikepenz.fastadapter.items.AbstractItem;
 import com.trangiabao.giaothong.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class TraCuuAdapter extends AbstractItem<TraCuuAdapter, TraCuuAdapter.ViewHolder> {
 
     private String title;
     private Drawable icon;
-
 
     public TraCuuAdapter(String title, Drawable icon) {
         this.title = title;

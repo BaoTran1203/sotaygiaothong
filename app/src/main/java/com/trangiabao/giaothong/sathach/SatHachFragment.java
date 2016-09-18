@@ -30,6 +30,13 @@ public class SatHachFragment extends Fragment {
     private RecyclerView rvSatHach;
     private Context context;
 
+    private static final String[] PATH = {
+            "image/icon/ic_cau_hoi.png",
+            "image/icon/ic_lam_bai_thi.png",
+            "image/icon/ic_sa_hinh.png",
+            "image/icon/ic_meo.png"
+    };
+
     public SatHachFragment() {
     }
 
@@ -37,7 +44,7 @@ public class SatHachFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_sat_hach, container, false);
-        this.context = getActivity();
+        context = getActivity();
 
         rvSatHach = (RecyclerView) view.findViewById(R.id.rvSatHach);
         rvSatHach.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -56,17 +63,17 @@ public class SatHachFragment extends Fragment {
 
     private List<SatHachAdapter> createList() {
         List<SatHachAdapter> data = new ArrayList<>();
-        data.add(new SatHachAdapter("Ngân hàng câu hỏi", getDrawable("image/icon/ic_cau_hoi.png")));
-        data.add(new SatHachAdapter("Làm bài thi", getDrawable("image/icon/ic_lam_bai_thi.png")));
-        data.add(new SatHachAdapter("Bài thi sa hình", getDrawable("image/icon/ic_sa_hinh.png")));
-        data.add(new SatHachAdapter("Mẹo ghi nhớ", getDrawable("image/icon/ic_meo.png")));
+        data.add(new SatHachAdapter("Ngân hàng câu hỏi", getDrawable(PATH[0])));
+        data.add(new SatHachAdapter("Làm bài thi", getDrawable(PATH[1])));
+        data.add(new SatHachAdapter("Bài thi sa hình", getDrawable(PATH[2])));
+        data.add(new SatHachAdapter("Mẹo ghi nhớ", getDrawable(PATH[3])));
         return data;
     }
 
     private Drawable getDrawable(String path) {
         Drawable drawable = null;
         try {
-            InputStream is = this.context.getAssets().open(path);
+            InputStream is = context.getAssets().open(path);
             drawable = Drawable.createFromStream(is, null);
         } catch (IOException e) {
             e.printStackTrace();

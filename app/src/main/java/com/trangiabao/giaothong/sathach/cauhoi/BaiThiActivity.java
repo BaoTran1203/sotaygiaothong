@@ -1,6 +1,7 @@
 package com.trangiabao.giaothong.sathach.cauhoi;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
@@ -47,6 +48,8 @@ import java.util.concurrent.TimeUnit;
 
 public class BaiThiActivity extends AppCompatActivity {
 
+    private Context context = BaiThiActivity.this;
+
     private GestureDetector gestureDetector;
     private Toolbar toolbar;
     private ViewGroup container;
@@ -57,11 +60,9 @@ public class BaiThiActivity extends AppCompatActivity {
     private ImageView imgTamDung;
     private CountDown countDown;
 
-    private int flag = 1;
+    private int index = 1;
     private List<CauHoi> lstCauHoi;
     private CauHoi cauHoi;
-    private List<CauTraLoi> lstCauTraLoi;
-    private List<HinhCauHoi> lstHinhCauHoi;
     private ArrayList<AppCompatCheckBox> lstCheckBoxCauTraLoi;
     private LoaiBang loaiBang;
 
@@ -81,7 +82,6 @@ public class BaiThiActivity extends AppCompatActivity {
 
         gestureDetector = new GestureDetector(new SwipeDetector());
         container = (ViewGroup) findViewById(R.id.container);
-
         btnTruoc = (Button) findViewById(R.id.btnTruoc);
         btnSau = (Button) findViewById(R.id.btnSau);
         imgMucLuc = (ImageButton) findViewById(R.id.imgMucLuc);
@@ -89,44 +89,110 @@ public class BaiThiActivity extends AppCompatActivity {
         txtThoiGian = (TextView) findViewById(R.id.txtThoiGian);
     }
 
-    private void addEvents() {
-        container.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
-            @Override
-            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-                luuTrangThai();
-            }
-        });
+    private void hienThiCauHoi(int flag) {
+        int soCauHoi = lstCauHoi.size();
+        cauHoi = lstCauHoi.get(flag - 1);
 
+        if (flag == 1) {
+            btnTruoc.setVisibility(View.GONE);
+        } else if (flag == soCauHoi) {
+            btnSau.setVisibility(View.GONE);
+        } else {
+            btnTruoc.setVisibility(View.VISIBLE);
+            btnSau.setVisibility(View.VISIBLE);
+        }
+
+        toolbar.setTitle("Câu " + flag + "/" + soCauHoi);
+        TextView txtCauHoi = new TextView(context);
+        txtCauHoi.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT));
+        txtCauHoi.setTypeface(txtCauHoi.getTypeface(), Typeface.BOLD);
+        txtCauHoi.setText("Câu " + flag + ": " + cauHoi.getCauHoi());
+
+        List<HinhCauHoi> lstHinhCauHoi = cauHoi.getLstHinhCauHoi();
+        int soHinh = lstHinhCauHoi.size();
+        LinearLayout layoutImage = new LinearLayout(context);
+        layoutImage.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT));
+        layoutImage.setOrientation(LinearLayout.HORIZONTAL);
+        layoutImage.setWeightSum(soHinh);
+        int width = soHinh == 1 ? LinearLayout.LayoutParams.MATCH_PARENT : getDip(100);
+        int height = soHinh == 1 ? getDip(200) : getDip(100);
+        int margin = getDip(5);
+        for (int i = 0; i < soHinh; i++) {
+            Drawable drawable = null;
+            try {
+                InputStream is = getAssets().open(lstHinhCauHoi.get(i).getHinh());
+                drawable = Drawable.createFromStream(is, null);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            ImageView img = new ImageView(this);
+            LinearLayout.LayoutParams imageParams = new LinearLayout.LayoutParams(width, height, 1f);
+            imageParams.gravity = Gravity.CENTER;
+            imageParams.setMargins(margin, margin, margin, margin);
+            img.setLayoutParams(imageParams);
+            img.setImageDrawable(drawable);
+            img.requestLayout();
+            layoutImage.addView(img);
+        }
+
+        List<CauTraLoi> lstCauTraLoi = cauHoi.getLstCauTraLoi();
+        LinearLayout layoutCauTraLoi = new LinearLayout(context);
+        layoutCauTraLoi.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT));
+        layoutCauTraLoi.setOrientation(LinearLayout.VERTICAL);
+        lstCheckBoxCauTraLoi = new ArrayList<>();
+        for (CauTraLoi cauTraLoi : lstCauTraLoi) {
+            AppCompatCheckBox chk = new AppCompatCheckBox(context);
+            chk.setText(cauTraLoi.getCauTraLoi());
+            chk.setGravity(Gravity.TOP);
+            int padding = getDip(5);
+            chk.setPadding(padding, padding, padding, padding);
+            chk.setChecked(cauTraLoi.isChecked());
+            lstCheckBoxCauTraLoi.add(chk);
+            layoutCauTraLoi.addView(chk);
+        }
+
+        container.removeAllViews();
+        container.addView(txtCauHoi);
+        container.addView(layoutImage);
+        container.addView(layoutCauTraLoi);
+
+        addEvents();
+    }
+
+    private void addEvents() {
         btnTruoc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                previous();
+                truoc();
             }
         });
 
         btnSau.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                next();
+                sau();
             }
         });
 
         imgMucLuc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                for (int i = 0; i < lstCauTraLoi.size(); i++) {
-                    boolean isChecked = lstCheckBoxCauTraLoi.get(i).isChecked();
-                    lstCauHoi.get(flag - 1).getLstCauTraLoi().get(i).setChecked(isChecked);
-                }
+                luuTrangThai();
                 List<String> lst = createStaticData();
-                new MaterialDialog.Builder(BaiThiActivity.this)
+                new MaterialDialog.Builder(context)
                         .title("Danh sách câu hỏi")
                         .items(lst)
                         .itemsCallback(new MaterialDialog.ListCallback() {
                             @Override
                             public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
-                                flag = position + 1;
-                                hienThiCauHoi(flag);
+                                index = position + 1;
+                                hienThiCauHoi(index);
                                 dialog.dismiss();
                                 countDown.resume();
                             }
@@ -148,11 +214,9 @@ public class BaiThiActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 countDown.pause();
-                new MaterialDialog.Builder(BaiThiActivity.this)
+                new MaterialDialog.Builder(context)
                         .customView(R.layout.custom_dialog_pause, true)
-                        .autoDismiss(false)
-                        .cancelable(false)
-                        .canceledOnTouchOutside(false)
+                        .autoDismiss(false).cancelable(false).canceledOnTouchOutside(false)
                         .positiveText("Tiếp tục")
                         .onPositive(new MaterialDialog.SingleButtonCallback() {
                             @Override
@@ -166,15 +230,29 @@ public class BaiThiActivity extends AppCompatActivity {
         });
     }
 
+    private void truoc() {
+        if (index - 1 > 0) {
+            luuTrangThai();
+            hienThiCauHoi(--index);
+        }
+    }
+
+    private void sau() {
+        if (index + 1 <= lstCauHoi.size()) {
+            luuTrangThai();
+            hienThiCauHoi(++index);
+        }
+    }
+
     private void luuTrangThai() {
-        for (int i = 0; i < lstCauTraLoi.size(); i++) {
+        for (int i = 0; i < lstCheckBoxCauTraLoi.size(); i++) {
             boolean isChecked = lstCheckBoxCauTraLoi.get(i).isChecked();
-            lstCauHoi.get(flag - 1).getLstCauTraLoi().get(i).setChecked(isChecked);
+            cauHoi.getLstCauTraLoi().get(i).setChecked(isChecked);
         }
     }
 
     private void tinhDiem() {
-        new MaterialDialog.Builder(BaiThiActivity.this)
+        new MaterialDialog.Builder(context)
                 .title("Bạn có chắc muốn kết thúc ?")
                 .content("Sau khi kết thúc bạn không thể quay lại trang làm bài.")
                 .positiveText("Đồng ý")
@@ -202,7 +280,7 @@ public class BaiThiActivity extends AppCompatActivity {
                         if (soCauDung >= loaiBang.getSoCauDatYeuCau())
                             content += "Đạt";
                         else content += "Chưa đạt";
-                        new MaterialDialog.Builder(BaiThiActivity.this)
+                        new MaterialDialog.Builder(context)
                                 .title("Kết quả")
                                 .content(content)
                                 .negativeText("Quay về trang trước")
@@ -258,117 +336,22 @@ public class BaiThiActivity extends AppCompatActivity {
         return true;
     }
 
-    private void hienThiCauHoi(int flag) {
-        int soCauHoi = lstCauHoi.size();
-
-        if (flag == 1) {
-            btnTruoc.setVisibility(View.GONE);
-        } else if (flag == soCauHoi) {
-            btnSau.setVisibility(View.GONE);
-        } else {
-            btnTruoc.setVisibility(View.VISIBLE);
-            btnSau.setVisibility(View.VISIBLE);
-        }
-
-        cauHoi = lstCauHoi.get(flag - 1);
-        toolbar.setTitle("Câu " + flag + "/" + soCauHoi);
-
-        txtCauHoi = new TextView(BaiThiActivity.this);
-        txtCauHoi.setLayoutParams(new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT));
-        txtCauHoi.setTypeface(txtCauHoi.getTypeface(), Typeface.BOLD);
-        txtCauHoi.setText("Câu " + flag + ": " + cauHoi.getCauHoi());
-
-        lstHinhCauHoi = cauHoi.getLstHinhCauHoi();
-        int soHinh = lstHinhCauHoi.size();
-        LinearLayout layoutImage = new LinearLayout(BaiThiActivity.this);
-        layoutImage.setLayoutParams(new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT));
-        layoutImage.setOrientation(LinearLayout.HORIZONTAL);
-        layoutImage.setWeightSum(soHinh);
-        int width = soHinh == 1 ? LinearLayout.LayoutParams.MATCH_PARENT : getDip(100);
-        int height = soHinh == 1 ? getDip(200) : getDip(100);
-        int margin = getDip(5);
-        for (int i = 0; i < soHinh; i++) {
-            Drawable drawable = null;
-            try {
-                InputStream is = getAssets().open(lstHinhCauHoi.get(i).getHinh());
-                drawable = Drawable.createFromStream(is, null);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            ImageView img = new ImageView(this);
-            LinearLayout.LayoutParams imageParams = new LinearLayout.LayoutParams(width, height, 1f);
-            imageParams.gravity = Gravity.CENTER;
-            imageParams.setMargins(margin, margin, margin, margin);
-            img.setLayoutParams(imageParams);
-            img.setImageDrawable(drawable);
-            img.requestLayout();
-            layoutImage.addView(img);
-        }
-
-        lstCauTraLoi = cauHoi.getLstCauTraLoi();
-        LinearLayout layoutCauTraLoi = new LinearLayout(BaiThiActivity.this);
-        layoutCauTraLoi.setLayoutParams(new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT));
-        layoutCauTraLoi.setOrientation(LinearLayout.VERTICAL);
-        lstCheckBoxCauTraLoi = new ArrayList<>();
-        for (CauTraLoi cauTraLoi : lstCauTraLoi) {
-            AppCompatCheckBox chk = new AppCompatCheckBox(BaiThiActivity.this);
-            chk.setText(cauTraLoi.getCauTraLoi());
-            chk.setGravity(Gravity.TOP);
-            int padding = getDip(5);
-            chk.setPadding(padding, padding, padding, padding);
-            chk.setChecked(cauTraLoi.isChecked());
-            lstCheckBoxCauTraLoi.add(chk);
-            layoutCauTraLoi.addView(chk);
-        }
-
-        container.removeAllViews();
-        container.addView(txtCauHoi);
-        container.addView(layoutImage);
-        container.addView(layoutCauTraLoi);
-
-        addEvents();
-    }
-
     private int getDip(int pixel) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, pixel, getResources().getDisplayMetrics());
-    }
-
-    private void previous() {
-        if (flag - 1 > 0) {
-            luuTrangThai();
-            hienThiCauHoi(--flag);
-        }
-    }
-
-    private void next() {
-        if (flag + 1 <= lstCauHoi.size()) {
-            luuTrangThai();
-            hienThiCauHoi(++flag);
-        }
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == android.R.id.home) {
-            finish();
+            super.onBackPressed();
         }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
-        if (gestureDetector != null) {
-            if (gestureDetector.onTouchEvent(ev))
-                return true;
-        }
-        return super.dispatchTouchEvent(ev);
+        return gestureDetector != null && gestureDetector.onTouchEvent(ev) || super.dispatchTouchEvent(ev);
     }
 
     @Override
@@ -387,10 +370,10 @@ public class BaiThiActivity extends AppCompatActivity {
             if (Math.abs(e1.getY() - e2.getY()) > SWIPE_MAX_OFF_PATH)
                 return false;
             else if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-                next();
+                sau();
                 return true;
             } else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-                previous();
+                truoc();
                 return true;
             }
             return false;
@@ -448,7 +431,7 @@ public class BaiThiActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            progessDialog = new MaterialDialog.Builder(BaiThiActivity.this)
+            progessDialog = new MaterialDialog.Builder(context)
                     .title("Đang tải dữ liệu...")
                     .customView(R.layout.custom_dialog_loading, true)
                     .show();
@@ -458,20 +441,17 @@ public class BaiThiActivity extends AppCompatActivity {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             progessDialog.dismiss();
-            hienThiCauHoi(flag);
             txtThoiGian.setText(loaiBang.getThoiGian() + ":00");
-            new MaterialDialog.Builder(BaiThiActivity.this)
-                    .title("Hướng dẫn")
-                    .items(R.array.huongdan)
-                    .content(Html.fromHtml("Bấm <b>Bắt đầu</b> để làm bài và bấm <b>Hủy</b> sẽ quay về màn hình trước"))
+            new MaterialDialog.Builder(context)
+                    .content(Html.fromHtml("- Bấm <b>Bắt đầu</b> để làm bài<br>" +
+                            "- Bấm <b>Hủy</b> sẽ quay về trang trước"))
                     .positiveText("Bắt đầu")
                     .neutralText("Hủy")
-                    .autoDismiss(false)
-                    .canceledOnTouchOutside(false)
-                    .cancelable(false)
+                    .autoDismiss(false).cancelable(false).canceledOnTouchOutside(false)
                     .onPositive(new MaterialDialog.SingleButtonCallback() {
                         @Override
                         public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                            hienThiCauHoi(index);
                             dialog.dismiss();
                             countDown = new CountDown(loaiBang.getThoiGian());
                         }
@@ -489,7 +469,7 @@ public class BaiThiActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... voids) {
             String idLoaiBang = getIntent().getExtras().getString("IDLoaiBang");
-            loaiBang = new LoaiBangDB(BaiThiActivity.this).getById(idLoaiBang);
+            loaiBang = new LoaiBangDB(context).getById(idLoaiBang);
             String query = "select * from CauHoi ";
             if (loaiBang.getId() == 1)
                 query += "where A1 = 1 and IdNhomCauHoi = ";
@@ -503,10 +483,11 @@ public class BaiThiActivity extends AppCompatActivity {
                 query = "select * from CauHoi where IdNhomCauHoi = ";
             }
             lstCauHoi = new ArrayList<>();
-            List<NhomCauHoi> lstNhomCauHoi = new NhomCauHoiDB(BaiThiActivity.this).getAll();
+            List<NhomCauHoi> lstNhomCauHoi = new NhomCauHoiDB(context).getAll();
             for (int i = 0; i < lstNhomCauHoi.size(); i++) {
-                List<CauHoi> temp = new CauHoiDB(BaiThiActivity.this).getCauHoi(query + (i + 1));
-                int soCau = new QuyTacRaDeDB(BaiThiActivity.this).getSoCau(loaiBang.getId() + "", (i + 1) + "");
+                String idNhomCauHoi = (i + 1) + "";
+                List<CauHoi> temp = new CauHoiDB(context).getCauHoi(query + idNhomCauHoi);
+                int soCau = new QuyTacRaDeDB(context).getSoCau(loaiBang.getId() + "", idNhomCauHoi);
                 if (soCau != 0) {
                     for (int j = 1; j <= soCau; j++) {
                         CauHoi cauHoi = temp.get(new Random().nextInt(temp.size()));

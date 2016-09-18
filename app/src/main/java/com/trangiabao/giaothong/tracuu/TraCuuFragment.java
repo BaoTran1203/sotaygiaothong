@@ -27,9 +27,16 @@ import java.util.List;
 
 public class TraCuuFragment extends Fragment {
 
+    private Context context;
     private FastItemAdapter<TraCuuAdapter> adapter;
     private RecyclerView rvTraCuu;
-    private Context context;
+
+    private static final String[] PATH = {
+            "image/icon/ic_luat.png",
+            "image/icon/ic_bien_bao.png",
+            "image/icon/ic_phat.png",
+            "image/icon/ic_bang_so_xe.png"
+    };
 
     public TraCuuFragment() {
     }
@@ -38,18 +45,17 @@ public class TraCuuFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tra_cuu, container, false);
-        this.context = getActivity();
-
+        context = getActivity();
         rvTraCuu = (RecyclerView) view.findViewById(R.id.rvTraCuu);
-        rvTraCuu.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-        rvTraCuu.setHasFixedSize(true);
 
         adapter = new FastItemAdapter<>();
         adapter.setHasStableIds(true);
         adapter.withSelectable(true);
-
-        rvTraCuu.setAdapter(adapter);
         adapter.add(createList());
+
+        rvTraCuu.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        rvTraCuu.setHasFixedSize(true);
+        rvTraCuu.setAdapter(adapter);
 
         addEvents();
         return view;
@@ -57,17 +63,17 @@ public class TraCuuFragment extends Fragment {
 
     private List<TraCuuAdapter> createList() {
         List<TraCuuAdapter> data = new ArrayList<>();
-        data.add(new TraCuuAdapter("Luật giao thông", getDrawable("image/icon/ic_luat.png")));
-        data.add(new TraCuuAdapter("Biển báo", getDrawable("image/icon/ic_bien_bao.png")));
-        data.add(new TraCuuAdapter("Các mức phạt", getDrawable("image/icon/ic_phat.png")));
-        data.add(new TraCuuAdapter("Biển số xe", getDrawable("image/icon/ic_bang_so_xe.png")));
+        data.add(new TraCuuAdapter("Luật giao thông", getDrawable(PATH[0])));
+        data.add(new TraCuuAdapter("Biển báo", getDrawable(PATH[1])));
+        data.add(new TraCuuAdapter("Các mức phạt", getDrawable(PATH[2])));
+        data.add(new TraCuuAdapter("Biển số xe", getDrawable(PATH[3])));
         return data;
     }
 
     private Drawable getDrawable(String path) {
         Drawable drawable = null;
         try {
-            InputStream is = this.context.getAssets().open(path);
+            InputStream is = context.getAssets().open(path);
             drawable = Drawable.createFromStream(is, null);
         } catch (IOException e) {
             e.printStackTrace();
@@ -81,16 +87,16 @@ public class TraCuuFragment extends Fragment {
             public boolean onClick(View v, IAdapter<TraCuuAdapter> adapter, TraCuuAdapter item, int position) {
                 switch (position) {
                     case 0:
-                        startActivity(new Intent(getActivity(), VanBanActivity.class));
+                        startActivity(new Intent(context, VanBanActivity.class));
                         break;
                     case 1:
-                        startActivity(new Intent(getActivity(), BienBaoActivity.class));
+                        startActivity(new Intent(context, BienBaoActivity.class));
                         break;
                     case 2:
-                        startActivity(new Intent(getActivity(), XuPhatActivity.class));
+                        startActivity(new Intent(context, XuPhatActivity.class));
                         break;
                     case 3:
-                        startActivity(new Intent(getActivity(), BienSoXeActivity.class));
+                        startActivity(new Intent(context, BienSoXeActivity.class));
                         break;
                 }
                 return false;

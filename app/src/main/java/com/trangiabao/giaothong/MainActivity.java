@@ -1,5 +1,6 @@
 package com.trangiabao.giaothong;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -31,6 +32,8 @@ import com.trangiabao.giaothong.tracuu.TraCuuFragment;
 
 public class MainActivity extends AppCompatActivity {
 
+    private Context context = MainActivity.this;
+
     private Toolbar toolbar;
     private Drawer result;
     private MiniDrawer miniResult;
@@ -41,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        new DataProvider(MainActivity.this, "giaothong.db").processCopy();
+        new DataProvider(context).processCopy();
         addControls();
         selectItemDrawer(1);
     }
@@ -71,15 +74,15 @@ public class MainActivity extends AppCompatActivity {
                 .withGenerateMiniDrawer(true)
                 .withAccountHeader(header)
                 .addDrawerItems(
-                        new PrimaryDrawerItem().withIdentifier(1).withName("Giới thiệu ứng dụng").withIcon(R.drawable.ic_home),
+                        new PrimaryDrawerItem().withIdentifier(1).withName("Giới thiệu ứng dụng").withIcon(R.drawable.ic_gioi_thieu),
                         new DividerDrawerItem(),
-                        new PrimaryDrawerItem().withIdentifier(2).withName("Sát hạch lái xe").withIcon(R.drawable.ic_motorbike),
-                        new PrimaryDrawerItem().withIdentifier(3).withName("Tra cứu thông tin").withIcon(R.drawable.ic_search),
-                        new PrimaryDrawerItem().withIdentifier(4).withName("Cẩm nang giao thông").withIcon(R.drawable.ic_handbook),
+                        new PrimaryDrawerItem().withIdentifier(2).withName("Sát hạch lái xe").withIcon(R.drawable.ic_sat_hach),
+                        new PrimaryDrawerItem().withIdentifier(3).withName("Tra cứu thông tin").withIcon(R.drawable.ic_tra_cuu),
+                        new PrimaryDrawerItem().withIdentifier(4).withName("Cẩm nang giao thông").withIcon(R.drawable.ic_cam_nang),
                         new DividerDrawerItem(),
-                        new PrimaryDrawerItem().withIdentifier(5).withName("Đánh giá ứng dụng").withIcon(R.drawable.ic_star),
-                        new PrimaryDrawerItem().withIdentifier(6).withName("Chia sẽ với mọi người").withIcon(R.drawable.ic_share),
-                        new PrimaryDrawerItem().withIdentifier(7).withName("Liên hệ nhà phát triển").withIcon(R.drawable.ic_contact)
+                        new PrimaryDrawerItem().withIdentifier(5).withName("Đánh giá ứng dụng").withIcon(R.drawable.ic_danh_gia),
+                        new PrimaryDrawerItem().withIdentifier(6).withName("Chia sẽ với mọi người").withIcon(R.drawable.ic_chia_se),
+                        new PrimaryDrawerItem().withIdentifier(7).withName("Liên hệ nhà phát triển").withIcon(R.drawable.ic_lien_he)
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
@@ -99,11 +102,11 @@ public class MainActivity extends AppCompatActivity {
                                 break;
 
                             case 4:
-                                Toast.makeText(MainActivity.this, "Chờ cập nhật", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, "Chờ cập nhật", Toast.LENGTH_SHORT).show();
                                 break;
 
                             case 5:
-                                Toast.makeText(MainActivity.this, "Chờ cập nhật", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, "Chờ cập nhật", Toast.LENGTH_SHORT).show();
                                 break;
 
                             case 6:
@@ -120,15 +123,19 @@ public class MainActivity extends AppCompatActivity {
                 })
                 .build();
         crossfadeDrawerLayout = (CrossfadeDrawerLayout) result.getDrawerLayout();
-        crossfadeDrawerLayout.setMaxWidthPx(DrawerUIUtils.getOptimalDrawerWidth(this));
+        crossfadeDrawerLayout.setMaxWidthPx(DrawerUIUtils.getOptimalDrawerWidth(context));
 
         miniResult = result.getMiniDrawer();
-        View view = miniResult.build(this);
+        View view = miniResult.build(context);
         view.setBackgroundColor(UIUtils.getThemeColorFromAttrOrRes(
                 this,
                 com.mikepenz.materialdrawer.R.attr.material_drawer_background,
                 com.mikepenz.materialdrawer.R.color.material_drawer_primary_dark));
-        crossfadeDrawerLayout.getSmallView().addView(view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        crossfadeDrawerLayout.getSmallView().addView(
+                view,
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT
+        );
         miniResult.withCrossFader(new ICrossfader() {
             @Override
             public void crossfade() {

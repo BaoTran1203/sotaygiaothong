@@ -1,5 +1,6 @@
 package com.trangiabao.giaothong.tracuu.luat;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -20,6 +21,8 @@ import java.util.List;
 
 public class ChuongActivity extends AppCompatActivity {
 
+    private Context context = ChuongActivity.this;
+
     private Toolbar toolbar;
     private FastItemAdapter<Chuong> adapter;
     private RecyclerView rvChuong;
@@ -32,23 +35,19 @@ public class ChuongActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chuong);
 
-        loadData();
-        addControls(savedInstanceState);
+        lstChuong = new ChuongDB(context).getByIdVanBan(getIntent().getExtras().getString("ID_VAN_BAN"));
+        addControls();
         addEvents();
     }
 
-    private void loadData() {
-        lstChuong = new ChuongDB(ChuongActivity.this).getByIdVanBan(getIntent().getExtras().getString("ID_VAN_BAN"));
-    }
-
-    private void addControls(Bundle savedInstanceState) {
+    private void addControls() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Chương");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         rvChuong = (RecyclerView) findViewById(R.id.rvChuong);
-        rvChuong.setLayoutManager(new LinearLayoutManager(ChuongActivity.this));
+        rvChuong.setLayoutManager(new LinearLayoutManager(context));
         rvChuong.setHasFixedSize(true);
 
         adapter = new FastItemAdapter<>();
@@ -57,7 +56,6 @@ public class ChuongActivity extends AppCompatActivity {
 
         rvChuong.setAdapter(adapter);
         adapter.add(lstChuong);
-        adapter.withSavedInstanceState(savedInstanceState);
     }
 
     private void addEvents() {
@@ -65,18 +63,12 @@ public class ChuongActivity extends AppCompatActivity {
             @Override
             public boolean onClick(View v, IAdapter<Chuong> adapter, Chuong item, int position) {
                 chuong = lstChuong.get(position);
-                Intent intent = new Intent(ChuongActivity.this, NoiDungActivity.class);
+                Intent intent = new Intent(context, NoiDungActivity.class);
                 intent.putExtra("ID_CHUONG", chuong.getId() + "");
                 startActivity(intent);
                 return false;
             }
         });
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        outState = adapter.saveInstanceState(outState);
-        super.onSaveInstanceState(outState);
     }
 
     @Override

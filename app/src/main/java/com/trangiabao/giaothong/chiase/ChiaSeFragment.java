@@ -28,10 +28,11 @@ import java.util.List;
 @SuppressLint("ValidFragment")
 public class ChiaSeFragment extends Fragment {
 
+    private Context context;
     private TextView txtInternet;
     private EditText txtSubject, txtContent;
     private Button btnGui;
-    private Context context;
+
     private BroadcastReceiver receiver = new BroadcastReceiver() {
 
         @Override
@@ -76,8 +77,7 @@ public class ChiaSeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_chia_se, container, false);
-        this.context = getActivity();
-
+        context = getActivity();
         txtInternet = (TextView) view.findViewById(R.id.txtInternet);
         txtSubject = (EditText) view.findViewById(R.id.txtSubject);
         txtContent = (EditText) view.findViewById(R.id.txtContent);
@@ -88,10 +88,12 @@ public class ChiaSeFragment extends Fragment {
     }
 
     private void addEvents() {
+        final String tieuDe = txtSubject.getText().toString();
+        final String noiDung = txtContent.getText().toString() + "\n\nhttps://www.google.com.vn/";
         btnGui.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                share(txtSubject.getText().toString(), txtContent.getText().toString());
+                share(tieuDe, noiDung);
             }
         });
     }

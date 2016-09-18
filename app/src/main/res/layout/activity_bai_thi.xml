@@ -34,7 +34,7 @@
                 android:id="@+id/imgTamDung"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:src="@drawable/ic_pause" />
+                android:src="@drawable/ic_tam_dung" />
 
         </LinearLayout>
     </android.support.v7.widget.Toolbar>
@@ -102,7 +102,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/custom_ripple"
-                android:drawableRight="@drawable/ic_tiep"
+                android:drawableRight="@drawable/ic_sau"
                 android:text="@string/sau"
                 android:textColor="@android:color/white" />
         </LinearLayout>

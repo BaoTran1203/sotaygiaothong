@@ -6,10 +6,11 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 
 import com.trangiabao.giaothong.ex.ViewPagerTransformer;
 import com.trangiabao.giaothong.R;
-import com.trangiabao.giaothong.tracuu.ViewPagerAdapter;
+import com.trangiabao.giaothong.ex.ViewPagerAdapter;
 import com.trangiabao.giaothong.tracuu.bienbao.db.BienBaoDB;
 import com.trangiabao.giaothong.tracuu.bienbao.db.NhomBienBaoDB;
 import com.trangiabao.giaothong.tracuu.bienbao.model.BienBao;
@@ -44,6 +45,15 @@ public class BienBaoActivity extends AppCompatActivity {
         pagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (android.R.id.home == id) {
+            super.onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     public class LoadData extends AsyncTask<Void, Void, Void> {
 
         @Override
@@ -63,7 +73,7 @@ public class BienBaoActivity extends AppCompatActivity {
         protected Void doInBackground(Void... voids) {
             List<NhomBienBao> lstNhomBienBao = new NhomBienBaoDB(BienBaoActivity.this).getAll();
             for (NhomBienBao nhomBienBao : lstNhomBienBao) {
-                List<BienBao> lstBienBao = new BienBaoDB(BienBaoActivity.this).getByNhom(nhomBienBao.getId());
+                List<BienBao> lstBienBao = new BienBaoDB(BienBaoActivity.this).getByIdNhomBienBao(nhomBienBao.getId());
                 pagerAdapter.addFragment(new BienBaoFragment(lstBienBao, nhomBienBao), nhomBienBao.getTenNhomBienBao());
 
             }

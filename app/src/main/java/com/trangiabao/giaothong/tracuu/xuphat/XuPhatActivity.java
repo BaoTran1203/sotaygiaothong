@@ -1,15 +1,17 @@
 package com.trangiabao.giaothong.tracuu.xuphat;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 
 import com.trangiabao.giaothong.R;
 import com.trangiabao.giaothong.ex.ViewPagerTransformer;
-import com.trangiabao.giaothong.tracuu.ViewPagerAdapter;
+import com.trangiabao.giaothong.ex.ViewPagerAdapter;
 import com.trangiabao.giaothong.tracuu.xuphat.db.LoaiViPhamDB;
 import com.trangiabao.giaothong.tracuu.xuphat.db.MucXuPhatDB;
 import com.trangiabao.giaothong.tracuu.xuphat.db.PhuongTienDB;
@@ -21,6 +23,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class XuPhatActivity extends AppCompatActivity {
+
+    private Context context = XuPhatActivity.this;
 
     private Toolbar toolbar;
     private TabLayout tabLayout;
@@ -38,7 +42,7 @@ public class XuPhatActivity extends AppCompatActivity {
 
     private void addControls() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Tra cứu biển số xe");
+        toolbar.setTitle("Tra cứu các mức phạt");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -47,8 +51,13 @@ public class XuPhatActivity extends AppCompatActivity {
         pagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
     }
 
-    private void setupIcon() {
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (android.R.id.home == id) {
+            super.onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     class LoadData extends AsyncTask<Void, Void, List<PhuongTien>> {
@@ -71,13 +80,13 @@ public class XuPhatActivity extends AppCompatActivity {
 
         @Override
         protected List<PhuongTien> doInBackground(Void... voids) {
-            List<PhuongTien> lstPhuongTien = new PhuongTienDB(XuPhatActivity.this).getAll();
-            List<LoaiViPham> lstLoaiViPham = new LoaiViPhamDB(XuPhatActivity.this).getAll();
+            List<PhuongTien> lstPhuongTien = new PhuongTienDB(context).getAll();
+            List<LoaiViPham> lstLoaiViPham = new LoaiViPhamDB(context).getAll();
             for (int i = 0; i < lstPhuongTien.size(); i++) {
                 PhuongTien phuongTien = lstPhuongTien.get(i);
                 List<List<MucXuPhat>> lstMucXuPhat = new ArrayList<>();
                 for (int j = 0; j < lstLoaiViPham.size(); j++) {
-                    List<MucXuPhat> lstTemp = new MucXuPhatDB(XuPhatActivity.this).getList(i + 1, j + 1);
+                    List<MucXuPhat> lstTemp = new MucXuPhatDB(context).getList(i + 1, j + 1);
                     lstMucXuPhat.add(lstTemp);
                 }
                 pagerAdapter.addFragment(new XuPhatFragment(lstMucXuPhat), phuongTien.getVietTat());

@@ -35,7 +35,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Chọn hạng bằng"
+                    android:text="@string/hang_bang"
                     android:textAppearance="?android:attr/textAppearanceLarge" />
 
                 <com.jaredrummler.materialspinner.MaterialSpinner
@@ -68,14 +68,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Chọn loại câu hỏi"
+                    android:text="@string/nhom_cau_hoi"
                     android:textAppearance="?android:attr/textAppearanceLarge" />
 
                 <CheckBox
                     android:id="@+id/chkTatCa"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Tất cả" />
+                    android:text="@string/tat_ca" />
 
                 <LinearLayout
                     android:id="@+id/layoutNhomCauHoi"
@@ -95,7 +95,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Sắp xếp"
+                    android:text="@string/sap_xep"
                     android:textAppearance="?android:attr/textAppearanceLarge" />
 
                 <RadioGroup
@@ -111,14 +111,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Theo thứ tự" />
+                        android:text="@string/theo_thu_tu" />
 
                     <RadioButton
                         android:id="@+id/radNgauNhien"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Ngẫu nhiên" />
+                        android:text="@string/ngau_nhien" />
                 </RadioGroup>
             </LinearLayout>
 
@@ -127,7 +127,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:text="Bắt đầu ôn thi"
+                android:text="@string/bat_dau"
                 android:theme="@style/ButtonStyle" />
         </LinearLayout>
     </ScrollView>

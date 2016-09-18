@@ -37,7 +37,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Chọn hạng bằng"
+                    android:text="@string/hang_bang"
                     android:textAppearance="?android:attr/textAppearanceLarge" />
 
                 <com.jaredrummler.materialspinner.MaterialSpinner
@@ -82,6 +82,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_margin="10dp"
-        android:text="Chuyển đến trang làm bài"
+        android:text="@string/lam_bai"
         android:theme="@style/ButtonStyle" />
 </RelativeLayout>

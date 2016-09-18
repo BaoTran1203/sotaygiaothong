@@ -1,214 +1,311 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".lienhe.LienHeFragment">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:fillViewport="true">
 
-        <android.support.v7.widget.CardView
-            style="@style/CardViewStyle"
-            android:layout_width="match_parent"
-            android:layout_height="200dp">
-
-        </android.support.v7.widget.CardView>
-
-        <LinearLayout
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:weightSum="2">
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp">
 
             <LinearLayout
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="vertical">
+                android:orientation="horizontal"
+                android:weightSum="1">
 
-                <android.support.v7.widget.CardView
-                    android:id="@+id/cardGmail"
-                    style="@style/CardViewStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.2"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                    <View
+                        android:layout_width="15dp"
                         android:layout_height="match_parent"
-                        android:orientation="horizontal"
-                        android:paddingLeft="5dp"
-                        tools:ignore="RtlSymmetry">
+                        android:background="@color/material_drawer_primary" />
+                </LinearLayout>
 
-                        <ImageView
-                            android:id="@+id/imgGmail"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:paddingRight="5dp" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center_vertical"
-                            android:text="Gmail"
-                            android:textAppearance="?android:attr/textAppearanceSmall"
-                            android:textColor="@android:color/black" />
-                    </LinearLayout>
-                </android.support.v7.widget.CardView>
-
-                <android.support.v7.widget.CardView
-                    android:id="@+id/cardPhone"
-                    style="@style/CardViewStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal"
-                        android:paddingLeft="5dp"
-                        tools:ignore="RtlSymmetry">
-
-                        <ImageView
-                            android:id="@+id/imgCall"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:paddingRight="5dp" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center_vertical"
-                            android:text="Phone"
-                            android:textAppearance="?android:attr/textAppearanceSmall"
-                            android:textColor="@android:color/black" />
-                    </LinearLayout>
-                </android.support.v7.widget.CardView>
-
-                <android.support.v7.widget.CardView
-                    android:id="@+id/cardSms"
-                    style="@style/CardViewStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal"
-                        android:paddingLeft="5dp"
-                        tools:ignore="RtlSymmetry">
-
-                        <ImageView
-                            android:id="@+id/imgSms"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:paddingRight="5dp" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center_vertical"
-                            android:text="SMS"
-                            android:textAppearance="?android:attr/textAppearanceSmall"
-                            android:textColor="@android:color/black" />
-                    </LinearLayout>
-                </android.support.v7.widget.CardView>
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="vertical">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-                <android.support.v7.widget.CardView
-                    android:id="@+id/cardGooglePlus"
-                    style="@style/CardViewStyle"
+                <LinearLayout
+                    android:id="@+id/layout_info_app"
                     android:layout_width="match_parent"
-                    android:layout_height="60dp">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:weightSum="1">
 
                     <LinearLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:orientation="horizontal"
-                        android:paddingLeft="5dp"
-                        tools:ignore="RtlSymmetry">
+                        android:layout_weight="0.2"
+                        android:orientation="vertical">
 
-                        <ImageView
-                            android:id="@+id/imgGgplus"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:paddingRight="5dp" />
+                        <net.steamcrafted.materialiconlib.MaterialIconView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:background="@drawable/custom_circle_image"
+                            android:padding="12dp"
+                            app:materialIcon="android"
+                            app:materialIconColor="#fff"
+                            app:materialIconSize="36dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.8"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/txtAppName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/txtAppVersion"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textStyle="italic" />
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layout_profile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/layout_info_app"
+                    android:layout_marginTop="50dp"
+                    android:weightSum="1">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.2"
+                        android:orientation="vertical">
+
+                        <net.steamcrafted.materialiconlib.MaterialIconView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:background="@drawable/custom_circle_image"
+                            android:padding="12dp"
+                            app:materialIcon="account"
+                            app:materialIconColor="#fff"
+                            app:materialIconSize="36dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.8"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/name"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/android_developer"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textStyle="italic" />
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layout_mail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/layout_profile"
+                    android:layout_marginTop="30dp"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:weightSum="1">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.2"
+                        android:orientation="vertical">
+
+                        <net.steamcrafted.materialiconlib.MaterialIconView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:background="@drawable/custom_circle_image"
+                            android:padding="12dp"
+                            app:materialIcon="email"
+                            app:materialIconColor="#fff"
+                            app:materialIconSize="24dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.8"
+                        android:orientation="vertical">
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:gravity="center_vertical"
-                            android:text="Google+"
-                            android:textAppearance="?android:attr/textAppearanceSmall"
-                            android:textColor="@android:color/black" />
+                            android:text="@string/gmail" />
                     </LinearLayout>
-                </android.support.v7.widget.CardView>
+                </LinearLayout>
 
-                <android.support.v7.widget.CardView
-                    android:id="@+id/cardFacebook"
-                    style="@style/CardViewStyle"
+                <LinearLayout
+                    android:id="@+id/layout_phone"
                     android:layout_width="match_parent"
-                    android:layout_height="60dp">
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/layout_mail"
+                    android:layout_marginTop="20dp"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:weightSum="1">
 
                     <LinearLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:orientation="horizontal"
-                        android:paddingLeft="5dp"
-                        tools:ignore="RtlSymmetry">
+                        android:layout_weight="0.2"
+                        android:orientation="vertical">
 
-                        <ImageView
-                            android:id="@+id/imgFacebook"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:paddingRight="5dp" />
+                        <net.steamcrafted.materialiconlib.MaterialIconView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:background="@drawable/custom_circle_image"
+                            android:padding="12dp"
+                            app:materialIcon="phone"
+                            app:materialIconColor="#fff"
+                            app:materialIconSize="24dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.8"
+                        android:orientation="vertical">
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:gravity="center_vertical"
-                            android:text="Facebook"
-                            android:textAppearance="?android:attr/textAppearanceSmall"
-                            android:textColor="@android:color/black" />
+                            android:text="@string/phone" />
                     </LinearLayout>
-                </android.support.v7.widget.CardView>
+                </LinearLayout>
 
-                <android.support.v7.widget.CardView
-                    android:id="@+id/cardMessager"
-                    style="@style/CardViewStyle"
+                <LinearLayout
+                    android:id="@+id/layout_facebook"
                     android:layout_width="match_parent"
-                    android:layout_height="60dp">
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/layout_phone"
+                    android:layout_marginTop="20dp"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:weightSum="1">
 
                     <LinearLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:orientation="horizontal"
-                        android:paddingLeft="5dp"
-                        tools:ignore="RtlSymmetry">
+                        android:layout_weight="0.2"
+                        android:orientation="vertical">
 
-                        <ImageView
-                            android:id="@+id/imgMessager"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:paddingRight="5dp" />
+                        <net.steamcrafted.materialiconlib.MaterialIconView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:background="@drawable/custom_circle_image"
+                            android:padding="12dp"
+                            app:materialIcon="facebook"
+                            app:materialIconColor="#fff"
+                            app:materialIconSize="24dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.8"
+                        android:orientation="vertical">
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:gravity="center_vertical"
-                            android:text="Messager"
-                            android:textAppearance="?android:attr/textAppearanceSmall"
-                            android:textColor="@android:color/black" />
+                            android:text="@string/facebook" />
                     </LinearLayout>
-                </android.support.v7.widget.CardView>
-            </LinearLayout>
-        </LinearLayout>
-    </LinearLayout>
-</FrameLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layout_skype"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/layout_facebook"
+                    android:layout_marginTop="20dp"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:weightSum="1">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.2"
+                        android:orientation="vertical">
+
+                        <net.steamcrafted.materialiconlib.MaterialIconView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:background="@drawable/custom_circle_image"
+                            android:padding="12dp"
+                            app:materialIcon="skype_business"
+                            app:materialIconColor="#fff"
+                            app:materialIconSize="24dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.8"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:text="@string/skype" />
+                    </LinearLayout>
+                </LinearLayout>
+
+            </RelativeLayout>
+        </FrameLayout>
+    </ScrollView>
+</LinearLayout>
+
+

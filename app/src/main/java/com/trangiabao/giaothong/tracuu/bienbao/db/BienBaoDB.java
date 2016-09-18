@@ -15,9 +15,9 @@ public class BienBaoDB extends AbstractDB {
         super(context);
     }
 
-    public List<BienBao> getByNhom(int idNhomBienBao) {
+    public List<BienBao> getByIdNhomBienBao(int idNhomBienBao) {
         List<BienBao> data = new ArrayList<>();
-        Cursor c = database.rawQuery("select * from BienBao where idNhomBienBao = ?", new String[]{String.valueOf(idNhomBienBao)});
+        Cursor c = database.rawQuery("select * from BienBao where idNhomBienBao = ?", new String[]{idNhomBienBao + ""});
         while (c.moveToNext()) {
             BienBao temp = new BienBao(
                     context,

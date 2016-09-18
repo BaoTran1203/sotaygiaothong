@@ -1,6 +1,7 @@
 package com.trangiabao.giaothong.tracuu.xuphat;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,6 +22,7 @@ import java.util.List;
 @SuppressLint("ValidFragment")
 public class XuPhatFragment extends Fragment {
 
+    private Context context;
     private MaterialSpinner spinnerXuPhat;
     private List<List<MucXuPhat>> lstMucXuPhat;
     private FastItemAdapter<MucXuPhat> adapter;
@@ -34,27 +36,26 @@ public class XuPhatFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_xu_phat, container, false);
-
+        context = getActivity();
         spinnerXuPhat = (MaterialSpinner) view.findViewById(R.id.spinnerXuPhat);
-        spinnerXuPhat.setItems(new LoaiViPhamDB(getActivity()).getAllAsString());
-
         rvXuPhat = (RecyclerView) view.findViewById(R.id.rvXuPhat);
-        rvXuPhat.setLayoutManager(new LinearLayoutManager(getActivity()));
-        rvXuPhat.setHasFixedSize(true);
 
         adapter = new FastItemAdapter<>();
         adapter.setHasStableIds(true);
         adapter.withSelectable(true);
 
+        rvXuPhat.setLayoutManager(new LinearLayoutManager(context));
+        rvXuPhat.setHasFixedSize(true);
         rvXuPhat.setAdapter(adapter);
-        adapter.withSavedInstanceState(savedInstanceState);
+
+        spinnerXuPhat.setItems(new LoaiViPhamDB(getActivity()).getAllAsString());
+        selectSpinner(0);
 
         addEvents();
         return view;
     }
 
     private void addEvents() {
-        selectSpinner(0);
         spinnerXuPhat.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener() {
             @Override
             public void onItemSelected(MaterialSpinner view, int position, long id, Object item) {
@@ -67,13 +68,7 @@ public class XuPhatFragment extends Fragment {
         adapter.clear();
         adapter.add(this.lstMucXuPhat.get(flag));
         if (this.lstMucXuPhat.get(flag).size() == 0) {
-            Toast.makeText(getActivity(), "Wait for updating", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Wait for updating", Toast.LENGTH_SHORT).show();
         }
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        outState = adapter.saveInstanceState(outState);
-        super.onSaveInstanceState(outState);
     }
 }

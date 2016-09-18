@@ -11,13 +11,12 @@ import java.io.OutputStream;
 public class DataProvider {
 
     private static final String DB_PATH_SUFFIX = "/databases/";
+    private static final String DATABASE_NAME = "giaothong.db";
 
     private Context context;
-    private String databaseName = "giaothong.db";
 
-    public DataProvider(Context context, String databaseName) {
+    public DataProvider(Context context) {
         this.context = context;
-        this.databaseName = databaseName;
     }
 
     public void processCopy() {
@@ -35,12 +34,12 @@ public class DataProvider {
     }
 
     private String getDatabasePath() {
-        return this.context.getApplicationInfo().dataDir + DB_PATH_SUFFIX + databaseName;
+        return this.context.getApplicationInfo().dataDir + DB_PATH_SUFFIX + DATABASE_NAME;
     }
 
     private void CopyDataBaseFromAsset() {
         try {
-            InputStream myInput = this.context.getAssets().open(databaseName);
+            InputStream myInput = this.context.getAssets().open(DATABASE_NAME);
             String outFileName = getDatabasePath();
             File f = new File(this.context.getApplicationInfo().dataDir + DB_PATH_SUFFIX);
             if (!f.exists())

@@ -18,13 +18,11 @@ import java.io.InputStream;
 public class GioiThieuFragment extends Fragment {
 
     private Context context;
+
     private ImageView imgIntro1, imgIntro2, imgIntro3;
     private ImageView imgIntro4, imgIntro5, imgIntro6;
     private ImageView imgIntro7, imgIntro8;
     private ImageView imgIntro9, imgIntro10, imgIntro11;
-
-    public GioiThieuFragment() {
-    }
 
     private static final String[] PATH = {
             "image/intro/intro1.png",
@@ -40,12 +38,14 @@ public class GioiThieuFragment extends Fragment {
             "image/intro/intro11.png"
     };
 
+    public GioiThieuFragment() {
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_gioi_thieu, container, false);
-        this.context = getActivity();
-
+        context = getActivity();
         imgIntro1 = (ImageView) view.findViewById(R.id.imgIntro1);
         imgIntro2 = (ImageView) view.findViewById(R.id.imgIntro2);
         imgIntro3 = (ImageView) view.findViewById(R.id.imgIntro3);
@@ -75,7 +75,7 @@ public class GioiThieuFragment extends Fragment {
     private Drawable getDrawable(String path) {
         Drawable drawable = null;
         try {
-            InputStream is = this.context.getAssets().open(path);
+            InputStream is = context.getAssets().open(path);
             drawable = Drawable.createFromStream(is, null);
         } catch (IOException e) {
             e.printStackTrace();

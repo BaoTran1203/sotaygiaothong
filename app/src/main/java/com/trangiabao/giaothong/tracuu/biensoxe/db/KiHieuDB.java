@@ -14,9 +14,9 @@ public class KiHieuDB extends AbstractDB {
         super(context);
     }
 
-    public ArrayList<KiHieu> getByIdNhom(String idNhom) {
+    public ArrayList<KiHieu> getByIdNhomBienSoXe(String idNhomBienSoXe) {
         ArrayList<KiHieu> data = new ArrayList<>();
-        Cursor c = database.rawQuery("select * from KiHieu where idNhomBienSoXe = ?", new String[]{idNhom});
+        Cursor c = database.rawQuery("select * from KiHieu where idNhomBienSoXe = ?", new String[]{idNhomBienSoXe});
         while (c.moveToNext()) {
             KiHieu temp = new KiHieu(
                     context,

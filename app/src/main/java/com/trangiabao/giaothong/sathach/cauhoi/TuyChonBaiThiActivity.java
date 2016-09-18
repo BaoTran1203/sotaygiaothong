@@ -1,5 +1,6 @@
 package com.trangiabao.giaothong.sathach.cauhoi;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -19,6 +20,8 @@ import java.util.List;
 
 public class TuyChonBaiThiActivity extends AppCompatActivity {
 
+    private Context context = TuyChonBaiThiActivity.this;
+
     // controls
     private Toolbar toolbar;
     private MaterialSpinner spinnerHang;
@@ -26,7 +29,6 @@ public class TuyChonBaiThiActivity extends AppCompatActivity {
     private Button btnStart;
 
     //data
-    private LoaiBangDB loaiBangDB;
     private List<LoaiBang> lstLoaiBang;
 
     @Override
@@ -34,14 +36,9 @@ public class TuyChonBaiThiActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tuy_chon_bai_thi);
 
-        loadDatas();
+        lstLoaiBang = new LoaiBangDB(context).getAll();
         addControls();
         addEvents();
-    }
-
-    private void loadDatas() {
-        loaiBangDB = new LoaiBangDB(this);
-        lstLoaiBang = loaiBangDB.getAll();
     }
 
     private void addControls() {
@@ -49,8 +46,10 @@ public class TuyChonBaiThiActivity extends AppCompatActivity {
         toolbar.setTitle("Tùy chọn bài thi");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         spinnerHang = (MaterialSpinner) findViewById(R.id.spinnerHang);
-        spinnerHang.setItems(loaiBangDB.getTenBang(lstLoaiBang));
+        spinnerHang.setItems(new LoaiBangDB(context).getTenBang(lstLoaiBang));
+
         txtQuyTac = (TextView) findViewById(R.id.txtQuyTac);
         txtMoTa = (TextView) findViewById(R.id.txtMoTa);
         btnStart = (Button) findViewById(R.id.btnStart);
@@ -70,8 +69,8 @@ public class TuyChonBaiThiActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 int idLoaiBang = spinnerHang.getSelectedIndex() + 1;
-                Intent intent = new Intent(TuyChonBaiThiActivity.this, BaiThiActivity.class);
-                intent.putExtra("IDLoaiBang", spinnerHang.getSelectedIndex() + 1 + "");
+                Intent intent = new Intent(context, BaiThiActivity.class);
+                intent.putExtra("IDLoaiBang", idLoaiBang + "");
                 startActivity(intent);
             }
         });
@@ -87,7 +86,7 @@ public class TuyChonBaiThiActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == android.R.id.home) {
-            finish();
+            super.onBackPressed();
         }
         return super.onOptionsItemSelected(item);
     }

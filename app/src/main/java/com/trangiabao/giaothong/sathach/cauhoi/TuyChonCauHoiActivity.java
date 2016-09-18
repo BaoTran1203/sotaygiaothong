@@ -1,5 +1,6 @@
 package com.trangiabao.giaothong.sathach.cauhoi;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -30,6 +31,8 @@ import java.util.List;
 
 public class TuyChonCauHoiActivity extends AppCompatActivity {
 
+    private Context context = TuyChonCauHoiActivity.this;
+
     // controls
     private Toolbar toolbar;
     private MaterialSpinner spinnerHang;
@@ -41,10 +44,7 @@ public class TuyChonCauHoiActivity extends AppCompatActivity {
     private RadioButton radNgauNhien;
 
     //data
-    private LoaiBangDB loaiBangDB;
     private List<LoaiBang> lstLoaiBang;
-    private List<NhomCauHoi> lstNhomCauHoi;
-    private List<QuyTacRaDe> lstQuyTacRaDe;
     private int count = 0;
 
     @Override
@@ -52,14 +52,9 @@ public class TuyChonCauHoiActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tuy_chon_cau_hoi);
 
-        loadDatas();
+        lstLoaiBang = new LoaiBangDB(context).getAll();
         addControls();
         addEvents();
-    }
-
-    private void loadDatas() {
-        loaiBangDB = new LoaiBangDB(TuyChonCauHoiActivity.this);
-        lstLoaiBang = loaiBangDB.getAll();
     }
 
     private void addControls() {
@@ -67,8 +62,10 @@ public class TuyChonCauHoiActivity extends AppCompatActivity {
         toolbar.setTitle("Tùy chọn câu hỏi");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         spinnerHang = (MaterialSpinner) findViewById(R.id.spinnerHang);
-        spinnerHang.setItems(loaiBangDB.getTenBang(lstLoaiBang));
+        spinnerHang.setItems(new LoaiBangDB(context).getTenBang(lstLoaiBang));
+
         layoutNhomCauHoi = (LinearLayout) findViewById(R.id.layoutNhomCauHoi);
         txtMoTa = (TextView) findViewById(R.id.txtMoTa);
         chkTatCa = (CheckBox) findViewById(R.id.chkTatCa);
@@ -100,11 +97,11 @@ public class TuyChonCauHoiActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String query = createStringQuery();
                 if (query != null) {
-                    Intent intent = new Intent(TuyChonCauHoiActivity.this, CauHoiActivity.class);
+                    Intent intent = new Intent(context, CauHoiActivity.class);
                     intent.putExtra("QUERY", query);
                     startActivity(intent);
                 } else {
-                    Toast.makeText(TuyChonCauHoiActivity.this, "Vui lòng chọn nhóm câu hỏi ít nhât một mục", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Vui lòng chọn nhóm câu hỏi ít nhât một mục", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -151,18 +148,18 @@ public class TuyChonCauHoiActivity extends AppCompatActivity {
         chkTatCa.setChecked(false);
         LoaiBang loaiBang = lstLoaiBang.get(i);
         txtMoTa.setText(Html.fromHtml(loaiBang.getMoTa()));
-        lstQuyTacRaDe = new QuyTacRaDeDB(TuyChonCauHoiActivity.this).getByIdLoaiBang(loaiBang.getId());
+        List<QuyTacRaDe> lstQuyTacRaDe = new QuyTacRaDeDB(context).getByIdLoaiBang(loaiBang.getId());
         // create List Nhom Cau Hoi
-        lstNhomCauHoi = new ArrayList<>();
+        List<NhomCauHoi> lstNhomCauHoi = new ArrayList<>();
         for (QuyTacRaDe quyTacRaDe : lstQuyTacRaDe) {
-            NhomCauHoi nhomCauHoi = new NhomCauHoiDB(TuyChonCauHoiActivity.this).getItemById(quyTacRaDe.getIdNhomCauHoi());
+            NhomCauHoi nhomCauHoi = new NhomCauHoiDB(context).getItemById(quyTacRaDe.getIdNhomCauHoi());
             lstNhomCauHoi.add(nhomCauHoi);
         }
         // create Layout CheckBox
         layoutNhomCauHoi.removeAllViews();
         lstCheckBoxNhomCauHoi = new ArrayList<>();
         for (NhomCauHoi nhomCauHoi : lstNhomCauHoi) {
-            AppCompatCheckBox chk = new AppCompatCheckBox(TuyChonCauHoiActivity.this);
+            AppCompatCheckBox chk = new AppCompatCheckBox(context);
             chk.setText(nhomCauHoi.getTenNhom());
             chk.setHint(nhomCauHoi.getId() + "");
             lstCheckBoxNhomCauHoi.add(chk);

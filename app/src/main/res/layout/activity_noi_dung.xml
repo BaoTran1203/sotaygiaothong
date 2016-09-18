@@ -103,7 +103,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@drawable/custom_ripple"
-                    android:drawableRight="@drawable/ic_tiep"
+                    android:drawableRight="@drawable/ic_sau"
                     android:text="@string/sau"
                     android:textColor="@android:color/white" />
             </LinearLayout>

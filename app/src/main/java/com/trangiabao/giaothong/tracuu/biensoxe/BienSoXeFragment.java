@@ -1,6 +1,7 @@
 package com.trangiabao.giaothong.tracuu.biensoxe;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -28,6 +29,7 @@ import java.util.List;
 @SuppressLint("ValidFragment")
 public class BienSoXeFragment extends Fragment {
 
+    private Context context;
     private List<KiHieu> lstKiHieu;
     private NhomBienSoXe nhomBienSoXe;
     private FastItemAdapter<KiHieu> adapter;
@@ -44,38 +46,33 @@ public class BienSoXeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_bien_so_xe, container, false);
-
+        context = getActivity();
         rvBienSoXe = (RecyclerView) view.findViewById(R.id.rvBienSoXe);
-        rvBienSoXe.setLayoutManager(new LinearLayoutManager(getActivity()));
-
         RecyclerViewHeader rvHeader = (RecyclerViewHeader) view.findViewById(R.id.rvHeader);
-        rvHeader.attachTo(rvBienSoXe);
+        TextView txtMauSac = (TextView) view.findViewById(R.id.txtMauSac);
+        TextView txtMoTa = (TextView) view.findViewById(R.id.txtMoTa);
+        ImageView imgHinh = (ImageView) view.findViewById(R.id.imgHinh);
+        fab = (FloatingActionButton) view.findViewById(R.id.fab);
 
         adapter = new FastItemAdapter<>();
         adapter.setHasStableIds(true);
         adapter.withSelectable(true);
-        adapter.add(this.lstKiHieu);
+        adapter.add(lstKiHieu);
 
+        rvBienSoXe.setLayoutManager(new LinearLayoutManager(context));
         rvBienSoXe.setAdapter(adapter);
-        adapter.withSavedInstanceState(savedInstanceState);
-
-        TextView txtMauSac = (TextView) view.findViewById(R.id.txtMauSac);
-        TextView txtMoTa = (TextView) view.findViewById(R.id.txtMoTa);
-        ImageView imgHinh = (ImageView) view.findViewById(R.id.imgHinh);
-
+        rvHeader.attachTo(rvBienSoXe);
+        fab.attachToRecyclerView(rvBienSoXe);
         txtMauSac.setText(nhomBienSoXe.getMauSac());
         txtMoTa.setText(nhomBienSoXe.getMoTa());
         Drawable drawable = null;
         try {
-            InputStream is = getActivity().getAssets().open(nhomBienSoXe.getHinh());
+            InputStream is = context.getAssets().open(nhomBienSoXe.getHinh());
             drawable = Drawable.createFromStream(is, null);
         } catch (IOException e) {
             e.printStackTrace();
         }
         imgHinh.setImageDrawable(drawable);
-
-        fab = (FloatingActionButton) view.findViewById(R.id.fab);
-        fab.attachToRecyclerView(rvBienSoXe);
 
         addEvents();
         return view;
@@ -118,11 +115,5 @@ public class BienSoXeFragment extends Fragment {
                 rvBienSoXe.smoothScrollToPosition(0);
             }
         });
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        outState = adapter.saveInstanceState(outState);
-        super.onSaveInstanceState(outState);
     }
 }
