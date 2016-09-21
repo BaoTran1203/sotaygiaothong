@@ -10,8 +10,10 @@ import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatCheckBox;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.GestureDetector;
 import android.view.Gravity;
@@ -28,6 +30,9 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.mikepenz.fastadapter.FastAdapter;
+import com.mikepenz.fastadapter.IAdapter;
+import com.mikepenz.fastadapter.adapters.FastItemAdapter;
 import com.trangiabao.giaothong.R;
 import com.trangiabao.giaothong.sathach.cauhoi.db.CauHoiDB;
 import com.trangiabao.giaothong.sathach.cauhoi.db.LoaiBangDB;
@@ -184,19 +189,11 @@ public class BaiThiActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 luuTrangThai();
-                List<String> lst = createStaticData();
-                new MaterialDialog.Builder(context)
+                FastItemAdapter<CauHoi> adapter = new FastItemAdapter<>();
+                adapter.add(lstCauHoi);
+                final MaterialDialog dialog = new MaterialDialog.Builder(context)
                         .title("Danh sách câu hỏi")
-                        .items(lst)
-                        .itemsCallback(new MaterialDialog.ListCallback() {
-                            @Override
-                            public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
-                                index = position + 1;
-                                hienThiCauHoi(index);
-                                dialog.dismiss();
-                                countDown.resume();
-                            }
-                        })
+                        .adapter(adapter, new GridLayoutManager(context, 4))
                         .positiveText("Kết thúc bài thi")
                         .onPositive(new MaterialDialog.SingleButtonCallback() {
                             @Override
@@ -207,6 +204,16 @@ public class BaiThiActivity extends AppCompatActivity {
                             }
                         })
                         .show();
+                adapter.withOnClickListener(new FastAdapter.OnClickListener<CauHoi>() {
+                    @Override
+                    public boolean onClick(View v, IAdapter<CauHoi> adapter, CauHoi item, int position) {
+                        index = position + 1;
+                        hienThiCauHoi(index);
+                        dialog.dismiss();
+                        countDown.resume();
+                        return false;
+                    }
+                });
             }
         });
 
@@ -245,6 +252,15 @@ public class BaiThiActivity extends AppCompatActivity {
     }
 
     private void luuTrangThai() {
+        boolean traLoi = false;
+        for (int i = 0; i < lstCheckBoxCauTraLoi.size(); i++) {
+            if (lstCheckBoxCauTraLoi.get(i).isChecked()) {
+                traLoi = true;
+                break;
+            }
+        }
+        cauHoi.setTraLoi(traLoi);
+
         for (int i = 0; i < lstCheckBoxCauTraLoi.size(); i++) {
             boolean isChecked = lstCheckBoxCauTraLoi.get(i).isChecked();
             cauHoi.getLstCauTraLoi().get(i).setChecked(isChecked);
@@ -484,6 +500,7 @@ public class BaiThiActivity extends AppCompatActivity {
             }
             lstCauHoi = new ArrayList<>();
             List<NhomCauHoi> lstNhomCauHoi = new NhomCauHoiDB(context).getAll();
+            int index = 1;
             for (int i = 0; i < lstNhomCauHoi.size(); i++) {
                 String idNhomCauHoi = (i + 1) + "";
                 List<CauHoi> temp = new CauHoiDB(context).getCauHoi(query + idNhomCauHoi);
@@ -491,6 +508,7 @@ public class BaiThiActivity extends AppCompatActivity {
                 if (soCau != 0) {
                     for (int j = 1; j <= soCau; j++) {
                         CauHoi cauHoi = temp.get(new Random().nextInt(temp.size()));
+                        cauHoi.setStt(index++);
                         lstCauHoi.add(cauHoi);
                     }
                 }
