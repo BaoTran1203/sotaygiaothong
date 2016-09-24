@@ -6,17 +6,17 @@
     android:layout_marginBottom="3dp"
     android:layout_marginTop="3dp">
 
-    <LinearLayout
+    <Button
+        android:id="@+id/btnDaTraLoi"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_gravity="center">
+        android:layout_gravity="center"
+        android:theme="@style/ButtonStyle" />
 
-        <TextView
-            android:id="@+id/txtSTT"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="1" />
-    </LinearLayout>
+    <Button
+        android:id="@+id/btnChuaTraLoi"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center" />
 
 </FrameLayout>

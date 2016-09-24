@@ -90,23 +90,25 @@ public class CauHoi extends AbstractItem<CauHoi, CauHoi.ViewHolder> {
     @Override
     public void bindView(ViewHolder viewHolder, List payloads) {
         super.bindView(viewHolder, payloads);
-        viewHolder.txtSTT.setText(getStt() + "");
+        viewHolder.btnDaTraLoi.setText(getStt() + "");
+        viewHolder.btnChuaTraLoi.setText(getStt() + "");
         if (isTraLoi()) {
-            viewHolder.txtSTT.setTextColor(Color.WHITE);
-            viewHolder.txtSTT.setBackgroundColor(Color.BLUE);
+            viewHolder.btnDaTraLoi.setVisibility(View.VISIBLE);
+            viewHolder.btnChuaTraLoi.setVisibility(View.GONE);
         } else {
-            viewHolder.txtSTT.setTextColor(Color.BLACK);
-            viewHolder.txtSTT.setBackgroundColor(Color.GRAY);
+            viewHolder.btnDaTraLoi.setVisibility(View.GONE);
+            viewHolder.btnChuaTraLoi.setVisibility(View.VISIBLE);
         }
     }
 
     protected static class ViewHolder extends RecyclerView.ViewHolder {
 
-        protected TextView txtSTT;
+        protected Button btnDaTraLoi, btnChuaTraLoi;
 
         public ViewHolder(View view) {
             super(view);
-            this.txtSTT = (TextView) itemView.findViewById(R.id.txtSTT);
+            this.btnDaTraLoi = (Button) itemView.findViewById(R.id.btnDaTraLoi);
+            this.btnChuaTraLoi = (Button) itemView.findViewById(R.id.btnChuaTraLoi);
         }
     }
 }

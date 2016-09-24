@@ -48,7 +48,7 @@ public class XuPhatFragment extends Fragment {
         rvXuPhat.setHasFixedSize(true);
         rvXuPhat.setAdapter(adapter);
 
-        spinnerXuPhat.setItems(new LoaiViPhamDB(getActivity()).getAllAsString());
+        spinnerXuPhat.setItems(new LoaiViPhamDB(context).getAllAsString());
         selectSpinner(0);
 
         addEvents();
@@ -64,11 +64,11 @@ public class XuPhatFragment extends Fragment {
         });
     }
 
-    private void selectSpinner(int flag) {
+    private void selectSpinner(int index) {
         adapter.clear();
-        adapter.add(this.lstMucXuPhat.get(flag));
-        if (this.lstMucXuPhat.get(flag).size() == 0) {
-            Toast.makeText(context, "Wait for updating", Toast.LENGTH_SHORT).show();
+        adapter.add(this.lstMucXuPhat.get(index));
+        if (this.lstMucXuPhat.get(index).size() == 0) {
+            Toast.makeText(context, "Dữ liệu đang được cập nhật", Toast.LENGTH_SHORT).show();
         }
     }
 }

@@ -207,10 +207,13 @@ public class BaiThiActivity extends AppCompatActivity {
                 adapter.withOnClickListener(new FastAdapter.OnClickListener<CauHoi>() {
                     @Override
                     public boolean onClick(View v, IAdapter<CauHoi> adapter, CauHoi item, int position) {
+                        Button btnChuaTraLoi = (Button) v.findViewById(R.id.btnChuaTraLoi);
+                        Button btnDaTraLoi = (Button) v.findViewById(R.id.btnDaTraLoi);
                         index = position + 1;
                         hienThiCauHoi(index);
                         dialog.dismiss();
                         countDown.resume();
+                        Log.d("TAG","");
                         return false;
                     }
                 });
