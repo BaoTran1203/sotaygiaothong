@@ -62,6 +62,10 @@ public class XuPhatActivity extends AppCompatActivity {
 
     class LoadData extends AsyncTask<Void, Void, List<PhuongTien>> {
 
+        private List<PhuongTien> lstPhuongTien = new ArrayList<>();
+        private List<LoaiViPham> lstLoaiViPham;
+        private List<List<MucXuPhat>> lstMucXuPhat;
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -80,16 +84,20 @@ public class XuPhatActivity extends AppCompatActivity {
 
         @Override
         protected List<PhuongTien> doInBackground(Void... voids) {
-            List<PhuongTien> lstPhuongTien = new PhuongTienDB(context).getAll();
+            this.lstPhuongTien = new PhuongTienDB(context).getAll();
             List<LoaiViPham> lstLoaiViPham = new LoaiViPhamDB(context).getAll();
             for (int i = 0; i < lstPhuongTien.size(); i++) {
                 PhuongTien phuongTien = lstPhuongTien.get(i);
-                List<List<MucXuPhat>> lstMucXuPhat = new ArrayList<>();
+                this.lstLoaiViPham = new ArrayList<>();
+                this.lstMucXuPhat = new ArrayList<>();
                 for (int j = 0; j < lstLoaiViPham.size(); j++) {
                     List<MucXuPhat> lstTemp = new MucXuPhatDB(context).getList(i + 1, j + 1);
-                    lstMucXuPhat.add(lstTemp);
+                    if (lstTemp.size() != 0) {
+                        this.lstLoaiViPham.add(lstLoaiViPham.get(j));
+                        this.lstMucXuPhat.add(lstTemp);
+                    }
                 }
-                pagerAdapter.addFragment(new XuPhatFragment(lstMucXuPhat), phuongTien.getVietTat());
+                pagerAdapter.addFragment(new XuPhatFragment(this.lstLoaiViPham, this.lstMucXuPhat), phuongTien.getVietTat());
             }
             return lstPhuongTien;
         }

@@ -30,17 +30,11 @@ public class LoaiViPhamDB extends AbstractDB {
         return data;
     }
 
-    public List<String> getAllAsString() {
+    public List<String> getLstString(List<LoaiViPham> lstLoaiViPham) {
         List<String> data = new ArrayList<>();
-        Cursor c = database.rawQuery("select * from LoaiViPham", null);
-        while (c.moveToNext()) {
-            LoaiViPham temp = new LoaiViPham(
-                    c.getInt(0),
-                    c.getString(1)
-            );
-            data.add(temp.getLoai());
+        for (LoaiViPham loaiViPham : lstLoaiViPham) {
+            data.add(loaiViPham.getLoai());
         }
-        c.close();
         database.close();
         return data;
     }
