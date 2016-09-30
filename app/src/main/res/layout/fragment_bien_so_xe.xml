@@ -67,11 +67,5 @@
             </android.support.v7.widget.CardView>
 
         </com.bartoszlipinski.recyclerviewheader2.RecyclerViewHeader>
-
-        <com.melnykov.fab.FloatingActionButton
-            android:id="@+id/fab"
-            style="@style/FloatActionButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
     </RelativeLayout>
 </FrameLayout>

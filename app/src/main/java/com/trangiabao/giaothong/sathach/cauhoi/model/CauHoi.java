@@ -2,12 +2,11 @@ package com.trangiabao.giaothong.sathach.cauhoi.model;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
+import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.mikepenz.fastadapter.items.AbstractItem;
@@ -15,8 +14,6 @@ import com.trangiabao.giaothong.R;
 import com.trangiabao.giaothong.sathach.cauhoi.db.CauTraLoiDB;
 import com.trangiabao.giaothong.sathach.cauhoi.db.HinhCauHoiDB;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -90,25 +87,23 @@ public class CauHoi extends AbstractItem<CauHoi, CauHoi.ViewHolder> {
     @Override
     public void bindView(ViewHolder viewHolder, List payloads) {
         super.bindView(viewHolder, payloads);
-        viewHolder.btnDaTraLoi.setText(getStt() + "");
-        viewHolder.btnChuaTraLoi.setText(getStt() + "");
+        viewHolder.txtSttCauHoi.setText(getStt() + "");
         if (isTraLoi()) {
-            viewHolder.btnDaTraLoi.setVisibility(View.VISIBLE);
-            viewHolder.btnChuaTraLoi.setVisibility(View.GONE);
+            viewHolder.txtSttCauHoi.setTextColor(Color.WHITE);
+            viewHolder.txtSttCauHoi.setBackgroundResource(R.drawable.custom_ripple);
         } else {
-            viewHolder.btnDaTraLoi.setVisibility(View.GONE);
-            viewHolder.btnChuaTraLoi.setVisibility(View.VISIBLE);
+            viewHolder.txtSttCauHoi.setTextColor(Color.BLACK);
+            viewHolder.txtSttCauHoi.setBackgroundResource(android.R.drawable.list_selector_background);
         }
     }
 
-    protected static class ViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder {
 
-        protected Button btnDaTraLoi, btnChuaTraLoi;
+        private TextView txtSttCauHoi;
 
         public ViewHolder(View view) {
             super(view);
-            this.btnDaTraLoi = (Button) itemView.findViewById(R.id.btnDaTraLoi);
-            this.btnChuaTraLoi = (Button) itemView.findViewById(R.id.btnChuaTraLoi);
+            this.txtSttCauHoi = (TextView) itemView.findViewById(R.id.txtSttCauHoi);
         }
     }
 }

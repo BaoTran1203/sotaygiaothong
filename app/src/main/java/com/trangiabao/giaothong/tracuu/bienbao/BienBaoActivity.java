@@ -1,5 +1,6 @@
 package com.trangiabao.giaothong.tracuu.bienbao;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -19,6 +20,8 @@ import com.trangiabao.giaothong.tracuu.bienbao.model.NhomBienBao;
 import java.util.List;
 
 public class BienBaoActivity extends AppCompatActivity {
+
+    private Context context = BienBaoActivity.this;
 
     private Toolbar toolbar;
     private TabLayout tabLayout;
@@ -41,6 +44,7 @@ public class BienBaoActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
+        viewPager.setPageTransformer(true, new ViewPagerTransformer());
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         pagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
     }
@@ -56,6 +60,8 @@ public class BienBaoActivity extends AppCompatActivity {
 
     public class LoadData extends AsyncTask<Void, Void, Void> {
 
+        List<NhomBienBao> lstNhomBienBao;
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -65,17 +71,15 @@ public class BienBaoActivity extends AppCompatActivity {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             viewPager.setAdapter(pagerAdapter);
-            viewPager.setPageTransformer(true, new ViewPagerTransformer());
             tabLayout.setupWithViewPager(viewPager);
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
-            List<NhomBienBao> lstNhomBienBao = new NhomBienBaoDB(BienBaoActivity.this).getAll();
+            lstNhomBienBao = new NhomBienBaoDB(context).getAll();
             for (NhomBienBao nhomBienBao : lstNhomBienBao) {
-                List<BienBao> lstBienBao = new BienBaoDB(BienBaoActivity.this).getByIdNhomBienBao(nhomBienBao.getId());
+                List<BienBao> lstBienBao = new BienBaoDB(context).getByIdNhomBienBao(nhomBienBao.getId());
                 pagerAdapter.addFragment(new BienBaoFragment(lstBienBao, nhomBienBao), nhomBienBao.getTenNhomBienBao());
-
             }
             return null;
         }

@@ -12,32 +12,33 @@
         android:layout_height="?attr/actionBarSize"
         android:background="@color/material_drawer_primary"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:theme="@style/ToolBarStyle">
+        app:theme="@style/ToolBarStyle" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="15dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/txtThoiGian"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="15dp"
-            android:gravity="right|center_vertical"
-            android:orientation="horizontal"
-            tools:ignore="RtlHardcoded">
+            android:layout_marginRight="5dp"
+            android:textColor="@android:color/white"
+            android:textSize="25sp" />
 
-            <TextView
-                android:id="@+id/txtThoiGian"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="5dp"
-                android:textColor="@android:color/white"
-                android:textSize="25sp" />
+        <net.steamcrafted.materialiconlib.MaterialIconView
+            android:id="@+id/imgTamDung"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:materialIcon="pause"
+            app:materialIconColor="#fff"
+            app:materialIconSize="30dp" />
 
-            <ImageView
-                android:id="@+id/imgTamDung"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/ic_tam_dung" />
-
-        </LinearLayout>
-    </android.support.v7.widget.Toolbar>
+    </LinearLayout>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -80,21 +81,32 @@
                 android:textColor="@android:color/white" />
         </LinearLayout>
 
-        <ImageButton
+        <net.steamcrafted.materialiconlib.MaterialIconView
             android:id="@+id/imgMucLuc"
-            style="?android:attr/buttonStyleSmall"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/custom_ripple"
-            android:src="@drawable/ic_muc_luc"
-            android:textColor="@android:color/white" />
+            android:padding="12dp"
+            app:materialIcon="apps"
+            app:materialIconColor="#fff"
+            app:materialIconSize="24dp" />
 
-        <LinearLayout
+        <FrameLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@color/material_drawer_primary">
+
+            <Button
+                android:id="@+id/btnKetThuc"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/custom_ripple"
+                android:drawableRight="@drawable/ic_ket_thuc"
+                android:text="@string/ket_thuc"
+                android:textColor="@android:color/white" />
 
             <Button
                 android:id="@+id/btnSau"
@@ -105,6 +117,6 @@
                 android:drawableRight="@drawable/ic_sau"
                 android:text="@string/sau"
                 android:textColor="@android:color/white" />
-        </LinearLayout>
+        </FrameLayout>
     </LinearLayout>
 </RelativeLayout>

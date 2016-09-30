@@ -3,6 +3,7 @@ package com.trangiabao.giaothong.tracuu.biensoxe.model;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -39,15 +40,15 @@ public class KiHieu extends AbstractItem<KiHieu, KiHieu.ViewHolder> {
         return id;
     }
 
-    public String getKiHieu() {
+    private String getKiHieu() {
         return kiHieu;
     }
 
-    public String getTenKiHieu() {
+    private String getTenKiHieu() {
         return tenKiHieu;
     }
 
-    public String getHinh() {
+    private String getHinh() {
         return hinh;
     }
 
@@ -69,10 +70,17 @@ public class KiHieu extends AbstractItem<KiHieu, KiHieu.ViewHolder> {
         String seri = "";
         if (lstSeri.size() > 0) {
             for (int i = 0; i < lstSeri.size(); i++) {
-                seri += lstSeri.get(i).getMoTa() + " - " + lstSeri.get(i).getSeri() + "\n";
+                seri += "&#8226; " + lstSeri.get(i).getMoTa() + ": " + lstSeri.get(i).getSeri() + "<br>";
             }
         }
-        viewHolder.txtSeri.setText(seri);
+
+        if (seri.equals("")) {
+            viewHolder.txtSeri.setVisibility(View.GONE);
+        } else {
+            viewHolder.txtSeri.setVisibility(View.VISIBLE);
+            seri = seri.substring(0, seri.length() - 4);
+            viewHolder.txtSeri.setText(Html.fromHtml(seri));
+        }
 
         Drawable drawable = null;
         try {
@@ -84,12 +92,12 @@ public class KiHieu extends AbstractItem<KiHieu, KiHieu.ViewHolder> {
         viewHolder.imgHinh.setImageDrawable(drawable);
     }
 
-    protected static class ViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder {
 
-        protected TextView txtTenKiHieu;
-        protected TextView txtKiHieu;
-        protected TextView txtSeri;
-        protected ImageView imgHinh;
+        private TextView txtTenKiHieu;
+        private TextView txtKiHieu;
+        private TextView txtSeri;
+        private ImageView imgHinh;
 
         public ViewHolder(View view) {
             super(view);

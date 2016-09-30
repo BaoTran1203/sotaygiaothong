@@ -11,12 +11,12 @@ import com.trangiabao.giaothong.R;
 
 import java.util.List;
 
-public class TraCuuAdapter extends AbstractItem<TraCuuAdapter, TraCuuAdapter.ViewHolder> {
+class TraCuuAdapter extends AbstractItem<TraCuuAdapter, TraCuuAdapter.ViewHolder> {
 
     private String title;
     private Drawable icon;
 
-    public TraCuuAdapter(String title, Drawable icon) {
+    TraCuuAdapter(String title, Drawable icon) {
         this.title = title;
         this.icon = icon;
     }
@@ -46,10 +46,10 @@ public class TraCuuAdapter extends AbstractItem<TraCuuAdapter, TraCuuAdapter.Vie
         viewHolder.imgIcon.setImageDrawable(getIcon());
     }
 
-    protected static class ViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder {
 
-        protected TextView txtTitle;
-        protected ImageView imgIcon;
+        private TextView txtTitle;
+        private ImageView imgIcon;
 
         public ViewHolder(View view) {
             super(view);

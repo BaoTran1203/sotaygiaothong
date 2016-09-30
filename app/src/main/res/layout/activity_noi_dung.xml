@@ -21,47 +21,49 @@
         android:orientation="vertical">
 
         <ScrollView
+            android:id="@+id/scroll"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginBottom="50dp">
 
             <LinearLayout
+                android:id="@+id/container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
+                android:animateLayoutChanges="true"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/txtChuong"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textStyle="bold" />
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
                 <TextView
                     android:id="@+id/txtMuc"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                     android:textStyle="italic" />
 
-                <TextView
+                <View
+                    android:id="@+id/line"
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@android:color/black" />
+                    android:layout_height="@dimen/line"
+                    android:background="@android:color/darker_gray" />
 
-
-                <TextSwitcher
+                <TextView
                     android:id="@+id/txtDieu"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold" />
 
-                <TextSwitcher
+                <TextView
                     android:id="@+id/txtNoiDung"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
-
             </LinearLayout>
         </ScrollView>
 

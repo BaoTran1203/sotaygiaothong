@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimary">#2196F3</color>
+    <color name="colorPrimaryDark">#1976D2</color>
+    <color name="colorPrimaryLight">#BBDEFB</color>
     <color name="colorAccent">#E91E63</color>
-    <color name="colorAccentPress">#C2185B</color>
-    <color name="ripple">#F06292</color>
 
     <color name="material_drawer_primary">#2196F3</color>
     <color name="material_drawer_primary_dark">#1976D2</color>
@@ -30,7 +29,4 @@
     <color name="material_drawer_dark_selected">#202020</color>
     <color name="material_drawer_dark_selected_text">@color/material_drawer_primary</color>
     <color name="material_drawer_dark_header_selection_text">#FFF</color>
-
-    <color name="primary">#3f51b5</color>
-    <color name="primary_dark">#303f9f</color>
 </resources>

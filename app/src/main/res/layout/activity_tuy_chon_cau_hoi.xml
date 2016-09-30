@@ -18,6 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/toolbar"
+        android:layout_marginBottom="50dp"
         android:fillViewport="true">
 
         <LinearLayout
@@ -88,6 +89,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal">
@@ -121,14 +123,16 @@
                         android:text="@string/ngau_nhien" />
                 </RadioGroup>
             </LinearLayout>
-
-            <Button
-                android:id="@+id/btnStart"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:text="@string/bat_dau"
-                android:theme="@style/ButtonStyle" />
         </LinearLayout>
     </ScrollView>
+
+    <Button
+        android:id="@+id/btnStart"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/custom_ripple"
+        android:text="@string/bat_dau"
+        android:textColor="@android:color/white" />
 </RelativeLayout>

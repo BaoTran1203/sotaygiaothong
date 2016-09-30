@@ -47,6 +47,7 @@ public class XuPhatActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
+        viewPager.setPageTransformer(true, new ViewPagerTransformer());
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         pagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
     }
@@ -60,7 +61,7 @@ public class XuPhatActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    class LoadData extends AsyncTask<Void, Void, List<PhuongTien>> {
+    class LoadData extends AsyncTask<Void, Void, Void> {
 
         private List<PhuongTien> lstPhuongTien = new ArrayList<>();
         private List<LoaiViPham> lstLoaiViPham;
@@ -72,10 +73,9 @@ public class XuPhatActivity extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(List<PhuongTien> lstPhuongTien) {
-            super.onPostExecute(lstPhuongTien);
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
             viewPager.setAdapter(pagerAdapter);
-            viewPager.setPageTransformer(true, new ViewPagerTransformer());
             tabLayout.setupWithViewPager(viewPager);
             for (int i = 0; i < lstPhuongTien.size(); i++) {
                 tabLayout.getTabAt(i).setIcon(lstPhuongTien.get(i).getIcon());
@@ -83,7 +83,7 @@ public class XuPhatActivity extends AppCompatActivity {
         }
 
         @Override
-        protected List<PhuongTien> doInBackground(Void... voids) {
+        protected Void doInBackground(Void... voids) {
             this.lstPhuongTien = new PhuongTienDB(context).getAll();
             List<LoaiViPham> lstLoaiViPham = new LoaiViPhamDB(context).getAll();
             for (int i = 0; i < lstPhuongTien.size(); i++) {
@@ -99,7 +99,7 @@ public class XuPhatActivity extends AppCompatActivity {
                 }
                 pagerAdapter.addFragment(new XuPhatFragment(this.lstLoaiViPham, this.lstMucXuPhat), phuongTien.getVietTat());
             }
-            return lstPhuongTien;
+            return null;
         }
     }
 }

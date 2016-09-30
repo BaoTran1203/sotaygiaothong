@@ -14,9 +14,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bartoszlipinski.recyclerviewheader2.RecyclerViewHeader;
-import com.melnykov.fab.FloatingActionButton;
-import com.mikepenz.fastadapter.FastAdapter;
-import com.mikepenz.fastadapter.IAdapter;
 import com.mikepenz.fastadapter.adapters.FastItemAdapter;
 import com.trangiabao.giaothong.R;
 import com.trangiabao.giaothong.tracuu.biensoxe.model.KiHieu;
@@ -34,7 +31,6 @@ public class BienSoXeFragment extends Fragment {
     private NhomBienSoXe nhomBienSoXe;
     private FastItemAdapter<KiHieu> adapter;
     private RecyclerView rvBienSoXe;
-    private FloatingActionButton fab;
 
     public BienSoXeFragment(List<KiHieu> lstKiHieu, NhomBienSoXe nhomBienSoXe) {
         this.lstKiHieu = lstKiHieu;
@@ -52,7 +48,6 @@ public class BienSoXeFragment extends Fragment {
         TextView txtMauSac = (TextView) view.findViewById(R.id.txtMauSac);
         TextView txtMoTa = (TextView) view.findViewById(R.id.txtMoTa);
         ImageView imgHinh = (ImageView) view.findViewById(R.id.imgHinh);
-        fab = (FloatingActionButton) view.findViewById(R.id.fab);
 
         adapter = new FastItemAdapter<>();
         adapter.setHasStableIds(true);
@@ -62,7 +57,6 @@ public class BienSoXeFragment extends Fragment {
         rvBienSoXe.setLayoutManager(new LinearLayoutManager(context));
         rvBienSoXe.setAdapter(adapter);
         rvHeader.attachTo(rvBienSoXe);
-        fab.attachToRecyclerView(rvBienSoXe);
         txtMauSac.setText(nhomBienSoXe.getMauSac());
         txtMoTa.setText(nhomBienSoXe.getMoTa());
         Drawable drawable = null;
@@ -74,46 +68,6 @@ public class BienSoXeFragment extends Fragment {
         }
         imgHinh.setImageDrawable(drawable);
 
-        addEvents();
         return view;
-    }
-
-    private void addEvents() {
-        adapter.withOnClickListener(new FastAdapter.OnClickListener<KiHieu>() {
-            @Override
-            public boolean onClick(View v, IAdapter<KiHieu> adapter, KiHieu item, int position) {
-                TextView txtSeri = (TextView) v.findViewById(R.id.txtSeri);
-                if (!txtSeri.getText().equals("")) {
-                    if (txtSeri.getVisibility() == View.VISIBLE)
-                        txtSeri.setVisibility(View.GONE);
-                    else txtSeri.setVisibility(View.VISIBLE);
-                }
-                return false;
-            }
-        });
-
-        rvBienSoXe.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                if (rvBienSoXe.computeVerticalScrollOffset() == 0 ||
-                        isMaxScrollReached(rvBienSoXe)) {
-                    fab.hide(true);
-                } else
-                    fab.show(true);
-            }
-
-            private boolean isMaxScrollReached(RecyclerView recyclerView) {
-                int maxScroll = recyclerView.computeVerticalScrollRange();
-                int currentScroll = recyclerView.computeVerticalScrollOffset() + recyclerView.computeVerticalScrollExtent();
-                return currentScroll >= maxScroll;
-            }
-        });
-
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                rvBienSoXe.smoothScrollToPosition(0);
-            }
-        });
     }
 }

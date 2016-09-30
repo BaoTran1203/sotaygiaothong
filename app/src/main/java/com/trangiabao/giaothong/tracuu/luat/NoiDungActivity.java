@@ -10,12 +10,10 @@ import android.view.GestureDetector;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
+import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextSwitcher;
+import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.ViewSwitcher;
 
 import com.trangiabao.giaothong.R;
 import com.trangiabao.giaothong.tracuu.luat.db.ChuongDB;
@@ -30,13 +28,16 @@ public class NoiDungActivity extends AppCompatActivity {
 
     private Context context = NoiDungActivity.this;
 
+    // controls
     private GestureDetector gestureDetector;
     private Toolbar toolbar;
-    private TextSwitcher txtDieu, txtNoiDung;
-    private TextView txtChuong, txtMuc;
+    private ViewGroup container;
+    private TextView txtChuong, txtMuc, txtDieu, txtNoiDung;
     private Button btnTruoc, btnSau;
-    private Animation slideInLeft, slideOutLeft, slideOutRight, slideInRight;
+    private View line;
+    private ScrollView scroll;
 
+    // data
     private int index = 1;
     private List<Dieu> lstDieu;
 
@@ -55,32 +56,17 @@ public class NoiDungActivity extends AppCompatActivity {
         toolbar.setTitle("Nội dung");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        gestureDetector = new GestureDetector(new SwipeDetector());
 
-        txtDieu = (TextSwitcher) findViewById(R.id.txtDieu);
-        txtNoiDung = (TextSwitcher) findViewById(R.id.txtNoiDung);
+        container = (ViewGroup) findViewById(R.id.container);
+        gestureDetector = new GestureDetector(new SwipeDetector());
         txtChuong = (TextView) findViewById(R.id.txtChuong);
         txtMuc = (TextView) findViewById(R.id.txtMuc);
+        txtDieu = (TextView) findViewById(R.id.txtDieu);
+        txtNoiDung = (TextView) findViewById(R.id.txtNoiDung);
         btnTruoc = (Button) findViewById(R.id.btnTruoc);
         btnSau = (Button) findViewById(R.id.btnSau);
-
-        slideInLeft = AnimationUtils.loadAnimation(context, R.anim.slide_in_left);
-        slideOutLeft = AnimationUtils.loadAnimation(context, R.anim.slide_out_left);
-        slideInRight = AnimationUtils.loadAnimation(context, R.anim.slide_in_right);
-        slideOutRight = AnimationUtils.loadAnimation(context, R.anim.slide_out_right);
-
-        txtDieu.setFactory(new ViewSwitcher.ViewFactory() {
-            @Override
-            public View makeView() {
-                return new TextView(NoiDungActivity.this);
-            }
-        });
-        txtNoiDung.setFactory(new ViewSwitcher.ViewFactory() {
-            @Override
-            public View makeView() {
-                return new TextView(NoiDungActivity.this);
-            }
-        });
+        line = findViewById(R.id.line);
+        scroll = (ScrollView) findViewById(R.id.scroll);
     }
 
     private void addEvents() {
@@ -119,30 +105,27 @@ public class NoiDungActivity extends AppCompatActivity {
         }
         txtDieu.setText(dieu.getTenDieu());
         txtNoiDung.setText(Html.fromHtml(noiDung));
+
+        container.removeAllViews();
+        container.addView(txtChuong);
+        if (!txtMuc.getText().toString().equals(""))
+            container.addView(txtMuc);
+        container.addView(line);
+        container.addView(txtDieu);
+        container.addView(txtNoiDung);
+        scroll.fullScroll(ScrollView.FOCUS_UP);
     }
 
-    private boolean truoc() {
+    private void truoc() {
         if (index - 1 > 0) {
-            txtDieu.setInAnimation(slideInLeft);
-            txtDieu.setOutAnimation(slideOutRight);
-            txtNoiDung.setInAnimation(slideInLeft);
-            txtNoiDung.setOutAnimation(slideOutRight);
             hienThiNoiDung(--index);
-            return true;
         }
-        return false;
     }
 
-    private boolean sau() {
+    private void sau() {
         if (index + 1 <= lstDieu.size()) {
-            txtDieu.setInAnimation(slideInRight);
-            txtDieu.setOutAnimation(slideOutLeft);
-            txtNoiDung.setInAnimation(slideInRight);
-            txtNoiDung.setOutAnimation(slideOutLeft);
             hienThiNoiDung(++index);
-            return true;
         }
-        return false;
     }
 
     @Override
@@ -174,14 +157,18 @@ public class NoiDungActivity extends AppCompatActivity {
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
             if (Math.abs(e1.getY() - e2.getY()) > SWIPE_MAX_OFF_PATH)
                 return false;
-            if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-                return sau();
+            else if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
+                sau();
+                return true;
+            } else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
+                truoc();
+                return true;
             }
-            return e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY && truoc();
+            return false;
         }
     }
 
-    class LoadData extends AsyncTask<Void, Void, Void> {
+    private class LoadData extends AsyncTask<Void, Void, Void> {
 
         private Chuong chuong;
 
@@ -189,12 +176,7 @@ public class NoiDungActivity extends AppCompatActivity {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             txtChuong.setText(chuong.getTenChuong());
-            if (chuong.getMuc().equals("")) {
-                txtMuc.setVisibility(View.GONE);
-            } else {
-                txtMuc.setVisibility(View.VISIBLE);
-                txtMuc.setText(chuong.getMuc());
-            }
+            txtMuc.setText(chuong.getMuc());
             hienThiNoiDung(1);
         }
 
