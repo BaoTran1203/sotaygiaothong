@@ -39,7 +39,6 @@ public class BienBaoActivity extends AppCompatActivity {
 
     private void addControls() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Tra cứu biển báo");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 

@@ -39,19 +39,19 @@ public class BienBao extends AbstractItem<BienBao, BienBao.ViewHolder> {
         return id;
     }
 
-    public String getMaBienBao() {
+    private String getMaBienBao() {
         return maBienBao;
     }
 
-    public String getTenBienBao() {
+    private String getTenBienBao() {
         return tenBienBao;
     }
 
-    public String getNoiDungBienBao() {
+    private String getNoiDungBienBao() {
         return noiDungBienBao;
     }
 
-    public String getHinh() {
+    private String getHinh() {
         return hinh;
     }
 
@@ -81,12 +81,12 @@ public class BienBao extends AbstractItem<BienBao, BienBao.ViewHolder> {
         viewHolder.imgHinh.setImageDrawable(drawable);
     }
 
-    protected static class ViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder {
 
-        protected ImageView imgHinh;
-        protected TextView txtMaBienBao;
-        protected TextView txtTenBienBao;
-        protected TextView txtNoiDungBienBao;
+        private ImageView imgHinh;
+        private TextView txtMaBienBao;
+        private TextView txtTenBienBao;
+        private TextView txtNoiDungBienBao;
 
         public ViewHolder(View view) {
             super(view);

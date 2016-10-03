@@ -18,6 +18,7 @@ import com.mikepenz.fastadapter.adapters.FastItemAdapter;
 import com.trangiabao.giaothong.R;
 import com.trangiabao.giaothong.sathach.cauhoi.TuyChonCauHoiActivity;
 import com.trangiabao.giaothong.sathach.cauhoi.TuyChonBaiThiActivity;
+import com.trangiabao.giaothong.sathach.meo.MeoActivity;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -96,7 +97,7 @@ public class SatHachFragment extends Fragment {
                         Toast.makeText(context, "Chờ cập nhật", Toast.LENGTH_SHORT).show();
                         break;
                     case 3:
-                        Toast.makeText(context, "Chờ cập nhật", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(getActivity(), MeoActivity.class));
                         break;
                 }
                 return false;

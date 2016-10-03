@@ -17,6 +17,7 @@ import com.mikepenz.fastadapter.adapters.FastItemAdapter;
 import com.trangiabao.giaothong.R;
 import com.trangiabao.giaothong.tracuu.bienbao.BienBaoActivity;
 import com.trangiabao.giaothong.tracuu.biensoxe.BienSoXeActivity;
+import com.trangiabao.giaothong.tracuu.hotline.HotLineActivity;
 import com.trangiabao.giaothong.tracuu.luat.VanBanActivity;
 import com.trangiabao.giaothong.tracuu.xuphat.XuPhatActivity;
 
@@ -31,11 +32,12 @@ public class TraCuuFragment extends Fragment {
     private FastItemAdapter<TraCuuAdapter> adapter;
     private RecyclerView rvTraCuu;
 
-    private static final String[] PATH = {
-            "image/icon/ic_luat.png",
-            "image/icon/ic_bien_bao.png",
-            "image/icon/ic_phat.png",
-            "image/icon/ic_bang_so_xe.png"
+    private static final String[][] PATH = {
+            {"Luật giao thông", "image/icon/ic_luat.png"},
+            {"Biển báo", "image/icon/ic_bien_bao.png"},
+            {"Các mức phạt", "image/icon/ic_phat.png"},
+            {"Biển số xe", "image/icon/ic_bang_so_xe.png"},
+            {"Đường dây nóng", "image/icon/ic_hotline.png"}
     };
 
     public TraCuuFragment() {
@@ -63,10 +65,9 @@ public class TraCuuFragment extends Fragment {
 
     private List<TraCuuAdapter> createList() {
         List<TraCuuAdapter> data = new ArrayList<>();
-        data.add(new TraCuuAdapter("Luật giao thông", getDrawable(PATH[0])));
-        data.add(new TraCuuAdapter("Biển báo", getDrawable(PATH[1])));
-        data.add(new TraCuuAdapter("Các mức phạt", getDrawable(PATH[2])));
-        data.add(new TraCuuAdapter("Biển số xe", getDrawable(PATH[3])));
+        for (String[] path : PATH) {
+            data.add(new TraCuuAdapter(path[0], getDrawable(path[1])));
+        }
         return data;
     }
 
@@ -97,6 +98,9 @@ public class TraCuuFragment extends Fragment {
                         break;
                     case 3:
                         startActivity(new Intent(context, BienSoXeActivity.class));
+                        break;
+                    case 4:
+                        startActivity(new Intent(context, HotLineActivity.class));
                         break;
                 }
                 return false;
