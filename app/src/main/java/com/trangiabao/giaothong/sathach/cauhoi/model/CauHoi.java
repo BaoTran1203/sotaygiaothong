@@ -66,7 +66,7 @@ public class CauHoi extends AbstractItem<CauHoi, CauHoi.ViewHolder> {
         this.traLoi = traLoi;
     }
 
-    public int getStt() {
+    private int getStt() {
         return stt;
     }
 
@@ -89,11 +89,9 @@ public class CauHoi extends AbstractItem<CauHoi, CauHoi.ViewHolder> {
         super.bindView(viewHolder, payloads);
         viewHolder.txtSttCauHoi.setText(getStt() + "");
         if (isTraLoi()) {
-            viewHolder.txtSttCauHoi.setTextColor(Color.WHITE);
             viewHolder.txtSttCauHoi.setBackgroundResource(R.drawable.custom_ripple);
         } else {
-            viewHolder.txtSttCauHoi.setTextColor(Color.BLACK);
-            viewHolder.txtSttCauHoi.setBackgroundResource(android.R.drawable.list_selector_background);
+            viewHolder.txtSttCauHoi.setBackgroundResource(R.drawable.custom_ripple_2);
         }
     }
 

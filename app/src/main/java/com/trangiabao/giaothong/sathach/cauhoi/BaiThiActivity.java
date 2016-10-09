@@ -103,7 +103,9 @@ public class BaiThiActivity extends AppCompatActivity {
 
         if (flag == 1) {
             btnTruoc.setVisibility(View.GONE);
+            btnSau.setVisibility(View.VISIBLE);
         } else if (flag == soCauHoi) {
+            btnTruoc.setVisibility(View.VISIBLE);
             btnSau.setVisibility(View.GONE);
         } else {
             btnTruoc.setVisibility(View.VISIBLE);

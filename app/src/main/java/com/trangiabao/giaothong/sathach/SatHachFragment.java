@@ -3,14 +3,20 @@ package com.trangiabao.giaothong.sathach;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.mikepenz.fastadapter.FastAdapter;
 import com.mikepenz.fastadapter.IAdapter;
 import com.mikepenz.fastadapter.adapters.FastItemAdapter;
@@ -94,13 +100,43 @@ public class SatHachFragment extends Fragment {
                         startActivity(new Intent(getActivity(), TuyChonBaiThiActivity.class));
                         break;
                     case 2:
-                        startActivity(new Intent(getActivity(), SaHinhActivity.class));
+                        ConnectivityManager connectivityManager =
+                                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+                        Intent youtubeIntent = context.getPackageManager().getLaunchIntentForPackage("com.google.android.youtube");
+                        if (connectivityManager.getActiveNetworkInfo() == null) {
+                            Toast.makeText(context, "Chức năng yêu cầu kết nối Internet", Toast.LENGTH_SHORT).show();
+                        } else if (youtubeIntent == null) {
+                            new MaterialDialog.Builder(context)
+                                    .title("Không tìm thấy ứng dụng Youtube")
+                                    .content("Chức năng yêu cầu thiết bị phải có ứng dụng Youtube. Bạn có muốn cài đặt ngay bây giờ không ?")
+                                    .positiveText("Có")
+                                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                        @Override
+                                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                            try {
+                                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.google.android.youtube")));
+                                            } catch (android.content.ActivityNotFoundException anfe) {
+                                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.google.android.youtube")));
+                                            }
+                                        }
+                                    })
+                                    .negativeText("Để sau")
+                                    .onNegative(new MaterialDialog.SingleButtonCallback() {
+                                        @Override
+                                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                            dialog.dismiss();
+                                        }
+                                    })
+                                    .show();
+                        } else {
+                            startActivity(new Intent(getActivity(), SaHinhActivity.class));
+                        }
                         break;
                     case 3:
                         startActivity(new Intent(getActivity(), MeoActivity.class));
                         break;
                 }
-                return false;
+                return true;
             }
         });
     }
