@@ -29,7 +29,8 @@
         <activity android:name=".tracuu.luat.ChuongActivity" />
         <activity android:name=".tracuu.biensoxe.BienSoXeActivity" />
         <activity android:name=".sathach.meo.MeoActivity" />
-        <activity android:name=".tracuu.hotline.HotLineActivity"></activity>
+        <activity android:name=".tracuu.hotline.HotLineActivity" />
+        <activity android:name=".sathach.sahinh.SaHinhActivity"></activity>
     </application>
 
 </manifest>

@@ -10,7 +10,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.mikepenz.fastadapter.FastAdapter;
 import com.mikepenz.fastadapter.IAdapter;
@@ -19,6 +18,7 @@ import com.trangiabao.giaothong.R;
 import com.trangiabao.giaothong.sathach.cauhoi.TuyChonCauHoiActivity;
 import com.trangiabao.giaothong.sathach.cauhoi.TuyChonBaiThiActivity;
 import com.trangiabao.giaothong.sathach.meo.MeoActivity;
+import com.trangiabao.giaothong.sathach.sahinh.SaHinhActivity;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -94,7 +94,7 @@ public class SatHachFragment extends Fragment {
                         startActivity(new Intent(getActivity(), TuyChonBaiThiActivity.class));
                         break;
                     case 2:
-                        Toast.makeText(context, "Chờ cập nhật", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(getActivity(), SaHinhActivity.class));
                         break;
                     case 3:
                         startActivity(new Intent(getActivity(), MeoActivity.class));

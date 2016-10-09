@@ -62,11 +62,6 @@ public class BienBaoActivity extends AppCompatActivity {
         List<NhomBienBao> lstNhomBienBao;
 
         @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             viewPager.setAdapter(pagerAdapter);

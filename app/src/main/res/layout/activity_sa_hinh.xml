@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".tracuu.hotline.HotLineActivity">
+    tools:context=".sathach.sahinh.SaHinhActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -13,18 +13,16 @@
         android:layout_height="?attr/actionBarSize"
         android:background="@color/material_drawer_primary"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:theme="@style/ToolBarStyle">
+        app:theme="@style/ToolBarStyle" />
 
-        <android.support.design.widget.TabLayout
-            android:id="@+id/tabs"
-            style="@style/TabStyle"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize" />
-    </android.support.v7.widget.Toolbar>
-
-    <android.support.v4.view.ViewPager
-        android:id="@+id/viewpager"
+    <!--<com.google.android.youtube.player.YouTubePlayerView
+        android:id="@+id/youTubeView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        android:layout_height="wrap_content" />-->
+
+    <fragment
+        android:id="@+id/youtube_fragment"
+        android:name="com.google.android.youtube.player.YouTubePlayerSupportFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 </LinearLayout>

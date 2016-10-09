@@ -40,6 +40,7 @@ public class BienBaoFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_bien_bao, container, false);
         context = getActivity();
+
         rvBienBao = (RecyclerView) view.findViewById(R.id.rvBienBao);
         RecyclerViewHeader rvHeader = (RecyclerViewHeader) view.findViewById(R.id.rvHeader);
         TextView txtMoTa = (TextView) view.findViewById(R.id.txtMoTa);

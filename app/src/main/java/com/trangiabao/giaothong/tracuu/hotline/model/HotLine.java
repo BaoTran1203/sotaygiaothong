@@ -35,7 +35,7 @@ public class HotLine extends AbstractItem<HotLine, HotLine.ViewHolder> {
         return ten;
     }
 
-    private String getPhone() {
+    public String getPhone() {
         return phone;
     }
 
@@ -53,7 +53,13 @@ public class HotLine extends AbstractItem<HotLine, HotLine.ViewHolder> {
     public void bindView(HotLine.ViewHolder viewHolder, List payloads) {
         super.bindView(viewHolder, payloads);
         viewHolder.txtTen.setText(getTen());
-        viewHolder.txtPhone.setText(getPhone());
+        String phone = getPhone();
+        if (getPhone().length() < 13) {
+            for (int i = getPhone().length(); i <= 13; i++) {
+                phone += " ";
+            }
+        }
+        viewHolder.txtPhone.setText(phone);
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
