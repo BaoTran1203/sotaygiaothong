@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.widget.TextView;
+import android.webkit.WebView;
 import android.widget.Toast;
 
 import com.google.android.youtube.player.YouTubeInitializationResult;
@@ -14,7 +14,6 @@ import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerSupportFragment;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.trangiabao.giaothong.R;
-
 
 public class SaHinhActivity extends AppCompatActivity {
 
@@ -27,14 +26,17 @@ public class SaHinhActivity extends AppCompatActivity {
     };
     private static final String[] lstSpinner = {
             "A1,A2",
-            "B,C,D,E,F"
+            "B,C,D,E"
     };
-    private boolean first = true;
+    private static final String[] lstHtml = {
+            "html/sahinh/a1a2.html",
+            "html/sahinh/bcde.html"
+    };
 
     private Context context = SaHinhActivity.this;
     private Toolbar toolbar;
     private YouTubePlayerSupportFragment youtube_fragment;
-    private TextView txtMoTa;
+    private WebView webView;
     private MaterialSpinner spinner;
     private YouTubePlayer mPlayer;
 
@@ -56,6 +58,7 @@ public class SaHinhActivity extends AppCompatActivity {
         spinner = (MaterialSpinner) findViewById(R.id.spinner);
         spinner.setItems(lstSpinner);
         youtube_fragment = (YouTubePlayerSupportFragment) getSupportFragmentManager().findFragmentById(R.id.youtube_fragment);
+        webView = (WebView) findViewById(R.id.webView);
     }
 
     private void addEvents() {
@@ -72,10 +75,7 @@ public class SaHinhActivity extends AppCompatActivity {
                                                 YouTubePlayer player, boolean wasRestored) {
                 if (!wasRestored) {
                     mPlayer = player;
-                    if (first) {
-                        selectSpinnerItem(0);
-                        first = false;
-                    }
+                    selectSpinnerItem(0);
                 }
             }
 
@@ -98,6 +98,7 @@ public class SaHinhActivity extends AppCompatActivity {
             mPlayer.cueVideo(lstYoutubeCode[i]);
             mPlayer.setPlayerStyle(YouTubePlayer.PlayerStyle.DEFAULT);
         }
+        webView.loadUrl("file:///android_asset/" + lstHtml[i]);
     }
 
     @Override

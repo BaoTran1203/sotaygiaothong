@@ -1,6 +1,5 @@
 package com.trangiabao.giaothong.lienhe;
 
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +11,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.trangiabao.giaothong.R;
 
 import java.io.IOException;
@@ -29,13 +30,20 @@ public class LienHeFragment extends Fragment implements View.OnClickListener {
 
     private final static String GMAIL = "trangiabao1203@gmail.com";
     private final static String TEL_NUMBER = "+841206836908";
-    private final static String FACEBOOK_ID = "nh0kba0";
+    private final static String FACEBOOK_ID = "baotran1203";
     private final static String SKYPE_ID = "nh0kba0";
 
     private Context context;
     private View view;
     private TextView txtAppName, txtAppVersion;
-    private LinearLayout layout_mail, layout_phone, layout_facebook, layout_skype;
+    private LinearLayout layout_info_app;
+    private LinearLayout layout_profile;
+    private LinearLayout layout_mail;
+    private LinearLayout layout_phone;
+    private LinearLayout layout_facebook;
+    private LinearLayout layout_skype;
+
+    private String version;
 
     public LienHeFragment() {
     }
@@ -47,6 +55,8 @@ public class LienHeFragment extends Fragment implements View.OnClickListener {
         context = getActivity();
         txtAppName = (TextView) view.findViewById(R.id.txtAppName);
         txtAppVersion = (TextView) view.findViewById(R.id.txtAppVersion);
+        layout_info_app = (LinearLayout) view.findViewById(R.id.layout_info_app);
+        layout_profile = (LinearLayout) view.findViewById(R.id.layout_profile);
         layout_mail = (LinearLayout) view.findViewById(R.id.layout_mail);
         layout_phone = (LinearLayout) view.findViewById(R.id.layout_phone);
         layout_facebook = (LinearLayout) view.findViewById(R.id.layout_facebook);
@@ -58,16 +68,17 @@ public class LienHeFragment extends Fragment implements View.OnClickListener {
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
-        String version = pInfo.versionName;
+        version = pInfo.versionName;
 
-        txtAppVersion.setText("Version " + version);
+        txtAppVersion.setText("Phiên bản " + version);
         txtAppName.setText("Ứng dụng " + context.getString(R.string.app_name));
 
+        layout_info_app.setOnClickListener(this);
+        layout_profile.setOnClickListener(this);
         layout_skype.setOnClickListener(this);
         layout_facebook.setOnClickListener(this);
         layout_mail.setOnClickListener(this);
         layout_phone.setOnClickListener(this);
-
         return view;
     }
 
@@ -95,6 +106,28 @@ public class LienHeFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         int id = v.getId();
         switch (id) {
+            case R.id.layout_info_app:
+                String content = "Phiên bản " + version + " bao gồm các tính năng:<br>" +
+                        "<strong>Sát hạch lái xe</strong><br>" +
+                        "- Ngân hàng câu hỏi lý thuyết<br>" +
+                        "- Làm bài thi sát hạch<br>" +
+                        "- Hướng dẫn thi thực hành lái xe<br>" +
+                        "- Mẹo ghi nhớ<br>" +
+                        "<strong>Tra cứu thông tin</strong><br>" +
+                        "- Luật giao thông<br>" +
+                        "- Biển báo<br>" +
+                        "- Các mức phạt<br>" +
+                        "- Biển số xe<br>" +
+                        "- Đường dây nóng<br><br>" +
+                        "<em>Mọi ý kiến đóng góp về lỗi, nội dung ứng dụng xin gửi thông tin cho nhà phát triển theo thông tin liên hệ bên dưới</em>";
+                new MaterialDialog.Builder(context)
+                        .title("Thông tin ứng dụng")
+                        .content(Html.fromHtml(content))
+                        .show();
+                break;
+            case R.id.layout_profile:
+
+                break;
             case R.id.layout_mail:
                 if (checkInternet()) {
                     Intent emailIntent = new Intent(Intent.ACTION_SEND);

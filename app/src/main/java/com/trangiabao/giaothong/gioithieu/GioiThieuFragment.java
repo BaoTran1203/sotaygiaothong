@@ -1,6 +1,5 @@
 package com.trangiabao.giaothong.gioithieu;
 
-
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;

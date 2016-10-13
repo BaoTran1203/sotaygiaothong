@@ -9,11 +9,14 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatCheckBox;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
+import android.text.InputType;
 import android.util.TypedValue;
 import android.view.GestureDetector;
 import android.view.Gravity;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -219,6 +222,38 @@ public class CauHoiActivity extends AppCompatActivity {
             luuTrangThai();
             hienThiCauHoi(++index);
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_search, menu);
+        MenuItem item = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) item.getActionView();
+        searchView.setInputType(InputType.TYPE_CLASS_NUMBER);
+        searchView.setQueryHint("Nhập số thứ tự câu hỏi. Vd: 1,2,10...");
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                int stt = Integer.parseInt(query);
+                if (stt >= 1 && stt <= lstCauHoi.size()) {
+                    index = stt;
+                    hienThiCauHoi(index);
+                } else {
+                    new MaterialDialog.Builder(context)
+                            .title("Không hợp lệ")
+                            .content("Dữ liệu bạn nhập không hợp lệ. Vui lòng nhập lại")
+                            .positiveText("Đóng")
+                            .show();
+                }
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+        return true;
     }
 
     @Override

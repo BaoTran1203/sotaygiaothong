@@ -21,7 +21,6 @@ import com.trangiabao.giaothong.tracuu.luat.model.VanBan;
 
 import java.util.List;
 
-
 public class VanBanActivity extends AppCompatActivity {
 
     private Context context = VanBanActivity.this;

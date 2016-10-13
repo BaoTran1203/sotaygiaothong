@@ -38,15 +38,18 @@
 
             </LinearLayout>
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
+                <!-- TODO Info APP -->
                 <LinearLayout
                     android:id="@+id/layout_info_app"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
+                    android:background="?android:attr/selectableItemBackground"
                     android:weightSum="1">
 
                     <LinearLayout
@@ -86,16 +89,16 @@
                             android:layout_height="wrap_content"
                             android:textAppearance="?android:attr/textAppearanceSmall"
                             android:textStyle="italic" />
-
                     </LinearLayout>
                 </LinearLayout>
 
+                <!-- TODO profile -->
                 <LinearLayout
                     android:id="@+id/layout_profile"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/layout_info_app"
-                    android:layout_marginTop="50dp"
+                    android:layout_marginTop="20dp"
+                    android:background="?android:attr/selectableItemBackground"
                     android:weightSum="1">
 
                     <LinearLayout
@@ -125,26 +128,25 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/name"
+                            android:text="@string/name_1"
                             android:textAppearance="?android:attr/textAppearanceMedium"
                             android:textStyle="bold" />
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/android_developer"
+                            android:text="@string/name_2"
                             android:textAppearance="?android:attr/textAppearanceSmall"
                             android:textStyle="italic" />
-
                     </LinearLayout>
                 </LinearLayout>
 
+                <!-- TODO mail -->
                 <LinearLayout
                     android:id="@+id/layout_mail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/layout_profile"
-                    android:layout_marginTop="30dp"
+                    android:layout_marginTop="8dp"
                     android:background="?android:attr/selectableItemBackground"
                     android:clickable="true"
                     android:weightSum="1">
@@ -161,7 +163,7 @@
                             android:layout_gravity="center_horizontal"
                             android:background="@drawable/custom_circle_image"
                             android:padding="12dp"
-                            app:materialIcon="email"
+                            app:materialIcon="gmail"
                             app:materialIconColor="#fff"
                             app:materialIconSize="24dp" />
                     </LinearLayout>
@@ -170,22 +172,31 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="0.8"
+                        android:gravity="center_vertical"
                         android:orientation="vertical">
 
                         <TextView
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center_vertical"
-                            android:text="@string/gmail" />
+                            android:layout_height="wrap_content"
+                            android:text="@string/gmail_1"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/gmail_2"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textStyle="italic" />
                     </LinearLayout>
                 </LinearLayout>
 
+                <!-- TODO phone -->
                 <LinearLayout
                     android:id="@+id/layout_phone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/layout_mail"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="8dp"
                     android:background="?android:attr/selectableItemBackground"
                     android:clickable="true"
                     android:weightSum="1">
@@ -211,22 +222,31 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="0.8"
+                        android:gravity="center_vertical"
                         android:orientation="vertical">
 
                         <TextView
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center_vertical"
-                            android:text="@string/phone" />
+                            android:layout_height="wrap_content"
+                            android:text="@string/phone_1"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/phone_2"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textStyle="italic" />
                     </LinearLayout>
                 </LinearLayout>
 
+                <!-- TODO FB -->
                 <LinearLayout
                     android:id="@+id/layout_facebook"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/layout_phone"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="8dp"
                     android:background="?android:attr/selectableItemBackground"
                     android:clickable="true"
                     android:weightSum="1">
@@ -252,22 +272,31 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="0.8"
+                        android:gravity="center_vertical"
                         android:orientation="vertical">
 
                         <TextView
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center_vertical"
-                            android:text="@string/facebook" />
+                            android:layout_height="wrap_content"
+                            android:text="@string/facebook_1"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/facebook_2"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textStyle="italic" />
                     </LinearLayout>
                 </LinearLayout>
 
+                <!-- TODO skype -->
                 <LinearLayout
                     android:id="@+id/layout_skype"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/layout_facebook"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="8dp"
                     android:background="?android:attr/selectableItemBackground"
                     android:clickable="true"
                     android:weightSum="1">
@@ -293,17 +322,74 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="0.8"
+                        android:gravity="center_vertical"
                         android:orientation="vertical">
 
                         <TextView
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center_vertical"
-                            android:text="@string/skype" />
+                            android:layout_height="wrap_content"
+                            android:text="@string/skype_1"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/skype_2"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textStyle="italic" />
                     </LinearLayout>
                 </LinearLayout>
 
-            </RelativeLayout>
+                <!-- TODO source -->
+                <LinearLayout
+                    android:id="@+id/layout_source"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:weightSum="1">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.2"
+                        android:orientation="vertical">
+
+                        <net.steamcrafted.materialiconlib.MaterialIconView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:background="@drawable/custom_circle_image"
+                            android:padding="12dp"
+                            app:materialIcon="copyright"
+                            app:materialIconColor="#fff"
+                            app:materialIconSize="36dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.8"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/source_1"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/source_2"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textStyle="italic" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
         </FrameLayout>
     </ScrollView>
 </LinearLayout>

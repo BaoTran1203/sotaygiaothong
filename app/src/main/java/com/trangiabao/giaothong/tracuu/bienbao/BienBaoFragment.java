@@ -8,6 +8,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -54,7 +57,7 @@ public class BienBaoFragment extends Fragment {
         rvHeader.attachTo(rvBienBao);
         rvBienBao.setAdapter(adapter);
         txtMoTa.setText(Html.fromHtml(nhomBienBao.getMoTa()));
-
         return view;
     }
+
 }
