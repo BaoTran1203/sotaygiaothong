@@ -18,10 +18,6 @@ public class Seri {
         return id;
     }
 
-    public int getIdKiHieu() {
-        return idKiHieu;
-    }
-
     public String getSeri() {
         return seri;
     }

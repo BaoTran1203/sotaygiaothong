@@ -40,4 +40,7 @@
     <string name="dap_an">Đáp án</string>
     <string name="dac_diem">Đặc điểm</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>

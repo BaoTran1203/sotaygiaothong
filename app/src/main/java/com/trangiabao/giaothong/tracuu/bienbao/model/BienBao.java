@@ -39,15 +39,15 @@ public class BienBao extends AbstractItem<BienBao, BienBao.ViewHolder> {
         return id;
     }
 
-    private String getMaBienBao() {
+    public String getMaBienBao() {
         return maBienBao;
     }
 
-    private String getTenBienBao() {
+    public String getTenBienBao() {
         return tenBienBao;
     }
 
-    private String getNoiDungBienBao() {
+    public String getNoiDungBienBao() {
         return noiDungBienBao;
     }
 

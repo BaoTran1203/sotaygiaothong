@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 
 import com.trangiabao.giaothong.ex.AbstractDB;
+import com.trangiabao.giaothong.ex.MyMethod;
 import com.trangiabao.giaothong.tracuu.bienbao.model.BienBao;
 
 import java.util.ArrayList;
@@ -35,9 +36,9 @@ public class BienBaoDB extends AbstractDB {
         return data;
     }
 
-    public List<BienBao> getByQuery(String query) {
+    public List<BienBao> filter(String filter) {
         List<BienBao> data = new ArrayList<>();
-        Cursor c = database.rawQuery(query, null);
+        Cursor c = database.rawQuery("select * from BienBao", null);
         while (c.moveToNext()) {
             BienBao temp = new BienBao(
                     context,
@@ -48,7 +49,12 @@ public class BienBaoDB extends AbstractDB {
                     c.getString(4),
                     c.getString(5)
             );
-            data.add(temp);
+            filter = MyMethod.unAccent(filter).toLowerCase();
+            String ma = MyMethod.unAccent(temp.getMaBienBao()).toLowerCase();
+            String ten = MyMethod.unAccent(temp.getTenBienBao()).toLowerCase();
+            String noiDung = MyMethod.unAccent(temp.getNoiDungBienBao()).toLowerCase();
+            if (ma.contains(filter) || ten.contains(filter) || noiDung.contains(filter))
+                data.add(temp);
         }
         c.close();
         database.close();

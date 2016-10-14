@@ -27,11 +27,7 @@ public class HotLine extends AbstractItem<HotLine, HotLine.ViewHolder> {
         return id;
     }
 
-    public int getIdNhomHotLine() {
-        return idNhomHotLine;
-    }
-
-    private String getTen() {
+    public String getTen() {
         return ten;
     }
 

@@ -1,0 +1,13 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.trangiabao.giaothong.feedback.FeedbackFragment">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Mọi ý kiến đóng góp, phản hồi, báo lỗi\nXin gửi thông tin cho nhà phát triển" />
+
+
+</FrameLayout>

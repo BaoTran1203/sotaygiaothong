@@ -25,6 +25,7 @@ import com.mikepenz.materialdrawer.util.DrawerUIUtils;
 import com.mikepenz.materialize.util.UIUtils;
 import com.trangiabao.giaothong.chiase.ChiaSeFragment;
 import com.trangiabao.giaothong.ex.DataProvider;
+import com.trangiabao.giaothong.feedback.FeedbackFragment;
 import com.trangiabao.giaothong.gioithieu.GioiThieuFragment;
 import com.trangiabao.giaothong.lienhe.LienHeFragment;
 import com.trangiabao.giaothong.sathach.SatHachFragment;
@@ -82,7 +83,8 @@ public class MainActivity extends AppCompatActivity {
                         new DividerDrawerItem(),
                         new PrimaryDrawerItem().withIdentifier(5).withName("Đánh giá ứng dụng").withIcon(R.drawable.ic_danh_gia),
                         new PrimaryDrawerItem().withIdentifier(6).withName("Chia sẽ với mọi người").withIcon(R.drawable.ic_chia_se),
-                        new PrimaryDrawerItem().withIdentifier(7).withName("Liên hệ nhà phát triển").withIcon(R.drawable.ic_lien_he)
+                        new PrimaryDrawerItem().withIdentifier(7).withName("Feedback").withIcon(R.drawable.ic_gop_y),
+                        new PrimaryDrawerItem().withIdentifier(8).withName("Liên hệ nhà phát triển").withIcon(R.drawable.ic_lien_he)
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
@@ -114,6 +116,10 @@ public class MainActivity extends AppCompatActivity {
                                 break;
 
                             case 7:
+                                setFragment(new FeedbackFragment());
+                                break;
+
+                            case 8:
                                 setFragment(new LienHeFragment());
                                 break;
                         }

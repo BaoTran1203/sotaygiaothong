@@ -40,16 +40,20 @@ public class KiHieu extends AbstractItem<KiHieu, KiHieu.ViewHolder> {
         return id;
     }
 
-    private String getKiHieu() {
+    public String getKiHieu() {
         return kiHieu;
     }
 
-    private String getTenKiHieu() {
+    public String getTenKiHieu() {
         return tenKiHieu;
     }
 
     private String getHinh() {
         return hinh;
+    }
+
+    public List<Seri> getLstSeri() {
+        return lstSeri;
     }
 
     @Override

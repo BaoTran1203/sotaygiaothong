@@ -5,36 +5,7 @@
     android:layout_height="match_parent"
     tools:context=".tracuu.biensoxe.BienSoXeFragment">
 
-    <FrameLayout
-        android:id="@+id/search_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:context=".MainActivity">
-
-        <ImageView
-            android:id="@+id/search"
-            android:layout_width="150dp"
-            android:layout_height="24dp"
-            android:layout_gravity="center"
-            android:onClick="animate"
-            android:src="@drawable/ic_action_action_search" />
-
-        <EditText
-            android:id="@+id/text"
-            android:layout_width="150dp"
-            android:layout_height="22dp"
-            android:layout_gravity="center"
-            android:alpha="0"
-            android:background="@null"
-            android:inputType="text"
-            android:paddingLeft="4dp"
-            android:textColor="@color/accent"
-            android:textSize="12sp" />
-
-    </FrameLayout>
-
     <RelativeLayout
-        android:layout_below="@+id/search_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
