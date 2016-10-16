@@ -1,6 +1,8 @@
 package com.trangiabao.giaothong.tracuu.xuphat;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -14,6 +16,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import com.mikepenz.fastadapter.adapters.FastItemAdapter;
 import com.trangiabao.giaothong.R;
@@ -26,13 +32,14 @@ import com.trangiabao.giaothong.tracuu.xuphat.model.LoaiViPham;
 import com.trangiabao.giaothong.tracuu.xuphat.model.MucXuPhat;
 import com.trangiabao.giaothong.tracuu.xuphat.model.PhuongTien;
 
+import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class XuPhatActivity extends AppCompatActivity {
 
     private Context context = XuPhatActivity.this;
-
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -41,7 +48,7 @@ public class XuPhatActivity extends AppCompatActivity {
     private LinearLayout layout_viewPager;
     private RecyclerView recyclerView;
     private FastItemAdapter<MucXuPhat> adapter;
-
+    private AdView adView;
     private SearchTask searchTask;
 
     @Override
@@ -73,9 +80,28 @@ public class XuPhatActivity extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.setAdapter(adapter);
+
+        adView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .addTestDevice(context.getString(R.string.test_device_id))
+                .build();
+        adView.loadAd(adRequest);
     }
 
     private void addEvents() {
+        adView.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                adView.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAdFailedToLoad(int error) {
+                adView.setVisibility(View.GONE);
+            }
+        });
+
         searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -84,12 +110,10 @@ public class XuPhatActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                adapter.clear();
                 if (newText.length() >= 3) {
                     searchTask = new SearchTask();
                     searchTask.execute(newText);
                 }
-                adapter.notifyAdapterDataSetChanged();
                 return false;
             }
         });
@@ -107,6 +131,30 @@ public class XuPhatActivity extends AppCompatActivity {
                 recyclerView.setVisibility(View.GONE);
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (adView != null) {
+            adView.resume();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (adView != null) {
+            adView.pause();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        if (adView != null) {
+            adView.destroy();
+        }
+        super.onDestroy();
     }
 
     @Override
@@ -141,7 +189,9 @@ public class XuPhatActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(List<MucXuPhat> lstMucXuPhat) {
             super.onPostExecute(lstMucXuPhat);
+            adapter.clear();
             adapter.add(lstMucXuPhat);
+            adapter.notifyAdapterDataSetChanged();
         }
 
         @Override
@@ -155,15 +205,28 @@ public class XuPhatActivity extends AppCompatActivity {
         private List<PhuongTien> lstPhuongTien = new ArrayList<>();
         private List<LoaiViPham> lstLoaiViPham;
         private List<List<MucXuPhat>> lstMucXuPhat;
+        private MaterialDialog dialog;
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            Drawable icon = MaterialDrawableBuilder.with(context)
+                    .setIcon(MaterialDrawableBuilder.IconValue.DOWNLOAD)
+                    .setColor(Color.parseColor("#1976D2"))
+                    .build();
+
+            dialog = new MaterialDialog.Builder(context)
+                    .title("Đang tải dữ liệu...")
+                    .progress(true, 0)
+                    .icon(icon)
+                    .autoDismiss(false).cancelable(false).canceledOnTouchOutside(false)
+                    .show();
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+            dialog.dismiss();
             viewPager.setAdapter(pagerAdapter);
             tabLayout.setupWithViewPager(viewPager);
             for (int i = 0; i < lstPhuongTien.size(); i++) {

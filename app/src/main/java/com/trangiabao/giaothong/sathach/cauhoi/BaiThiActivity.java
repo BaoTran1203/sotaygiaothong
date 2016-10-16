@@ -15,7 +15,6 @@ import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
-import android.util.TypedValue;
 import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -25,15 +24,18 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextSwitcher;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.mikepenz.fastadapter.FastAdapter;
 import com.mikepenz.fastadapter.IAdapter;
 import com.mikepenz.fastadapter.adapters.FastItemAdapter;
 import com.trangiabao.giaothong.R;
+import com.trangiabao.giaothong.ex.MyMethod;
 import com.trangiabao.giaothong.sathach.cauhoi.db.CauHoiDB;
 import com.trangiabao.giaothong.sathach.cauhoi.db.LoaiBangDB;
 import com.trangiabao.giaothong.sathach.cauhoi.db.NhomCauHoiDB;
@@ -44,6 +46,7 @@ import com.trangiabao.giaothong.sathach.cauhoi.model.HinhCauHoi;
 import com.trangiabao.giaothong.sathach.cauhoi.model.LoaiBang;
 import com.trangiabao.giaothong.sathach.cauhoi.model.NhomCauHoi;
 
+import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 import net.steamcrafted.materialiconlib.MaterialIconView;
 
 import java.io.IOException;
@@ -55,17 +58,18 @@ import java.util.concurrent.TimeUnit;
 
 public class BaiThiActivity extends AppCompatActivity {
 
+    // controls
     private Context context = BaiThiActivity.this;
-
     private GestureDetector gestureDetector;
     private Toolbar toolbar;
     private ViewGroup container;
-    private TextView txtCauHoi, txtThoiGian;
-    private TextSwitcher txtGiaiThich;
+    private TextView txtThoiGian;
     private Button btnTruoc, btnSau, btnKetThuc;
     private MaterialIconView imgTamDung, imgMucLuc;
     private CountDown countDown;
+    private AdView adView;
 
+    // datas
     private int index = 1;
     private boolean isFisinshed = false;
     private List<CauHoi> lstCauHoi;
@@ -95,6 +99,13 @@ public class BaiThiActivity extends AppCompatActivity {
         imgMucLuc = (MaterialIconView) findViewById(R.id.imgMucLuc);
         imgTamDung = (MaterialIconView) findViewById(R.id.imgTamDung);
         txtThoiGian = (TextView) findViewById(R.id.txtThoiGian);
+
+        adView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .addTestDevice(context.getString(R.string.test_device_id))
+                .build();
+        adView.loadAd(adRequest);
     }
 
     private void hienThiCauHoi(int flag) {
@@ -128,9 +139,9 @@ public class BaiThiActivity extends AppCompatActivity {
                 LinearLayout.LayoutParams.WRAP_CONTENT));
         layoutImage.setOrientation(LinearLayout.HORIZONTAL);
         layoutImage.setWeightSum(soHinh);
-        int width = soHinh == 1 ? LinearLayout.LayoutParams.MATCH_PARENT : getDip(100);
-        int height = soHinh == 1 ? getDip(200) : getDip(100);
-        int margin = getDip(5);
+        int width = soHinh == 1 ? LinearLayout.LayoutParams.MATCH_PARENT : MyMethod.getDip(context, 100);
+        int height = soHinh == 1 ? MyMethod.getDip(context, 200) : MyMethod.getDip(context, 100);
+        int margin = MyMethod.getDip(context, 5);
         for (int i = 0; i < soHinh; i++) {
             Drawable drawable = null;
             try {
@@ -160,7 +171,7 @@ public class BaiThiActivity extends AppCompatActivity {
             AppCompatCheckBox chk = new AppCompatCheckBox(context);
             chk.setText(cauTraLoi.getCauTraLoi());
             chk.setGravity(Gravity.TOP);
-            int padding = getDip(5);
+            int padding = MyMethod.getDip(context, 5);
             chk.setPadding(padding, padding, padding, padding);
             chk.setChecked(cauTraLoi.isChecked());
             if (isFisinshed) {
@@ -185,6 +196,18 @@ public class BaiThiActivity extends AppCompatActivity {
     }
 
     private void addEvents() {
+        adView.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                adView.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAdFailedToLoad(int error) {
+                adView.setVisibility(View.GONE);
+            }
+        });
+
         btnTruoc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -213,11 +236,17 @@ public class BaiThiActivity extends AppCompatActivity {
             public void onClick(View view) {
                 luuTrangThai();
 
-                FastItemAdapter adapter = new FastItemAdapter<>();
+                FastItemAdapter<CauHoi> adapter = new FastItemAdapter<>();
                 adapter.add(lstCauHoi);
+
+                Drawable icon = MaterialDrawableBuilder.with(context)
+                        .setIcon(MaterialDrawableBuilder.IconValue.VIEW_LIST)
+                        .setColor(Color.parseColor("#1976D2"))
+                        .build();
 
                 MaterialDialog.Builder builder = new MaterialDialog.Builder(context);
                 builder.title("Danh sách câu hỏi");
+                builder.icon(icon);
                 builder.adapter(adapter, new GridLayoutManager(context, 4));
                 if (!isFisinshed) {
                     builder.positiveText("Kết thúc bài thi");
@@ -252,8 +281,14 @@ public class BaiThiActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 countDown.pause();
+                Drawable icon = MaterialDrawableBuilder.with(context)
+                        .setIcon(MaterialDrawableBuilder.IconValue.PAUSE)
+                        .setColor(Color.BLACK)
+                        .build();
+
                 new MaterialDialog.Builder(context)
                         .title("Tạm dừng")
+                        .icon(icon)
                         .customView(R.layout.custom_dialog_pause, true)
                         .autoDismiss(false).cancelable(false).canceledOnTouchOutside(false)
                         .positiveText("Tiếp tục")
@@ -298,8 +333,13 @@ public class BaiThiActivity extends AppCompatActivity {
     }
 
     private void ketThuc() {
+        Drawable icon = MaterialDrawableBuilder.with(context)
+                .setIcon(MaterialDrawableBuilder.IconValue.CHECK)
+                .setColor(Color.parseColor("#1976D2"))
+                .build();
+
         new MaterialDialog.Builder(context)
-                .title("Kết thúc")
+                .title("Kết thúc").icon(icon)
                 .content("Khi kết thúc bạn sẽ không thể tiếp tục làm bài")
                 .autoDismiss(false).cancelable(false).canceledOnTouchOutside(false)
                 .positiveText("Tính điểm")
@@ -352,8 +392,13 @@ public class BaiThiActivity extends AppCompatActivity {
         else
             ketQua += "Chưa đạt";
 
+        Drawable icon = MaterialDrawableBuilder.with(context)
+                .setIcon(MaterialDrawableBuilder.IconValue.TROPHY)
+                .setColor(Color.parseColor("#1976D2"))
+                .build();
+
         new MaterialDialog.Builder(context)
-                .title("Kết quả")
+                .title("Kết quả").icon(icon)
                 .content(ketQua)
                 .autoDismiss(false).cancelable(false).canceledOnTouchOutside(false)
                 .positiveText("Quay về trang trước")
@@ -375,16 +420,17 @@ public class BaiThiActivity extends AppCompatActivity {
                 .show();
     }
 
-    private int getDip(int pixel) {
-        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, pixel, getResources().getDisplayMetrics());
-    }
-
     private void troVeTrangTruoc() {
         if (isFisinshed)
             finish();
         else {
+            Drawable icon = MaterialDrawableBuilder.with(context)
+                    .setIcon(MaterialDrawableBuilder.IconValue.ALERT)
+                    .setColor(Color.parseColor("#eeee00"))
+                    .build();
+
             new MaterialDialog.Builder(context)
-                    .title("Quay về trang trước")
+                    .title("Quay về trang trước").icon(icon)
                     .content("Nếu quay về trang trước bài thi sẽ hủy. Bạn có chắc chắn ?")
                     .positiveText("Đồng ý")
                     .onPositive(new MaterialDialog.SingleButtonCallback() {
@@ -402,6 +448,30 @@ public class BaiThiActivity extends AppCompatActivity {
                     })
                     .show();
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (adView != null) {
+            adView.resume();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (adView != null) {
+            adView.pause();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        if (adView != null) {
+            adView.destroy();
+        }
+        super.onDestroy();
     }
 
     @Override
@@ -497,23 +567,36 @@ public class BaiThiActivity extends AppCompatActivity {
 
     class LoadDataTask extends AsyncTask<Void, Void, Void> {
 
-        private MaterialDialog progessDialog;
+        private MaterialDialog dialog;
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            progessDialog = new MaterialDialog.Builder(context)
+            Drawable icon = MaterialDrawableBuilder.with(context)
+                    .setIcon(MaterialDrawableBuilder.IconValue.DOWNLOAD)
+                    .setColor(Color.parseColor("#1976D2"))
+                    .build();
+
+            dialog = new MaterialDialog.Builder(context)
                     .title("Đang tải dữ liệu...")
-                    .customView(R.layout.custom_dialog_loading, true)
+                    .progress(true, 0)
+                    .icon(icon)
+                    .autoDismiss(false).cancelable(false).canceledOnTouchOutside(false)
                     .show();
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            progessDialog.dismiss();
+            dialog.dismiss();
             txtThoiGian.setText(loaiBang.getThoiGian() + ":00");
+            Drawable icon = MaterialDrawableBuilder.with(context)
+                    .setIcon(MaterialDrawableBuilder.IconValue.INFORMATION)
+                    .setColor(Color.parseColor("#1976D2"))
+                    .build();
+
             new MaterialDialog.Builder(context)
+                    .title("Hướng dẫn").icon(icon)
                     .content(Html.fromHtml("- Bấm <b>Bắt đầu</b> để làm bài<br>" +
                             "- Bấm <b>Hủy</b> để quay về trang trước"))
                     .positiveText("Bắt đầu")

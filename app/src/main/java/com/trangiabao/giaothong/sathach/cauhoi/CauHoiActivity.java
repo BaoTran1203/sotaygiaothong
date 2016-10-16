@@ -9,11 +9,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatCheckBox;
-import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
-import android.text.InputType;
-import android.util.TypedValue;
 import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.Menu;
@@ -29,11 +26,18 @@ import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import com.trangiabao.giaothong.R;
+import com.trangiabao.giaothong.ex.MyMethod;
 import com.trangiabao.giaothong.sathach.cauhoi.db.CauHoiDB;
 import com.trangiabao.giaothong.sathach.cauhoi.model.CauHoi;
 import com.trangiabao.giaothong.sathach.cauhoi.model.CauTraLoi;
 import com.trangiabao.giaothong.sathach.cauhoi.model.HinhCauHoi;
+
+import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -49,6 +53,7 @@ public class CauHoiActivity extends AppCompatActivity {
     private ViewGroup container;
     private TextSwitcher txtGiaiThich;
     private Button btnDapAn, btnTruoc, btnSau;
+    private AdView adView;
 
     private int index = 1;
     private List<CauHoi> lstCauHoi = new ArrayList<>();
@@ -74,6 +79,13 @@ public class CauHoiActivity extends AppCompatActivity {
         btnDapAn = (Button) findViewById(R.id.btnDapAn);
         btnTruoc = (Button) findViewById(R.id.btnTruoc);
         btnSau = (Button) findViewById(R.id.btnSau);
+
+        adView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .addTestDevice(context.getString(R.string.test_device_id))
+                .build();
+        adView.loadAd(adRequest);
     }
 
     private void hienThiCauHoi(final int flag) {
@@ -106,9 +118,9 @@ public class CauHoiActivity extends AppCompatActivity {
                 LinearLayout.LayoutParams.WRAP_CONTENT));
         layoutImage.setOrientation(LinearLayout.HORIZONTAL);
         layoutImage.setWeightSum(soHinh);
-        int width = soHinh == 1 ? LinearLayout.LayoutParams.MATCH_PARENT : getDip(100);
-        int height = soHinh == 1 ? getDip(200) : getDip(100);
-        int margin = getDip(5);
+        int width = soHinh == 1 ? LinearLayout.LayoutParams.MATCH_PARENT : MyMethod.getDip(context, 100);
+        int height = soHinh == 1 ? MyMethod.getDip(context, 200) : MyMethod.getDip(context, 100);
+        int margin = MyMethod.getDip(context, 5);
         for (int i = 0; i < soHinh; i++) {
             Drawable drawable = null;
             try {
@@ -138,7 +150,7 @@ public class CauHoiActivity extends AppCompatActivity {
             AppCompatCheckBox chk = new AppCompatCheckBox(context);
             chk.setText(cauTraLoi.getCauTraLoi());
             chk.setGravity(Gravity.TOP);
-            int padding = getDip(5);
+            int padding = MyMethod.getDip(context, 5);
             chk.setPadding(padding, padding, padding, padding);
             lstCheckBoxCauTraLoi.add(chk);
             layoutCauTraLoi.addView(chk);
@@ -166,6 +178,18 @@ public class CauHoiActivity extends AppCompatActivity {
     }
 
     private void addEvents() {
+        adView.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                adView.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAdFailedToLoad(int error) {
+                adView.setVisibility(View.GONE);
+            }
+        });
+
         btnDapAn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -199,10 +223,6 @@ public class CauHoiActivity extends AppCompatActivity {
         });
     }
 
-    private int getDip(int pixel) {
-        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, pixel, getResources().getDisplayMetrics());
-    }
-
     private void luuTrangThai() {
         for (int i = 0; i < lstCheckBoxCauTraLoi.size(); i++) {
             boolean isChecked = lstCheckBoxCauTraLoi.get(i).isChecked();
@@ -225,26 +245,60 @@ public class CauHoiActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        if (adView != null) {
+            adView.resume();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (adView != null) {
+            adView.pause();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        if (adView != null) {
+            adView.destroy();
+        }
+        super.onDestroy();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_search, menu);
         MenuItem item = menu.findItem(R.id.action_search);
-        SearchView searchView = (SearchView) item.getActionView();
-        searchView.setInputType(InputType.TYPE_CLASS_NUMBER);
-        searchView.setQueryHint("Nhập số thứ tự câu hỏi. Vd: 1,2,10...");
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        MaterialSearchView searchView = (MaterialSearchView) findViewById(R.id.searchView);
+        searchView.setMenuItem(item);
+        searchView.setHint("Nhập số thứ tự câu hỏi. Vd: 1,2,10...");
+        searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                int stt = Integer.parseInt(query);
-                if (stt >= 1 && stt <= lstCauHoi.size()) {
-                    index = stt;
-                    hienThiCauHoi(index);
-                } else {
-                    new MaterialDialog.Builder(context)
-                            .title("Không hợp lệ")
-                            .content("Dữ liệu bạn nhập không hợp lệ. Vui lòng nhập lại")
-                            .positiveText("Đóng")
-                            .show();
+                try {
+                    int stt = Integer.parseInt(query);
+                    if (stt >= 1 && stt <= lstCauHoi.size()) {
+                        index = stt;
+                        hienThiCauHoi(index);
+                        return true;
+                    }
+                } catch (Exception ignored) {
+
                 }
+                Drawable icon = MaterialDrawableBuilder.with(context)
+                        .setIcon(MaterialDrawableBuilder.IconValue.ALERT)
+                        .setColor(Color.RED)
+                        .build();
+
+                new MaterialDialog.Builder(context)
+                        .title("Không hợp lệ")
+                        .content("Dữ liệu không hợp lệ. Vui lòng nhập lại")
+                        .icon(icon)
+                        .positiveText("Đóng")
+                        .show();
                 return false;
             }
 
@@ -303,9 +357,16 @@ public class CauHoiActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            Drawable icon = MaterialDrawableBuilder.with(context)
+                    .setIcon(MaterialDrawableBuilder.IconValue.DOWNLOAD)
+                    .setColor(Color.parseColor("#1976D2"))
+                    .build();
+
             dialog = new MaterialDialog.Builder(context)
                     .title("Đang tải dữ liệu...")
-                    .customView(R.layout.custom_dialog_loading, true)
+                    .progress(true, 0)
+                    .icon(icon)
+                    .autoDismiss(false).cancelable(false).canceledOnTouchOutside(false)
                     .show();
         }
 

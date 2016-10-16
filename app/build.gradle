@@ -43,5 +43,7 @@ dependencies {
     compile 'com.github.flavienlaurent.discrollview:library:0.0.2@aar'
     compile 'net.steamcrafted:materialiconlib:1.1.1'
     compile 'com.miguelcatalan:materialsearchview:1.4.0'
+    compile 'com.google.android.gms:play-services-ads:9.6.1'
+    compile 'me.grantland:autofittextview:0.2.1'
     testCompile 'junit:junit:4.12'
 }

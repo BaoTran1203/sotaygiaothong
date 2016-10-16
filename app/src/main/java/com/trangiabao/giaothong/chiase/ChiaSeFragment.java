@@ -5,7 +5,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
@@ -19,6 +18,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.trangiabao.giaothong.R;
 
 import java.util.ArrayList;
@@ -31,6 +33,7 @@ public class ChiaSeFragment extends Fragment {
     private TextView txtInternet;
     private EditText txtSubject, txtContent;
     private Button btnGui;
+    private AdView adView;
 
     private BroadcastReceiver receiver = new BroadcastReceiver() {
 
@@ -42,7 +45,6 @@ public class ChiaSeFragment extends Fragment {
                 txtSubject.setEnabled(true);
                 txtContent.setEnabled(true);
                 btnGui.setEnabled(true);
-
                 txtSubject.requestFocus();
                 InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
@@ -82,11 +84,30 @@ public class ChiaSeFragment extends Fragment {
         txtContent = (EditText) view.findViewById(R.id.txtContent);
         btnGui = (Button) view.findViewById(R.id.btnGui);
 
+        adView = (AdView) view.findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .addTestDevice(context.getString(R.string.test_device_id))
+                .build();
+        adView.loadAd(adRequest);
+
         addEvents();
         return view;
     }
 
     private void addEvents() {
+        adView.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                adView.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAdFailedToLoad(int error) {
+                adView.setVisibility(View.GONE);
+            }
+        });
+
         final String tieuDe = txtSubject.getText().toString();
         final String noiDung = txtContent.getText().toString() + "\n\nhttps://www.google.com.vn/";
         btnGui.setOnClickListener(new View.OnClickListener() {
@@ -117,7 +138,7 @@ public class ChiaSeFragment extends Fragment {
     public boolean isPackageExisted(String packageName) {
         PackageManager pm = getActivity().getPackageManager();
         try {
-            PackageInfo info = pm.getPackageInfo(packageName, PackageManager.GET_META_DATA);
+            pm.getPackageInfo(packageName, PackageManager.GET_META_DATA);
         } catch (PackageManager.NameNotFoundException e) {
             return false;
         }
@@ -127,6 +148,9 @@ public class ChiaSeFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        if (adView != null) {
+            adView.resume();
+        }
         IntentFilter intentFilter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
         context.registerReceiver(receiver, intentFilter);
     }
@@ -134,7 +158,18 @@ public class ChiaSeFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
+        if (adView != null) {
+            adView.pause();
+        }
         if (receiver != null)
             context.unregisterReceiver(receiver);
+    }
+
+    @Override
+    public void onDestroy() {
+        if (adView != null) {
+            adView.destroy();
+        }
+        super.onDestroy();
     }
 }

@@ -1,4 +1,5 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:autofit="http://schemas.android.com/apk/res-auto"
     xmlns:discrollve="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,7 +8,8 @@
 
     <com.flavienlaurent.discrollview.lib.DiscrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_above="@+id/adView">
 
         <com.flavienlaurent.discrollview.lib.DiscrollViewContent
             android:layout_width="match_parent"
@@ -25,16 +27,18 @@
                     android:layout_height="150dp"
                     android:layout_margin="20dp" />
 
-                <TextView
+                <me.grantland.widget.AutofitTextView
                     android:layout_width="match_parent"
                     android:layout_height="300dp"
                     android:background="#FFF"
                     android:fontFamily="serif"
                     android:gravity="center"
-                    android:padding="25dp"
+                    android:maxLines="2"
+                    android:padding="10dp"
                     android:text="@string/gioithieu1"
                     android:textColor="@android:color/black"
-                    android:textSize="49sp" />
+                    android:textSize="50sp"
+                    autofit:minTextSize="20sp" />
 
             </LinearLayout>
 
@@ -44,15 +48,17 @@
                 discrollve:discrollve_fromBgColor="#C71585"
                 discrollve:discrollve_toBgColor="#9acd32" />
 
-            <TextView
+            <me.grantland.widget.AutofitTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="25dp"
                 android:fontFamily="serif"
                 android:gravity="center"
-                android:padding="20dp"
+                android:maxLines="1"
+                android:padding="15dp"
                 android:text="@string/gioithieu2"
-                android:textSize="20sp"
+                android:textColor="@android:color/black"
+                android:textSize="50sp"
+                autofit:minTextSize="20sp"
                 discrollve:discrollve_alpha="true"
                 discrollve:discrollve_translation="fromBottom" />
 
@@ -72,14 +78,17 @@
                 discrollve:discrollve_alpha="true"
                 discrollve:discrollve_translation="fromRight" />
 
-            <TextView
+            <me.grantland.widget.AutofitTextView
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:fontFamily="serif"
                 android:gravity="left|center_vertical"
+                android:maxLines="3"
                 android:paddingLeft="25dp"
                 android:text="@string/gioithieu3"
-                android:textSize="25sp"
+                android:textColor="@android:color/black"
+                android:textSize="50sp"
+                autofit:minTextSize="20sp"
                 discrollve:discrollve_scaleX="true" />
 
             <View
@@ -88,15 +97,17 @@
                 discrollve:discrollve_fromBgColor="#0000ff"
                 discrollve:discrollve_toBgColor="#ffa500" />
 
-            <TextView
+            <me.grantland.widget.AutofitTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="25dp"
                 android:fontFamily="serif"
                 android:gravity="center"
+                android:maxLines="1"
                 android:padding="20dp"
                 android:text="@string/gioithieu4"
-                android:textSize="20sp"
+                android:textColor="@android:color/black"
+                android:textSize="50sp"
+                autofit:minTextSize="20sp"
                 discrollve:discrollve_alpha="true"
                 discrollve:discrollve_translation="fromTop" />
 
@@ -119,6 +130,7 @@
                         android:id="@+id/imgIntro4"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
+                        android:layout_marginLeft="5dp"
                         android:layout_weight="1"
                         android:src="@drawable/ic_muc_luc" />
 
@@ -138,15 +150,18 @@
 
                 </LinearLayout>
 
-                <TextView
+                <me.grantland.widget.AutofitTextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:fontFamily="serif"
                     android:gravity="center_vertical"
+                    android:maxLines="1"
                     android:paddingLeft="10dp"
                     android:text="@string/gioithieu5"
-                    android:textSize="17sp" />
+                    android:textColor="@android:color/black"
+                    android:textSize="50sp"
+                    autofit:minTextSize="20sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -157,46 +172,53 @@
                 android:weightSum="2"
                 discrollve:discrollve_translation="fromLeft|fromBottom">
 
-                <TextView
+                <me.grantland.widget.AutofitTextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:fontFamily="serif"
                     android:gravity="center_vertical|right"
+                    android:maxLines="1"
                     android:paddingRight="10dp"
                     android:text="@string/gioithieu6"
-                    android:textSize="17sp" />
+                    android:textColor="@android:color/black"
+                    android:textSize="50sp"
+                    autofit:minTextSize="20sp" />
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:weightSum="2">
 
                     <ImageView
                         android:id="@+id/imgIntro7"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:src="@drawable/ic_muc_luc" />
+                        android:layout_weight="1" />
 
                     <ImageView
                         android:id="@+id/imgIntro8"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:src="@drawable/ic_muc_luc" />
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="1" />
                 </LinearLayout>
             </LinearLayout>
 
-            <TextView
+            <me.grantland.widget.AutofitTextView
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:fontFamily="serif"
                 android:gravity="left|center_vertical"
+                android:maxLines="2"
                 android:paddingLeft="25dp"
                 android:text="@string/gioithieu7"
-                android:textSize="25sp"
+                android:textColor="@android:color/black"
+                android:textSize="50sp"
+                autofit:minTextSize="20sp"
                 discrollve:discrollve_scaleX="true" />
 
             <View
@@ -205,13 +227,14 @@
                 discrollve:discrollve_fromBgColor="#ffff00"
                 discrollve:discrollve_toBgColor="#ee82ee" />
 
-            <TextView
+            <!--<TextView
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:fontFamily="serif"
                 android:gravity="center"
                 android:text="@string/gioithieu8"
                 android:textSize="30sp"
+                android:visibility="gone"
                 discrollve:discrollve_alpha="true"
                 discrollve:discrollve_translation="fromRight|fromBottom" />
 
@@ -219,7 +242,7 @@
                 android:id="@+id/imgIntro9"
                 android:layout_width="match_parent"
                 android:layout_height="120dp"
-                android:src="@drawable/ic_muc_luc"
+                android:visibility="gone"
                 discrollve:discrollve_alpha="true"
                 discrollve:discrollve_scaleX="true" />
 
@@ -231,32 +254,38 @@
                 android:paddingLeft="25dp"
                 android:text="@string/gioithieu9"
                 android:textSize="25sp"
+                android:visibility="gone"
                 discrollve:discrollve_alpha="true" />
 
             <ImageView
                 android:id="@+id/imgIntro10"
                 android:layout_width="match_parent"
                 android:layout_height="120dp"
-                android:src="@drawable/ic_muc_luc"
+                android:visibility="gone"
                 discrollve:discrollve_alpha="true"
                 discrollve:discrollve_scaleY="true" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="120dp"
+                android:visibility="gone"
                 discrollve:discrollve_alpha="true"
                 discrollve:discrollve_fromBgColor="#008000"
-                discrollve:discrollve_toBgColor="#ff0000" />
+                discrollve:discrollve_toBgColor="#ff0000" />-->
 
-            <TextView
+            <me.grantland.widget.AutofitTextView
                 android:layout_width="match_parent"
                 android:layout_height="120dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
                 android:background="#FFF"
                 android:fontFamily="serif"
                 android:gravity="center"
-                android:paddingLeft="25dp"
+                android:maxLines="1"
                 android:text="@string/gioithieu10"
-                android:textSize="25sp"
+                android:textColor="@android:color/black"
+                android:textSize="50sp"
+                autofit:minTextSize="20sp"
                 discrollve:discrollve_alpha="true" />
 
             <ImageView
@@ -273,4 +302,12 @@
                 android:background="#FFF" />
         </com.flavienlaurent.discrollview.lib.DiscrollViewContent>
     </com.flavienlaurent.discrollview.lib.DiscrollView>
-</FrameLayout>
+
+    <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/adView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        ads:adSize="BANNER"
+        ads:adUnitId="@string/f_gioithieu" />
+</RelativeLayout>

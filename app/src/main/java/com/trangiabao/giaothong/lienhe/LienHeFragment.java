@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.Uri;
@@ -20,10 +21,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.trangiabao.giaothong.R;
 
-import java.io.IOException;
-import java.io.InputStream;
+import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 
 @SuppressLint("ValidFragment")
 public class LienHeFragment extends Fragment implements View.OnClickListener {
@@ -42,6 +45,7 @@ public class LienHeFragment extends Fragment implements View.OnClickListener {
     private LinearLayout layout_phone;
     private LinearLayout layout_facebook;
     private LinearLayout layout_skype;
+    private AdView adView;
 
     private String version;
 
@@ -79,18 +83,30 @@ public class LienHeFragment extends Fragment implements View.OnClickListener {
         layout_facebook.setOnClickListener(this);
         layout_mail.setOnClickListener(this);
         layout_phone.setOnClickListener(this);
+
+        adView = (AdView) view.findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .addTestDevice(context.getString(R.string.test_device_id))
+                .build();
+        adView.loadAd(adRequest);
+
+        addEvents();
         return view;
     }
 
-    private Drawable getDrawable(String path) {
-        Drawable drawable = null;
-        try {
-            InputStream is = context.getAssets().open(path);
-            drawable = Drawable.createFromStream(is, null);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return drawable;
+    private void addEvents() {
+        adView.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                adView.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAdFailedToLoad(int error) {
+                adView.setVisibility(View.GONE);
+            }
+        });
     }
 
     private boolean checkInternet() {
@@ -120,8 +136,15 @@ public class LienHeFragment extends Fragment implements View.OnClickListener {
                         "- Biển số xe<br>" +
                         "- Đường dây nóng<br><br>" +
                         "<em>Mọi ý kiến đóng góp về lỗi, nội dung ứng dụng xin gửi thông tin cho nhà phát triển theo thông tin liên hệ bên dưới</em>";
+
+                Drawable icon = MaterialDrawableBuilder.with(context)
+                        .setIcon(MaterialDrawableBuilder.IconValue.INFORMATION)
+                        .setColor(Color.parseColor("#1976D2"))
+                        .build();
+
                 new MaterialDialog.Builder(context)
                         .title("Thông tin ứng dụng")
+                        .icon(icon)
                         .content(Html.fromHtml(content))
                         .show();
                 break;
@@ -171,5 +194,29 @@ public class LienHeFragment extends Fragment implements View.OnClickListener {
                 }
                 break;
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (adView != null) {
+            adView.resume();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (adView != null) {
+            adView.pause();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        if (adView != null) {
+            adView.destroy();
+        }
+        super.onDestroy();
     }
 }

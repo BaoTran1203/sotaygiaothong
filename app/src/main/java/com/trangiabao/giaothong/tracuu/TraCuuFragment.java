@@ -11,6 +11,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.mikepenz.fastadapter.FastAdapter;
 import com.mikepenz.fastadapter.IAdapter;
 import com.mikepenz.fastadapter.adapters.FastItemAdapter;
@@ -29,8 +32,10 @@ import java.util.List;
 public class TraCuuFragment extends Fragment {
 
     private Context context;
+
     private FastItemAdapter<TraCuuAdapter> adapter;
     private RecyclerView rvTraCuu;
+    private AdView adView;
 
     private static final String[][] PATH = {
             {"Luật giao thông", "image/icon/ic_luat.png"},
@@ -59,6 +64,13 @@ public class TraCuuFragment extends Fragment {
         rvTraCuu.setHasFixedSize(true);
         rvTraCuu.setAdapter(adapter);
 
+        adView = (AdView) view.findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .addTestDevice(context.getString(R.string.test_device_id))
+                .build();
+        adView.loadAd(adRequest);
+
         addEvents();
         return view;
     }
@@ -83,6 +95,18 @@ public class TraCuuFragment extends Fragment {
     }
 
     private void addEvents() {
+        adView.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                adView.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAdFailedToLoad(int error) {
+                adView.setVisibility(View.GONE);
+            }
+        });
+
         adapter.withOnClickListener(new FastAdapter.OnClickListener<TraCuuAdapter>() {
             @Override
             public boolean onClick(View v, IAdapter<TraCuuAdapter> adapter, TraCuuAdapter item, int position) {
@@ -106,5 +130,29 @@ public class TraCuuFragment extends Fragment {
                 return false;
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (adView != null) {
+            adView.resume();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (adView != null) {
+            adView.pause();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        if (adView != null) {
+            adView.destroy();
+        }
+        super.onDestroy();
     }
 }

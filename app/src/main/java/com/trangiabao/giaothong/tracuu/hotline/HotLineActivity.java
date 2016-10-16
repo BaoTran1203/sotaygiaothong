@@ -1,6 +1,8 @@
 package com.trangiabao.giaothong.tracuu.hotline;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -14,6 +16,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import com.mikepenz.fastadapter.adapters.FastItemAdapter;
 import com.trangiabao.giaothong.R;
@@ -24,13 +30,13 @@ import com.trangiabao.giaothong.tracuu.hotline.db.NhomHotLineDB;
 import com.trangiabao.giaothong.tracuu.hotline.model.HotLine;
 import com.trangiabao.giaothong.tracuu.hotline.model.NhomHotLine;
 
+import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
+
 import java.util.List;
 
 public class HotLineActivity extends AppCompatActivity {
 
     private Context context = HotLineActivity.this;
-
-    // controls
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -39,7 +45,7 @@ public class HotLineActivity extends AppCompatActivity {
     private LinearLayout layout_viewPager;
     private RecyclerView recyclerView;
     private FastItemAdapter<HotLine> adapter;
-
+    private AdView adView;
     private SearchTask searchTask;
 
     @Override
@@ -71,9 +77,28 @@ public class HotLineActivity extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.setAdapter(adapter);
+
+        adView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .addTestDevice(context.getString(R.string.test_device_id))
+                .build();
+        adView.loadAd(adRequest);
     }
 
     private void addEvents() {
+        adView.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                adView.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAdFailedToLoad(int error) {
+                adView.setVisibility(View.GONE);
+            }
+        });
+
         searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -82,12 +107,10 @@ public class HotLineActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                adapter.clear();
-                if (newText.length() > 0) {
+                if (newText.length() >= 2) {
                     searchTask = new SearchTask();
                     searchTask.execute(newText);
                 }
-                adapter.notifyAdapterDataSetChanged();
                 return false;
             }
         });
@@ -134,12 +157,38 @@ public class HotLineActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (adView != null) {
+            adView.resume();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (adView != null) {
+            adView.pause();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        if (adView != null) {
+            adView.destroy();
+        }
+        super.onDestroy();
+    }
+
     class SearchTask extends AsyncTask<String, Void, List<HotLine>> {
 
         @Override
         protected void onPostExecute(List<HotLine> lstHotLine) {
             super.onPostExecute(lstHotLine);
+            adapter.clear();
             adapter.add(lstHotLine);
+            adapter.notifyAdapterDataSetChanged();
         }
 
         @Override
@@ -151,10 +200,28 @@ public class HotLineActivity extends AppCompatActivity {
     public class LoadData extends AsyncTask<Void, Void, Void> {
 
         private List<NhomHotLine> lstNhomHotLine;
+        private MaterialDialog dialog;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            Drawable icon = MaterialDrawableBuilder.with(context)
+                    .setIcon(MaterialDrawableBuilder.IconValue.DOWNLOAD)
+                    .setColor(Color.parseColor("#1976D2"))
+                    .build();
+
+            dialog = new MaterialDialog.Builder(context)
+                    .title("Đang tải dữ liệu...")
+                    .progress(true, 0)
+                    .icon(icon)
+                    .autoDismiss(false).cancelable(false).canceledOnTouchOutside(false)
+                    .show();
+        }
 
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+            dialog.dismiss();
             viewPager.setAdapter(pagerAdapter);
             tabLayout.setupWithViewPager(viewPager);
         }

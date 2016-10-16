@@ -9,6 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.trangiabao.giaothong.R;
 
 import java.io.IOException;
@@ -18,6 +21,7 @@ public class GioiThieuFragment extends Fragment {
 
     private Context context;
 
+    private AdView adView;
     private ImageView imgIntro1, imgIntro2, imgIntro3;
     private ImageView imgIntro4, imgIntro5, imgIntro6;
     private ImageView imgIntro7, imgIntro8;
@@ -26,7 +30,7 @@ public class GioiThieuFragment extends Fragment {
     private static final String[] PATH = {
             "image/intro/intro1.png",
             "image/intro/intro2.png",
-            "image/intro/intro3.jpeg",
+            "image/intro/intro3.png",
             "image/intro/intro4.png",
             "image/intro/intro5.png",
             "image/intro/intro6.png",
@@ -53,8 +57,8 @@ public class GioiThieuFragment extends Fragment {
         imgIntro6 = (ImageView) view.findViewById(R.id.imgIntro6);
         imgIntro7 = (ImageView) view.findViewById(R.id.imgIntro7);
         imgIntro8 = (ImageView) view.findViewById(R.id.imgIntro8);
-        imgIntro9 = (ImageView) view.findViewById(R.id.imgIntro9);
-        imgIntro10 = (ImageView) view.findViewById(R.id.imgIntro10);
+        //imgIntro9 = (ImageView) view.findViewById(R.id.imgIntro9);
+        //imgIntro10 = (ImageView) view.findViewById(R.id.imgIntro10);
         imgIntro11 = (ImageView) view.findViewById(R.id.imgIntro11);
 
         imgIntro1.setImageDrawable(getDrawable(PATH[0]));
@@ -65,10 +69,33 @@ public class GioiThieuFragment extends Fragment {
         imgIntro6.setImageDrawable(getDrawable(PATH[5]));
         imgIntro7.setImageDrawable(getDrawable(PATH[6]));
         imgIntro8.setImageDrawable(getDrawable(PATH[7]));
-        imgIntro9.setImageDrawable(getDrawable(PATH[8]));
-        imgIntro10.setImageDrawable(getDrawable(PATH[9]));
+        //imgIntro9.setImageDrawable(getDrawable(PATH[8]));
+        //imgIntro10.setImageDrawable(getDrawable(PATH[9]));
         imgIntro11.setImageDrawable(getDrawable(PATH[10]));
+
+        adView = (AdView) view.findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .addTestDevice(context.getString(R.string.test_device_id))
+                .build();
+        adView.loadAd(adRequest);
+
+        addEvents();
         return view;
+    }
+
+    private void addEvents() {
+        adView.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                adView.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAdFailedToLoad(int error) {
+                adView.setVisibility(View.GONE);
+            }
+        });
     }
 
     private Drawable getDrawable(String path) {
@@ -80,5 +107,32 @@ public class GioiThieuFragment extends Fragment {
             e.printStackTrace();
         }
         return drawable;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (adView != null) {
+            adView.resume();
+            adView.setVisibility(View.VISIBLE);
+        } else {
+            adView.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (adView != null) {
+            adView.pause();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        if (adView != null) {
+            adView.destroy();
+        }
+        super.onDestroy();
     }
 }

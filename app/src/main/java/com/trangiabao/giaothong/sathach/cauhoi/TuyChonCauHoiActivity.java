@@ -17,6 +17,9 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.trangiabao.giaothong.R;
 import com.trangiabao.giaothong.sathach.cauhoi.db.LoaiBangDB;
@@ -42,6 +45,7 @@ public class TuyChonCauHoiActivity extends AppCompatActivity {
     private CheckBox chkTatCa;
     private List<CheckBox> lstCheckBoxNhomCauHoi;
     private RadioButton radNgauNhien;
+    private AdView adView;
 
     //data
     private List<LoaiBang> lstLoaiBang;
@@ -73,9 +77,28 @@ public class TuyChonCauHoiActivity extends AppCompatActivity {
         radNgauNhien = (RadioButton) findViewById(R.id.radNgauNhien);
 
         selectSpinnerItem(0);
+
+        adView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .addTestDevice(context.getString(R.string.test_device_id))
+                .build();
+        adView.loadAd(adRequest);
     }
 
     private void addEvents() {
+        adView.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                adView.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAdFailedToLoad(int error) {
+                adView.setVisibility(View.GONE);
+            }
+        });
+
         spinnerHang.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<String>() {
             @Override
             public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
@@ -193,4 +216,29 @@ public class TuyChonCauHoiActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (adView != null) {
+            adView.resume();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (adView != null) {
+            adView.pause();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        if (adView != null) {
+            adView.destroy();
+        }
+        super.onDestroy();
+    }
+
 }

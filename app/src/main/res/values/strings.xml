@@ -9,8 +9,6 @@
     <string name="gioithieu5">Hệ thống biển báo</string>
     <string name="gioithieu6">Văn bản pháp luật</string>
     <string name="gioithieu7">- Thông tin đầy đủ và chính xác \n- Tra cứu mọi lúc, mọi nơi</string>
-    <string name="gioithieu8">Cẩm nang giao thông</string>
-    <string name="gioithieu9">- Bổ sung kiến thức về giao thông\n- Các kỹ năng xử lý tình huống\n- Cập nhật tin tức</string>
     <string name="gioithieu10">Tiện ích của bạn</string>
     <string name="truoc">Trước</string>
     <string name="sau">Sau</string>
@@ -39,8 +37,31 @@
     <string name="bai_thi">Bài thi</string>
     <string name="dap_an">Đáp án</string>
     <string name="dac_diem">Đặc điểm</string>
+    <string name="gui">Gửi</string>
+    <string name="internet">*Bạn phải kết nối Internet</string>
+    <string name="noi_dung">Nội dung</string>
+    <string name="email">Email</string>
+    <string name="tieu_de">Tiêu đề</string>
+    <string name="feedback">Mọi ý kiến đóng góp, phản hồi, báo lỗi. Xin gửi thông tin cho nhà phát triển</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
+    <!-- AdMob ad unit IDs -->
+    <string name="test_device_id">9C22A30BC18128F577CA9F35BC508E43</string>
+    <string name="a_baithi">ca-app-pub-5798426578498335/5204923208</string>
+    <string name="a_bienbao">ca-app-pub-5798426578498335/6542055608</string>
+    <string name="a_biensoxe">ca-app-pub-5798426578498335/9495522009</string>
+    <string name="a_cauhoi">ca-app-pub-5798426578498335/2251456806</string>
+    <string name="a_chuong">ca-app-pub-5798426578498335/2111856003</string>
+    <string name="a_hotline">ca-app-pub-5798426578498335/1972255202</string>
+    <string name="a_meoghinho">ca-app-pub-5798426578498335/8158389601</string>
+    <string name="a_noidung">ca-app-pub-5798426578498335/3588589200</string>
+    <string name="a_tuychonbaithi">ca-app-pub-5798426578498335/3728190009</string>
+    <string name="a_tuychoncauhoi">ca-app-pub-5798426578498335/9774723601</string>
+    <string name="a_vanban">ca-app-pub-5798426578498335/9635122806</string>
+    <string name="a_xuphat">ca-app-pub-5798426578498335/8018788803</string>
+    <string name="f_chiase">ca-app-pub-5798426578498335/2391057605</string>
+    <string name="f_feedback">ca-app-pub-5798426578498335/8297990401</string>
+    <string name="f_gioithieu">ca-app-pub-5798426578498335/4007391609</string>
+    <string name="f_lienhe">ca-app-pub-5798426578498335/5344524006</string>
+    <string name="f_sathach">ca-app-pub-5798426578498335/5484124809</string>
+    <string name="f_tracuu">ca-app-pub-5798426578498335/6960858003</string>
 </resources>

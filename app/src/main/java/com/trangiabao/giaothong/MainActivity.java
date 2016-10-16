@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
                         new DividerDrawerItem(),
                         new PrimaryDrawerItem().withIdentifier(2).withName("Sát hạch lái xe").withIcon(R.drawable.ic_sat_hach),
                         new PrimaryDrawerItem().withIdentifier(3).withName("Tra cứu thông tin").withIcon(R.drawable.ic_tra_cuu),
-                        new PrimaryDrawerItem().withIdentifier(4).withName("Cẩm nang giao thông").withIcon(R.drawable.ic_cam_nang),
+                        //new PrimaryDrawerItem().withIdentifier(4).withName("Cẩm nang giao thông").withIcon(R.drawable.ic_cam_nang),
                         new DividerDrawerItem(),
                         new PrimaryDrawerItem().withIdentifier(5).withName("Đánh giá ứng dụng").withIcon(R.drawable.ic_danh_gia),
                         new PrimaryDrawerItem().withIdentifier(6).withName("Chia sẽ với mọi người").withIcon(R.drawable.ic_chia_se),

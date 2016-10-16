@@ -2,6 +2,7 @@ package com.trangiabao.giaothong.sathach;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.Uri;
@@ -17,14 +18,19 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.mikepenz.fastadapter.FastAdapter;
 import com.mikepenz.fastadapter.IAdapter;
 import com.mikepenz.fastadapter.adapters.FastItemAdapter;
 import com.trangiabao.giaothong.R;
-import com.trangiabao.giaothong.sathach.cauhoi.TuyChonCauHoiActivity;
 import com.trangiabao.giaothong.sathach.cauhoi.TuyChonBaiThiActivity;
+import com.trangiabao.giaothong.sathach.cauhoi.TuyChonCauHoiActivity;
 import com.trangiabao.giaothong.sathach.meo.MeoActivity;
 import com.trangiabao.giaothong.sathach.sahinh.SaHinhActivity;
+
+import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -33,9 +39,11 @@ import java.util.List;
 
 public class SatHachFragment extends Fragment {
 
+    private Context context;
+
     private FastItemAdapter<SatHachAdapter> adapter;
     private RecyclerView rvSatHach;
-    private Context context;
+    private AdView adView;
 
     private static final String[] PATH = {
             "image/icon/ic_cau_hoi.png",
@@ -64,6 +72,13 @@ public class SatHachFragment extends Fragment {
         rvSatHach.setAdapter(adapter);
         adapter.add(createList());
 
+        adView = (AdView) view.findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .addTestDevice(context.getString(R.string.test_device_id))
+                .build();
+        adView.loadAd(adRequest);
+
         addEvents();
         return view;
     }
@@ -89,6 +104,18 @@ public class SatHachFragment extends Fragment {
     }
 
     private void addEvents() {
+        adView.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                adView.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAdFailedToLoad(int error) {
+                adView.setVisibility(View.GONE);
+            }
+        });
+
         adapter.withOnClickListener(new FastAdapter.OnClickListener<SatHachAdapter>() {
             @Override
             public boolean onClick(View v, IAdapter<SatHachAdapter> adapter, SatHachAdapter item, int position) {
@@ -106,8 +133,13 @@ public class SatHachFragment extends Fragment {
                         if (connectivityManager.getActiveNetworkInfo() == null) {
                             Toast.makeText(context, "Chức năng yêu cầu kết nối Internet", Toast.LENGTH_SHORT).show();
                         } else if (youtubeIntent == null) {
+                            Drawable icon = MaterialDrawableBuilder.with(context)
+                                    .setIcon(MaterialDrawableBuilder.IconValue.YOUTUBE_PLAY)
+                                    .setColor(Color.RED)
+                                    .build();
+
                             new MaterialDialog.Builder(context)
-                                    .title("Không tìm thấy ứng dụng Youtube")
+                                    .title("Không tìm thấy ứng dụng Youtube").icon(icon)
                                     .content("Chức năng yêu cầu thiết bị phải có ứng dụng Youtube. Bạn có muốn cài đặt ngay bây giờ không ?")
                                     .positiveText("Có")
                                     .onPositive(new MaterialDialog.SingleButtonCallback() {
@@ -139,5 +171,29 @@ public class SatHachFragment extends Fragment {
                 return true;
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (adView != null) {
+            adView.resume();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (adView != null) {
+            adView.pause();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        if (adView != null) {
+            adView.destroy();
+        }
+        super.onDestroy();
     }
 }

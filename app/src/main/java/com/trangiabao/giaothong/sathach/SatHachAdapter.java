@@ -14,12 +14,12 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SatHachAdapter extends AbstractItem<SatHachAdapter, SatHachAdapter.ViewHolder> {
+class SatHachAdapter extends AbstractItem<SatHachAdapter, SatHachAdapter.ViewHolder> {
 
     private String title;
     private Drawable icon;
 
-    public SatHachAdapter(String title, Drawable icon) {
+    SatHachAdapter(String title, Drawable icon) {
         this.title = title;
         this.icon = icon;
     }
@@ -49,10 +49,10 @@ public class SatHachAdapter extends AbstractItem<SatHachAdapter, SatHachAdapter.
         viewHolder.imgIcon.setImageDrawable(getIcon());
     }
 
-    protected static class ViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder {
 
-        protected TextView txtTitle;
-        protected ImageView imgIcon;
+        private TextView txtTitle;
+        private ImageView imgIcon;
 
         public ViewHolder(View view) {
             super(view);

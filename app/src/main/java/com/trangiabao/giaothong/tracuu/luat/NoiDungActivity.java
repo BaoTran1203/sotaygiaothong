@@ -1,6 +1,8 @@
 package com.trangiabao.giaothong.tracuu.luat;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +17,10 @@ import android.widget.Button;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.trangiabao.giaothong.R;
 import com.trangiabao.giaothong.tracuu.luat.db.ChuongDB;
 import com.trangiabao.giaothong.tracuu.luat.db.DieuDB;
@@ -22,13 +28,14 @@ import com.trangiabao.giaothong.tracuu.luat.model.Chuong;
 import com.trangiabao.giaothong.tracuu.luat.model.Dieu;
 import com.trangiabao.giaothong.tracuu.luat.model.NoiDung;
 
+import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
+
 import java.util.List;
 
 public class NoiDungActivity extends AppCompatActivity {
 
-    private Context context = NoiDungActivity.this;
-
     // controls
+    private Context context = NoiDungActivity.this;
     private GestureDetector gestureDetector;
     private Toolbar toolbar;
     private ViewGroup container;
@@ -36,6 +43,7 @@ public class NoiDungActivity extends AppCompatActivity {
     private Button btnTruoc, btnSau;
     private View line;
     private ScrollView scroll;
+    private AdView adView;
 
     // data
     private int index = 1;
@@ -67,9 +75,28 @@ public class NoiDungActivity extends AppCompatActivity {
         btnSau = (Button) findViewById(R.id.btnSau);
         line = findViewById(R.id.line);
         scroll = (ScrollView) findViewById(R.id.scroll);
+
+        adView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .addTestDevice(context.getString(R.string.test_device_id))
+                .build();
+        adView.loadAd(adRequest);
     }
 
     private void addEvents() {
+        adView.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                adView.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAdFailedToLoad(int error) {
+                adView.setVisibility(View.GONE);
+            }
+        });
+
         btnTruoc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -129,6 +156,30 @@ public class NoiDungActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        if (adView != null) {
+            adView.resume();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (adView != null) {
+            adView.pause();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        if (adView != null) {
+            adView.destroy();
+        }
+        super.onDestroy();
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (android.R.id.home == id) {
@@ -171,10 +222,28 @@ public class NoiDungActivity extends AppCompatActivity {
     private class LoadData extends AsyncTask<Void, Void, Void> {
 
         private Chuong chuong;
+        private MaterialDialog dialog;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            Drawable icon = MaterialDrawableBuilder.with(context)
+                    .setIcon(MaterialDrawableBuilder.IconValue.DOWNLOAD)
+                    .setColor(Color.parseColor("#1976D2"))
+                    .build();
+
+            dialog = new MaterialDialog.Builder(context)
+                    .title("Đang tải dữ liệu...")
+                    .progress(true, 0)
+                    .icon(icon)
+                    .autoDismiss(false).cancelable(false).canceledOnTouchOutside(false)
+                    .show();
+        }
 
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+            dialog.dismiss();
             txtChuong.setText(chuong.getTenChuong());
             txtMuc.setText(chuong.getMuc());
             hienThiNoiDung(1);

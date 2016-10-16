@@ -10,6 +10,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.mikepenz.fastadapter.FastAdapter;
 import com.mikepenz.fastadapter.IAdapter;
 import com.mikepenz.fastadapter.adapters.FastItemAdapter;
@@ -21,12 +24,14 @@ import java.util.List;
 
 public class ChuongActivity extends AppCompatActivity {
 
+    // controls
     private Context context = ChuongActivity.this;
-
     private Toolbar toolbar;
     private FastItemAdapter<Chuong> adapter;
     private RecyclerView rvChuong;
+    private AdView adView;
 
+    // datas
     private List<Chuong> lstChuong;
     private Chuong chuong;
 
@@ -56,9 +61,28 @@ public class ChuongActivity extends AppCompatActivity {
 
         rvChuong.setAdapter(adapter);
         adapter.add(lstChuong);
+
+        adView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .addTestDevice(context.getString(R.string.test_device_id))
+                .build();
+        adView.loadAd(adRequest);
     }
 
     private void addEvents() {
+        adView.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                adView.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAdFailedToLoad(int error) {
+                adView.setVisibility(View.GONE);
+            }
+        });
+
         adapter.withOnClickListener(new FastAdapter.OnClickListener<Chuong>() {
             @Override
             public boolean onClick(View v, IAdapter<Chuong> adapter, Chuong item, int position) {
@@ -78,5 +102,29 @@ public class ChuongActivity extends AppCompatActivity {
             super.onBackPressed();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (adView != null) {
+            adView.resume();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (adView != null) {
+            adView.pause();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        if (adView != null) {
+            adView.destroy();
+        }
+        super.onDestroy();
     }
 }
