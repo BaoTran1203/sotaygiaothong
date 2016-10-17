@@ -3,6 +3,11 @@ package com.trangiabao.giaothong.ex;
 import android.content.Context;
 import android.util.TypedValue;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.text.Normalizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -29,4 +34,5 @@ public class MyMethod {
     public static int getDip(Context context, int pixel) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, pixel, context.getResources().getDisplayMetrics());
     }
+
 }

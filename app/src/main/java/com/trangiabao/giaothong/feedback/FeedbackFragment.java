@@ -199,7 +199,7 @@ public class FeedbackFragment extends Fragment {
         super.onDestroy();
     }
 
-    class SenderAsyncTask extends AsyncTask<String, Void, String> {
+    class SenderAsyncTask extends AsyncTask<String, Void, Boolean> {
 
         final static String LINK = "http://sotaygiaothong.890m.com/feedback.php";
         final static String LINK_TEST = "http://sotaygiaothong.890m.com/feedback.php1111";
@@ -210,7 +210,7 @@ public class FeedbackFragment extends Fragment {
             super.onPreExecute();
             Drawable icon = MaterialDrawableBuilder.with(context)
                     .setIcon(MaterialDrawableBuilder.IconValue.UPLOAD)
-                    .setColor(Color.parseColor("#eeee00"))
+                    .setColor(Color.parseColor("#1976D2"))
                     .build();
 
             dialog = new MaterialDialog.Builder(context)
@@ -222,20 +222,20 @@ public class FeedbackFragment extends Fragment {
         }
 
         @Override
-        protected void onPostExecute(String response) {
+        protected void onPostExecute(Boolean response) {
             super.onPostExecute(response);
             dialog.dismiss();
             String title;
             String content;
             Drawable icon;
-            if (response != null) {
+            if (response) {
                 title = "Thành công";
                 content = "Thông tin đã gửi thành công. " +
                         "Chúng tôi sẽ phản hồi trong thời gian sớm nhất. " +
                         "Xin cảm ơn sự đóng góp của bạn.";
                 icon = MaterialDrawableBuilder.with(context)
                         .setIcon(MaterialDrawableBuilder.IconValue.INFORMATION)
-                        .setColor(Color.parseColor("#eeee00"))
+                        .setColor(Color.parseColor("#1976D2"))
                         .build();
             } else {
                 title = "Thất bại";
@@ -243,7 +243,7 @@ public class FeedbackFragment extends Fragment {
                         "Xin vui lòng thử lại sau hoặc " +
                         "liên hệ trực tiếp với nhà phát triển trong phần liên hệ";
                 icon = MaterialDrawableBuilder.with(context)
-                        .setIcon(MaterialDrawableBuilder.IconValue.ALERT)
+                        .setIcon(MaterialDrawableBuilder.IconValue.ALERT_CIRCLE)
                         .setColor(Color.RED)
                         .build();
             }
@@ -262,7 +262,7 @@ public class FeedbackFragment extends Fragment {
         }
 
         @Override
-        protected String doInBackground(String... params) {
+        protected Boolean doInBackground(String... params) {
             try {
                 // Kết nối HTML
                 URL url = new URL(LINK);
@@ -276,6 +276,7 @@ public class FeedbackFragment extends Fragment {
                 // Tạo link
                 JSONObject jo = new JSONObject();
                 StringBuilder packedData = new StringBuilder();
+                jo.put("action", "insertDB");
                 jo.put("TieuDe", params[0]);
                 jo.put("Email", params[1]);
                 jo.put("NoiDung", params[2]);
@@ -315,12 +316,12 @@ public class FeedbackFragment extends Fragment {
                         line = br.readLine();
                     }
                     br.close();
-                    return response.toString();
+                    return response.toString().equals("true");
                 }
             } catch (IOException | JSONException e) {
                 e.printStackTrace();
             }
-            return null;
+            return false;
         }
     }
 }

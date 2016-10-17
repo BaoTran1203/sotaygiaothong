@@ -14,8 +14,7 @@ public class ViewPagerTransformer implements ViewPager.PageTransformer {
         onTransform(page, position);
     }
 
-    public void onPreTransform(View page, float position) {
-        final float width = page.getWidth();
+    private void onPreTransform(View page, float position) {
         page.setRotationX(0);
         page.setRotationY(0);
         page.setRotation(0);
@@ -29,7 +28,7 @@ public class ViewPagerTransformer implements ViewPager.PageTransformer {
         page.setEnabled(false);
     }
 
-    public void onTransform(View view, float position) {
+    private void onTransform(View view, float position) {
         if (position <= 0f) {
             view.setTranslationX(0f);
             view.setScaleX(1f);

@@ -24,12 +24,17 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.util.DrawerUIUtils;
 import com.mikepenz.materialize.util.UIUtils;
 import com.trangiabao.giaothong.chiase.ChiaSeFragment;
-import com.trangiabao.giaothong.ex.DataProvider;
 import com.trangiabao.giaothong.feedback.FeedbackFragment;
 import com.trangiabao.giaothong.gioithieu.GioiThieuFragment;
 import com.trangiabao.giaothong.lienhe.LienHeFragment;
 import com.trangiabao.giaothong.sathach.SatHachFragment;
 import com.trangiabao.giaothong.tracuu.TraCuuFragment;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -40,14 +45,49 @@ public class MainActivity extends AppCompatActivity {
     private MiniDrawer miniResult;
     private CrossfadeDrawerLayout crossfadeDrawerLayout;
 
+    private static final String DB_PATH_SUFFIX = "/databases/";
+    private static final String DATABASE_NAME = "giaothong.db";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        new DataProvider(context).processCopy();
+        processCopy();
         addControls();
         selectItemDrawer(1);
+    }
+
+    public void processCopy() {
+        CopyDataBaseFromAsset();
+        /*File dbFile = getDatabasePath(DATABASE_NAME);
+        if (!dbFile.exists()) {
+            try {
+                CopyDataBaseFromAsset();
+            } catch (Exception ignored) {
+            }
+        }*/
+    }
+
+    private void CopyDataBaseFromAsset() {
+        try {
+            InputStream myInput = getAssets().open(DATABASE_NAME);
+            String outFileName = getApplicationInfo().dataDir + DB_PATH_SUFFIX + DATABASE_NAME;
+            File f = new File(getApplicationInfo().dataDir + DB_PATH_SUFFIX);
+            if (!f.exists())
+                f.mkdir();
+            OutputStream myOutput = new FileOutputStream(outFileName);
+            byte[] buffer = new byte[1024];
+            int length;
+            while ((length = myInput.read(buffer)) > 0) {
+                myOutput.write(buffer, 0, length);
+            }
+            myOutput.flush();
+            myOutput.close();
+            myInput.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void addControls() {
