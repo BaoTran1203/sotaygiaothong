@@ -54,6 +54,7 @@ public class BienBaoFragment extends Fragment {
         adapter.add(lstBienBao);
 
         rvBienBao.setLayoutManager(new LinearLayoutManager(context));
+        rvBienBao.setHasFixedSize(true);
         rvHeader.attachTo(rvBienBao);
         rvBienBao.setAdapter(adapter);
         txtMoTa.setText(Html.fromHtml(nhomBienBao.getMoTa()));
