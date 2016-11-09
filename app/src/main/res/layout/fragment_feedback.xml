@@ -20,7 +20,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 ads:adSize="BANNER"
-                ads:adUnitId="@string/f_feedback" />
+                ads:adUnitId="@string/other" />
 
             <me.grantland.widget.AutofitTextView
                 android:layout_width="match_parent"

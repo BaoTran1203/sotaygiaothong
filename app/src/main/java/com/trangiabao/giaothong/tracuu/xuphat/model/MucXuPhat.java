@@ -13,19 +13,19 @@ import java.util.List;
 public class MucXuPhat extends AbstractItem<MucXuPhat, MucXuPhat.ViewHolder> {
 
     private int id;
-    private int idPhuongTien;
-    private int idLoaiViPham;
+    private String doiTuong;
     private String hanhVi;
     private String mucPhat;
-    private String xuPhatKhac;
+    private String boSung;
+    private String khacPhuc;
 
-    public MucXuPhat(int id, int idPhuongTien, int idLoaiViPham, String hanhVi, String mucPhat, String xuPhatKhac) {
+    public MucXuPhat(int id, String doiTuong, String hanhVi, String mucPhat, String boSung, String khacPhuc) {
         this.id = id;
-        this.idPhuongTien = idPhuongTien;
-        this.idLoaiViPham = idLoaiViPham;
+        this.doiTuong = doiTuong;
         this.hanhVi = hanhVi;
         this.mucPhat = mucPhat;
-        this.xuPhatKhac = xuPhatKhac;
+        this.boSung = boSung;
+        this.khacPhuc = khacPhuc;
     }
 
     public int getId() {
@@ -40,8 +40,16 @@ public class MucXuPhat extends AbstractItem<MucXuPhat, MucXuPhat.ViewHolder> {
         return mucPhat;
     }
 
-    public String getXuPhatKhac() {
-        return xuPhatKhac;
+    public String getBoSung() {
+        return boSung;
+    }
+
+    public String getDoiTuong() {
+        return doiTuong;
+    }
+
+    public String getKhacPhuc() {
+        return khacPhuc;
     }
 
     @Override
@@ -59,18 +67,22 @@ public class MucXuPhat extends AbstractItem<MucXuPhat, MucXuPhat.ViewHolder> {
         super.bindView(viewHolder, payloads);
         viewHolder.txtHanhVi.setText(Html.fromHtml(getHanhVi()));
         viewHolder.txtMucGia.setText(Html.fromHtml(getMucPhat()));
-        viewHolder.txtPhatKhac.setText(Html.fromHtml(getXuPhatKhac()));
+        viewHolder.txtBoSung.setText(Html.fromHtml(getBoSung()));
+        viewHolder.txtKhacPhuc.setText(Html.fromHtml(getKhacPhuc()));
+        viewHolder.txtDoiTuong.setText(Html.fromHtml(getDoiTuong()));
     }
 
-    protected static class ViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder {
 
-        protected TextView txtHanhVi, txtMucGia, txtPhatKhac;
+        private TextView txtHanhVi, txtMucGia, txtBoSung, txtKhacPhuc, txtDoiTuong;
 
         public ViewHolder(View view) {
             super(view);
             this.txtHanhVi = (TextView) itemView.findViewById(R.id.txtHanhVi);
             this.txtMucGia = (TextView) itemView.findViewById(R.id.txtMucGia);
-            this.txtPhatKhac = (TextView) itemView.findViewById(R.id.txtPhatKhac);
+            this.txtBoSung = (TextView) itemView.findViewById(R.id.txtBoSung);
+            this.txtKhacPhuc = (TextView) itemView.findViewById(R.id.txtKhacPhuc);
+            this.txtDoiTuong = (TextView) itemView.findViewById(R.id.txtDoiTuong);
         }
     }
 }

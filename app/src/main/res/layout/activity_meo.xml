@@ -35,5 +35,5 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         ads:adSize="BANNER"
-        ads:adUnitId="@string/a_meoghinho" />
+        ads:adUnitId="@string/meo" />
 </RelativeLayout>

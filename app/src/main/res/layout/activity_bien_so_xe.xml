@@ -63,5 +63,5 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         ads:adSize="BANNER"
-        ads:adUnitId="@string/a_biensoxe" />
+        ads:adUnitId="@string/biensoxe" />
 </RelativeLayout>

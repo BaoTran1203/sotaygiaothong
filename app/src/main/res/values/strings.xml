@@ -46,23 +46,14 @@
 
     <!-- AdMob ad unit IDs -->
     <string name="test_device_id">9C22A30BC18128F577CA9F35BC508E43</string>
-    <string name="a_baithi">ca-app-pub-5798426578498335/5204923208</string>
-    <string name="a_bienbao">ca-app-pub-5798426578498335/6542055608</string>
-    <string name="a_biensoxe">ca-app-pub-5798426578498335/9495522009</string>
-    <string name="a_cauhoi">ca-app-pub-5798426578498335/2251456806</string>
-    <string name="a_chuong">ca-app-pub-5798426578498335/2111856003</string>
-    <string name="a_hotline">ca-app-pub-5798426578498335/1972255202</string>
-    <string name="a_meoghinho">ca-app-pub-5798426578498335/8158389601</string>
-    <string name="a_noidung">ca-app-pub-5798426578498335/3588589200</string>
-    <string name="a_tuychonbaithi">ca-app-pub-5798426578498335/3728190009</string>
-    <string name="a_tuychoncauhoi">ca-app-pub-5798426578498335/9774723601</string>
-    <string name="a_vanban">ca-app-pub-5798426578498335/9635122806</string>
-    <string name="a_xuphat">ca-app-pub-5798426578498335/8018788803</string>
-    <string name="f_chiase">ca-app-pub-5798426578498335/2391057605</string>
-    <string name="f_feedback">ca-app-pub-5798426578498335/8297990401</string>
-    <string name="f_gioithieu">ca-app-pub-5798426578498335/4007391609</string>
-    <string name="f_lienhe">ca-app-pub-5798426578498335/5344524006</string>
-    <string name="f_sathach">ca-app-pub-5798426578498335/5484124809</string>
-    <string name="f_tracuu">ca-app-pub-5798426578498335/6960858003</string>
+    <string name="cauhoi">ca-app-pub-5798426578498335/9140217605</string>
+    <string name="baithi">ca-app-pub-5798426578498335/3093684003</string>
+    <string name="meo">ca-app-pub-5798426578498335/1477350002</string>
+    <string name="xuphat">ca-app-pub-5798426578498335/4430816406</string>
+    <string name="luat">ca-app-pub-5798426578498335/5907549607</string>
+    <string name="bienbao">ca-app-pub-5798426578498335/7384282808</string>
+    <string name="biensoxe">ca-app-pub-5798426578498335/4291215601</string>
+    <string name="hotline">ca-app-pub-5798426578498335/5767948800</string>
+    <string name="other">ca-app-pub-5798426578498335/7244682000</string>
     <string name="chia_se">Chia sẽ ứng dụng với bạn bè</string>
 </resources>

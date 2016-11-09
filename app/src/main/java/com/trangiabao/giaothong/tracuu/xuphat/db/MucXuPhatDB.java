@@ -22,11 +22,11 @@ public class MucXuPhatDB extends AbstractDB {
         while (c.moveToNext()) {
             MucXuPhat temp = new MucXuPhat(
                     c.getInt(0),
-                    c.getInt(1),
-                    c.getInt(2),
                     c.getString(3),
                     c.getString(4),
-                    c.getString(5)
+                    c.getString(5),
+                    c.getString(6),
+                    c.getString(7)
             );
             data.add(temp);
         }
@@ -35,23 +35,26 @@ public class MucXuPhatDB extends AbstractDB {
         return data;
     }
 
-    public List<MucXuPhat> filter(String filter) {
+    public List<MucXuPhat> filter(String query, String filter) {
         List<MucXuPhat> data = new ArrayList<>();
         Cursor c = database.rawQuery("select * from MucXuPhat", null);
         while (c.moveToNext()) {
             MucXuPhat temp = new MucXuPhat(
                     c.getInt(0),
-                    c.getInt(1),
-                    c.getInt(2),
                     c.getString(3),
                     c.getString(4),
-                    c.getString(5)
+                    c.getString(5),
+                    c.getString(6),
+                    c.getString(7)
             );
             filter = MyMethod.unAccent(filter).toLowerCase();
+            String doiTuong = MyMethod.unAccent(temp.getDoiTuong()).toLowerCase();
             String hanhVi = MyMethod.unAccent(temp.getHanhVi()).toLowerCase();
             String mucPhat = MyMethod.unAccent(temp.getMucPhat()).toLowerCase();
-            String khac = MyMethod.unAccent(temp.getXuPhatKhac()).toLowerCase();
-            if (hanhVi.contains(filter) || mucPhat.contains(filter) || khac.contains(filter))
+            String boSung = MyMethod.unAccent(temp.getBoSung()).toLowerCase();
+            String khacPhuc = MyMethod.unAccent(temp.getKhacPhuc()).toLowerCase();
+            if (hanhVi.contains(filter) || mucPhat.contains(filter) || boSung.contains(filter) ||
+                    doiTuong.contains(filter) || khacPhuc.contains(filter))
                 data.add(temp);
         }
         c.close();

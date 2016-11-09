@@ -1,36 +1,31 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".tracuu.xuphat.XuPhatFragment">
 
-    <RelativeLayout
+    <com.jaredrummler.materialspinner.MaterialSpinner
+        android:id="@+id/spinnerXuPhat"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        app:ms_arrow_tint="@color/accent"
+        app:ms_dropdown_max_height="300dp" />
 
-        <com.jaredrummler.materialspinner.MaterialSpinner
-            android:id="@+id/spinnerXuPhat"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:ms_arrow_tint="@color/accent"
-            app:ms_dropdown_max_height="300dp" />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rvXuPhat"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/spinnerXuPhat"
+        android:adjustViewBounds="true" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rvXuPhat"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/spinnerXuPhat"
-            android:adjustViewBounds="true" />
-
-        <TextView
-            android:id="@+id/txtCapNhat"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:gravity="center"
-            android:text="Dữ liệu đang được cập nhật"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textStyle="bold" />
-    </RelativeLayout>
-</FrameLayout>
+    <TextView
+        android:id="@+id/txtCapNhat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:text="Dữ liệu đang được cập nhật"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textStyle="bold" />
+</RelativeLayout>

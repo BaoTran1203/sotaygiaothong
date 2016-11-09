@@ -19,6 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/adView"
+        app:layoutManager="0"
         android:layout_below="@+id/toolbar"
         android:adjustViewBounds="true" />
 
@@ -28,5 +29,5 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         ads:adSize="BANNER"
-        ads:adUnitId="@string/a_vanban" />
+        ads:adUnitId="@string/luat" />
 </RelativeLayout>

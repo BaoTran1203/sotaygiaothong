@@ -19,5 +19,5 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         ads:adSize="BANNER"
-        ads:adUnitId="@string/f_sathach" />
+        ads:adUnitId="@string/other" />
 </RelativeLayout>
