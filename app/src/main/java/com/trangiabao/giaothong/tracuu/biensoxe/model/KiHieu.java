@@ -19,17 +19,15 @@ import java.util.List;
 public class KiHieu extends AbstractItem<KiHieu, KiHieu.ViewHolder> {
 
     private int id;
-    private int idNhom;
     private String kiHieu;
     private String tenKiHieu;
     private String hinh;
     private List<Seri> lstSeri;
     private Context context;
 
-    public KiHieu(Context context, int id, int idNhom, String kiHieu, String tenKiHieu, String hinh) {
+    public KiHieu(Context context, int id, String kiHieu, String tenKiHieu, String hinh) {
         this.context = context;
         this.id = id;
-        this.idNhom = idNhom;
         this.kiHieu = kiHieu;
         this.tenKiHieu = tenKiHieu;
         this.hinh = hinh;
@@ -96,7 +94,7 @@ public class KiHieu extends AbstractItem<KiHieu, KiHieu.ViewHolder> {
         viewHolder.imgHinh.setImageDrawable(drawable);
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
         private TextView txtTenKiHieu;
         private TextView txtKiHieu;

@@ -15,15 +15,14 @@ public class CauTraLoiDB extends AbstractDB {
         super(context);
     }
 
-    public List<CauTraLoi> getListByIdCauHoi(int idCauHoi) {
+    public List<CauTraLoi> getListByIdCauHoi(String idCauHoi) {
         List<CauTraLoi> data = new ArrayList<>();
-        Cursor c = database.rawQuery("select * from CauTraLoi where IdCauHoi = ?", new String[]{String.valueOf(idCauHoi)});
+        Cursor c = database.rawQuery("select * from CauTraLoi where IdCauHoi = ?", new String[]{idCauHoi});
         while (c.moveToNext()) {
             CauTraLoi temp = new CauTraLoi(
                     c.getInt(0),
-                    c.getInt(1),
-                    c.getString(2),
-                    (c.getInt(3) != 0)
+                    c.getString(1),
+                    (c.getInt(2) != 0)
             );
             data.add(temp);
         }

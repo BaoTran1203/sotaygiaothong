@@ -16,18 +16,17 @@ public class BienBaoDB extends AbstractDB {
         super(context);
     }
 
-    public List<BienBao> getByIdNhomBienBao(int idNhomBienBao) {
+    public List<BienBao> getByIdNhomBienBao(String idNhomBienBao) {
         List<BienBao> data = new ArrayList<>();
-        Cursor c = database.rawQuery("select * from BienBao where idNhomBienBao = ?", new String[]{idNhomBienBao + ""});
+        Cursor c = database.rawQuery("select * from BienBao where idNhomBienBao = ?", new String[]{idNhomBienBao});
         while (c.moveToNext()) {
             BienBao temp = new BienBao(
                     context,
                     c.getInt(0),
-                    c.getInt(1),
+                    c.getString(1),
                     c.getString(2),
                     c.getString(3),
-                    c.getString(4),
-                    c.getString(5)
+                    c.getString(4)
             );
             data.add(temp);
         }
@@ -43,11 +42,10 @@ public class BienBaoDB extends AbstractDB {
             BienBao temp = new BienBao(
                     context,
                     c.getInt(0),
-                    c.getInt(1),
+                    c.getString(1),
                     c.getString(2),
                     c.getString(3),
-                    c.getString(4),
-                    c.getString(5)
+                    c.getString(4)
             );
             filter = MyMethod.unAccent(filter).toLowerCase();
             String ma = MyMethod.unAccent(temp.getMaBienBao()).toLowerCase();

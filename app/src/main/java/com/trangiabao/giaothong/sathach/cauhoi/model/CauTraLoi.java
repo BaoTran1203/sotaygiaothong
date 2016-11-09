@@ -3,14 +3,12 @@ package com.trangiabao.giaothong.sathach.cauhoi.model;
 public class CauTraLoi {
 
     private int id;
-    private int idCauHoi;
     private String cauTraLoi;
     private boolean dapAn;
     private boolean checked;
 
-    public CauTraLoi(int id, int idCauHoi, String cauTraLoi, boolean dapAn) {
+    public CauTraLoi(int id, String cauTraLoi, boolean dapAn) {
         this.id = id;
-        this.idCauHoi = idCauHoi;
         this.cauTraLoi = cauTraLoi;
         this.dapAn = dapAn;
         this.checked = false;

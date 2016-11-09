@@ -22,11 +22,11 @@ public class MucXuPhatDB extends AbstractDB {
         while (c.moveToNext()) {
             MucXuPhat temp = new MucXuPhat(
                     c.getInt(0),
+                    c.getString(1),
+                    c.getString(2),
                     c.getString(3),
                     c.getString(4),
-                    c.getString(5),
-                    c.getString(6),
-                    c.getString(7)
+                    c.getString(5)
             );
             data.add(temp);
         }
@@ -41,11 +41,11 @@ public class MucXuPhatDB extends AbstractDB {
         while (c.moveToNext()) {
             MucXuPhat temp = new MucXuPhat(
                     c.getInt(0),
+                    c.getString(1),
+                    c.getString(2),
                     c.getString(3),
                     c.getString(4),
-                    c.getString(5),
-                    c.getString(6),
-                    c.getString(7)
+                    c.getString(5)
             );
             filter = MyMethod.unAccent(filter).toLowerCase();
             String doiTuong = MyMethod.unAccent(temp.getDoiTuong()).toLowerCase();

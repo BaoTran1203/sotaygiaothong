@@ -22,9 +22,8 @@ public class HotLineDB extends AbstractDB {
         while (c.moveToNext()) {
             HotLine temp = new HotLine(
                     c.getInt(0),
-                    c.getInt(1),
-                    c.getString(2),
-                    c.getString(3)
+                    c.getString(1),
+                    c.getString(2)
             );
             data.add(temp);
         }
@@ -39,9 +38,8 @@ public class HotLineDB extends AbstractDB {
         while (c.moveToNext()) {
             HotLine temp = new HotLine(
                     c.getInt(0),
-                    c.getInt(1),
-                    c.getString(2),
-                    c.getString(3)
+                    c.getString(1),
+                    c.getString(2)
             );
             filter = MyMethod.unAccent(filter).toLowerCase().replace(".", "");
             String ten = MyMethod.unAccent(temp.getTen()).toLowerCase();

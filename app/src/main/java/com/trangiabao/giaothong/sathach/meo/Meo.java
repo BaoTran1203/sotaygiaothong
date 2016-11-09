@@ -1,18 +1,18 @@
-package com.trangiabao.giaothong.sathach.meo.model;
+package com.trangiabao.giaothong.sathach.meo;
 
 public class Meo {
 
-    private int id;
+    private String id;
     private String phan;
     private String html;
 
-    public Meo(int id, String phan, String html) {
+    public Meo(String id, String phan, String html) {
         this.id = id;
         this.phan = phan;
         this.html = html;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 

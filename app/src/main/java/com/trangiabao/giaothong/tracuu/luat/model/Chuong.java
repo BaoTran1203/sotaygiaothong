@@ -1,9 +1,7 @@
 package com.trangiabao.giaothong.tracuu.luat.model;
 
-import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mikepenz.fastadapter.items.AbstractItem;
@@ -14,13 +12,11 @@ import java.util.List;
 public class Chuong extends AbstractItem<Chuong, Chuong.ViewHolder> {
 
     private int id;
-    private int idVanBan;
     private String tenChuong;
     private String muc;
 
-    public Chuong(int id, int idVanBan, String tenChuong, String muc) {
+    public Chuong(int id, String tenChuong, String muc) {
         this.id = id;
-        this.idVanBan = idVanBan;
         this.tenChuong = tenChuong;
         this.muc = muc;
     }
@@ -59,13 +55,12 @@ public class Chuong extends AbstractItem<Chuong, Chuong.ViewHolder> {
             viewHolder.txtMuc.setVisibility(View.VISIBLE);
             viewHolder.txtMuc.setText(getMuc());
         }
-
     }
 
-    protected static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
-        protected TextView txtChuong;
-        protected TextView txtMuc;
+        private TextView txtChuong;
+        private TextView txtMuc;
 
         public ViewHolder(View view) {
             super(view);

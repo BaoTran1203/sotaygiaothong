@@ -34,13 +34,17 @@ public class ChuongActivity extends AppCompatActivity {
     // datas
     private List<Chuong> lstChuong;
     private Chuong chuong;
+    private String idVanBan;
+    private String vanBan;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chuong);
 
-        lstChuong = new ChuongDB(context).getByIdVanBan(getIntent().getExtras().getString("ID_VAN_BAN"));
+        idVanBan = getIntent().getExtras().getString("ID_VAN_BAN");
+        vanBan = getIntent().getExtras().getString("VANBAN");
+        lstChuong = new ChuongDB(context).getByIdVanBan(idVanBan);
         addControls();
         addEvents();
     }
@@ -89,6 +93,7 @@ public class ChuongActivity extends AppCompatActivity {
                 chuong = lstChuong.get(position);
                 Intent intent = new Intent(context, NoiDungActivity.class);
                 intent.putExtra("ID_CHUONG", chuong.getId() + "");
+                intent.putExtra("VANBAN", vanBan);
                 startActivity(intent);
                 return false;
             }

@@ -23,9 +23,6 @@ public class VanBan extends AbstractItem<VanBan, VanBan.ViewHolder> {
     private String hinh;
     private Context context;
 
-    public VanBan() {
-    }
-
     public VanBan(Context context, int id, String tenVanBan, String tenVietTat, String moTa, String hinh) {
         this.context = context;
         this.id = id;

@@ -3,23 +3,17 @@ package com.trangiabao.giaothong.sathach.cauhoi.model;
 public class QuyTacRaDe {
 
     private int id;
-    private int idLoaiBang;
     private int idNhomCauHoi;
     private int soCauThi;
 
-    public QuyTacRaDe(int id, int idLoaiBang, int idNhomCauHoi, int soCauThi) {
+    public QuyTacRaDe(int id, int idNhomCauHoi, int soCauThi) {
         this.id = id;
-        this.idLoaiBang = idLoaiBang;
         this.idNhomCauHoi = idNhomCauHoi;
         this.soCauThi = soCauThi;
     }
 
     public int getId() {
         return id;
-    }
-
-    public int getIdLoaiBang() {
-        return idLoaiBang;
     }
 
     public int getIdNhomCauHoi() {

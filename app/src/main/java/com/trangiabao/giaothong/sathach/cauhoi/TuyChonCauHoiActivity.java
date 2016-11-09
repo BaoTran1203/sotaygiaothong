@@ -171,11 +171,11 @@ public class TuyChonCauHoiActivity extends AppCompatActivity {
         chkTatCa.setChecked(false);
         LoaiBang loaiBang = lstLoaiBang.get(i);
         txtMoTa.setText(Html.fromHtml(loaiBang.getMoTa()));
-        List<QuyTacRaDe> lstQuyTacRaDe = new QuyTacRaDeDB(context).getByIdLoaiBang(loaiBang.getId());
+        List<QuyTacRaDe> lstQuyTacRaDe = new QuyTacRaDeDB(context).getByIdLoaiBang(loaiBang.getId() + "");
         // create List Nhom Cau Hoi
         List<NhomCauHoi> lstNhomCauHoi = new ArrayList<>();
         for (QuyTacRaDe quyTacRaDe : lstQuyTacRaDe) {
-            NhomCauHoi nhomCauHoi = new NhomCauHoiDB(context).getItemById(quyTacRaDe.getIdNhomCauHoi());
+            NhomCauHoi nhomCauHoi = new NhomCauHoiDB(context).getItemById(quyTacRaDe.getIdNhomCauHoi() + "");
             lstNhomCauHoi.add(nhomCauHoi);
         }
         // create Layout CheckBox

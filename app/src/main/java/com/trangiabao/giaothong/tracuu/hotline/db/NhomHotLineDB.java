@@ -30,13 +30,4 @@ public class NhomHotLineDB extends AbstractDB {
         database.close();
         return data;
     }
-
-    public List<String> getAllString(List<NhomHotLine> data) {
-        List<String> lstString = new ArrayList<>();
-        for (NhomHotLine nhomHotLine : data) {
-            lstString.add(nhomHotLine.getNhom());
-        }
-        database.close();
-        return lstString;
-    }
 }

@@ -9,23 +9,17 @@ import java.util.List;
 public class Dieu {
 
     private int id;
-    private int idChuong;
     private String tenDieu;
     private List<NoiDung> lstNoiDung;
 
-    public Dieu(Context context, int id, int idChuong, String tenDieu) {
+    public Dieu(Context context, int id, String tenDieu) {
         this.id = id;
-        this.idChuong = idChuong;
         this.tenDieu = tenDieu;
-        this.lstNoiDung = new NoiDungDB(context).getByIdDieu(id+"");
+        this.lstNoiDung = new NoiDungDB(context).getByIdDieu(id + "");
     }
 
     public int getId() {
         return id;
-    }
-
-    public int getIdChuong() {
-        return idChuong;
     }
 
     public String getTenDieu() {

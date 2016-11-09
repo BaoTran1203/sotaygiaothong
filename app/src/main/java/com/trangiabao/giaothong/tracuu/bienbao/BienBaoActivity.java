@@ -229,7 +229,7 @@ public class BienBaoActivity extends AppCompatActivity {
         protected Void doInBackground(Void... voids) {
             List<NhomBienBao> lstNhomBienBao = new NhomBienBaoDB(context).getAll();
             for (NhomBienBao nhomBienBao : lstNhomBienBao) {
-                List<BienBao> lstBienBao = new BienBaoDB(context).getByIdNhomBienBao(nhomBienBao.getId());
+                List<BienBao> lstBienBao = new BienBaoDB(context).getByIdNhomBienBao(nhomBienBao.getId() + "");
                 pagerAdapter.addFragment(new BienBaoFragment(lstBienBao, nhomBienBao), nhomBienBao.getTenNhomBienBao());
             }
             return null;

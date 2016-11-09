@@ -15,14 +15,13 @@ public class HinhCauHoiDB extends AbstractDB {
         super(context);
     }
 
-    public List<HinhCauHoi> getByIdCauHoi(int idCauHoi) {
+    public List<HinhCauHoi> getByIdCauHoi(String idCauHoi) {
         List<HinhCauHoi> data = new ArrayList<>();
-        Cursor c = database.rawQuery("select * from HinhCauHoi where idCauHoi = ?", new String[]{String.valueOf(idCauHoi)});
+        Cursor c = database.rawQuery("select * from HinhCauHoi where idCauHoi = ?", new String[]{idCauHoi});
         while (c.moveToNext()) {
             HinhCauHoi temp = new HinhCauHoi(
                     c.getInt(0),
-                    c.getInt(1),
-                    c.getString(2)
+                    c.getString(1)
             );
             data.add(temp);
         }

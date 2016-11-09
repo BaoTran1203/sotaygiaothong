@@ -1,10 +1,10 @@
-package com.trangiabao.giaothong.sathach.meo.db;
+package com.trangiabao.giaothong.sathach.meo;
 
 import android.content.Context;
 import android.database.Cursor;
 
 import com.trangiabao.giaothong.ex.AbstractDB;
-import com.trangiabao.giaothong.sathach.meo.model.Meo;
+import com.trangiabao.giaothong.sathach.meo.Meo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +20,7 @@ public class MeoDB extends AbstractDB {
         Cursor c = database.rawQuery("select * from Meo", null);
         while (c.moveToNext()) {
             Meo temp = new Meo(
-                    c.getInt(0),
+                    c.getString(0),
                     c.getString(1),
                     c.getString(2)
             );

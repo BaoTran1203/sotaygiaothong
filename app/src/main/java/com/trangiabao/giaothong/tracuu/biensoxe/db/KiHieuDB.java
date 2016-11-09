@@ -24,10 +24,9 @@ public class KiHieuDB extends AbstractDB {
             KiHieu temp = new KiHieu(
                     context,
                     c.getInt(0),
-                    c.getInt(1),
+                    c.getString(1),
                     c.getString(2),
-                    c.getString(3),
-                    c.getString(4)
+                    c.getString(3)
             );
             data.add(temp);
         }
@@ -43,10 +42,9 @@ public class KiHieuDB extends AbstractDB {
             KiHieu temp = new KiHieu(
                     context,
                     c.getInt(0),
-                    c.getInt(1),
+                    c.getString(1),
                     c.getString(2),
-                    c.getString(3),
-                    c.getString(4)
+                    c.getString(3)
             );
             filter = MyMethod.unAccent(filter).toLowerCase();
             String kiHieu = MyMethod.unAccent(temp.getKiHieu()).toLowerCase();

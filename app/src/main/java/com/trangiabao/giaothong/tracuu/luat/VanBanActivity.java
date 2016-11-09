@@ -86,16 +86,17 @@ public class VanBanActivity extends AppCompatActivity {
         adapter.withOnClickListener(new FastAdapter.OnClickListener<VanBan>() {
             @Override
             public boolean onClick(View v, IAdapter<VanBan> adapter, VanBan item, int position) {
-                String idVanBan = lstVanBan.get(position).getId() + "";
-                List<Chuong> lstChuong = new ChuongDB(context).getByIdVanBan(idVanBan);
+                VanBan vanBan = lstVanBan.get(position);
+                List<Chuong> lstChuong = new ChuongDB(context).getByIdVanBan(vanBan.getId() + "");
                 Intent intent;
                 if (lstChuong.size() == 1) {
                     intent = new Intent(context, NoiDungActivity.class);
                     intent.putExtra("ID_CHUONG", lstChuong.get(0).getId() + "");
                 } else {
                     intent = new Intent(context, ChuongActivity.class);
-                    intent.putExtra("ID_VAN_BAN", idVanBan);
+                    intent.putExtra("ID_VAN_BAN", vanBan.getId() + "");
                 }
+                intent.putExtra("VANBAN", vanBan.getTenVietTat());
                 startActivity(intent);
                 return false;
             }

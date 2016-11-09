@@ -22,9 +22,8 @@ public class SeriDB extends AbstractDB {
         while (c.moveToNext()) {
             Seri temp = new Seri(
                     c.getInt(0),
-                    c.getInt(1),
-                    c.getString(2),
-                    c.getString(3)
+                    c.getString(1),
+                    c.getString(2)
             );
             data.add(temp);
         }
@@ -39,9 +38,8 @@ public class SeriDB extends AbstractDB {
         while (c.moveToNext()) {
             Seri temp = new Seri(
                     c.getInt(0),
-                    c.getInt(1),
-                    c.getString(2),
-                    c.getString(3)
+                    c.getString(1),
+                    c.getString(2)
             );
             String seri = MyMethod.unAccent(temp.getSeri()).toLowerCase();
             String moTa = MyMethod.unAccent(temp.getMoTa()).toLowerCase();

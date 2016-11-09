@@ -22,8 +22,7 @@ public class DieuDB extends AbstractDB {
             Dieu temp = new Dieu(
                     context,
                     c.getInt(0),
-                    c.getInt(1),
-                    c.getString(2)
+                    c.getString(1)
             );
             data.add(temp);
         }

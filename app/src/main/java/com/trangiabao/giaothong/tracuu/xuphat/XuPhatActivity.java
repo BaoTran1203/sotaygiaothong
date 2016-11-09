@@ -196,7 +196,7 @@ public class XuPhatActivity extends AppCompatActivity {
 
         @Override
         protected List<MucXuPhat> doInBackground(String... params) {
-            return new MucXuPhatDB(context).filter("",params[0]);
+            return new MucXuPhatDB(context).filter("", params[0]);
         }
     }
 
@@ -249,7 +249,7 @@ public class XuPhatActivity extends AppCompatActivity {
                         this.lstMucXuPhat.add(lstTemp);
                     }
                 }
-                pagerAdapter.addFragment(new XuPhatFragment(this.lstLoaiViPham, this.lstMucXuPhat), phuongTien.getVietTat());
+                pagerAdapter.addFragment(new XuPhatFragment(this.lstLoaiViPham, this.lstMucXuPhat), phuongTien.getPhuongTien());
             }
             return null;
         }

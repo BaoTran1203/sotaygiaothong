@@ -18,17 +18,15 @@ import java.util.List;
 public class BienBao extends AbstractItem<BienBao, BienBao.ViewHolder> {
 
     private int id;
-    private int idNhomBienBao;
     private String maBienBao;
     private String tenBienBao;
     private String noiDungBienBao;
     private String hinh;
     private Context context;
 
-    public BienBao(Context context, int id, int idNhomBienBao, String maBienBao, String tenBienBao, String noiDungBienBao, String hinh) {
+    public BienBao(Context context, int id, String maBienBao, String tenBienBao, String noiDungBienBao, String hinh) {
         this.context = context;
         this.id = id;
-        this.idNhomBienBao = idNhomBienBao;
         this.maBienBao = maBienBao;
         this.tenBienBao = tenBienBao;
         this.noiDungBienBao = noiDungBienBao;

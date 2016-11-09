@@ -61,7 +61,6 @@ public class NoiDungActivity extends AppCompatActivity {
 
     private void addControls() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Nội dung");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -227,6 +226,9 @@ public class NoiDungActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            String vanBan = getIntent().getExtras().getString("VANBAN");
+            toolbar.setTitle(vanBan);
+
             Drawable icon = MaterialDrawableBuilder.with(context)
                     .setIcon(MaterialDrawableBuilder.IconValue.DOWNLOAD)
                     .setColor(Color.parseColor("#1976D2"))

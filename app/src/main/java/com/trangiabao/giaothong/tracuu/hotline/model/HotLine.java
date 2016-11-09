@@ -12,13 +12,11 @@ import java.util.List;
 public class HotLine extends AbstractItem<HotLine, HotLine.ViewHolder> {
 
     private int id;
-    private int idNhomHotLine;
     private String ten;
     private String phone;
 
-    public HotLine(int id, int idNhomHotLine, String ten, String phone) {
+    public HotLine(int id, String ten, String phone) {
         this.id = id;
-        this.idNhomHotLine = idNhomHotLine;
         this.ten = ten;
         this.phone = phone;
     }

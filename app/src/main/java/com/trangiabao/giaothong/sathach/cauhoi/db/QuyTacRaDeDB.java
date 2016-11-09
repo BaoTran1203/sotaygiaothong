@@ -15,15 +15,14 @@ public class QuyTacRaDeDB extends AbstractDB {
         super(context);
     }
 
-    public ArrayList<QuyTacRaDe> getByIdLoaiBang(int idLoaiBang) {
+    public ArrayList<QuyTacRaDe> getByIdLoaiBang(String idLoaiBang) {
         ArrayList<QuyTacRaDe> data = new ArrayList<>();
-        Cursor c = database.rawQuery("select * from QuyTacRaDe where IdLoaiBang = ? and SoCau != 0", new String[]{String.valueOf(idLoaiBang)});
+        Cursor c = database.rawQuery("select * from QuyTacRaDe where IdLoaiBang = ? and SoCau != 0", new String[]{idLoaiBang});
         while (c.moveToNext()) {
             QuyTacRaDe temp = new QuyTacRaDe(
                     c.getInt(0),
                     c.getInt(1),
-                    c.getInt(2),
-                    c.getInt(3)
+                    c.getInt(2)
             );
             data.add(temp);
         }
@@ -39,8 +38,7 @@ public class QuyTacRaDeDB extends AbstractDB {
             temp = new QuyTacRaDe(
                     c.getInt(0),
                     c.getInt(1),
-                    c.getInt(2),
-                    c.getInt(3)
+                    c.getInt(2)
             );
         }
         c.close();

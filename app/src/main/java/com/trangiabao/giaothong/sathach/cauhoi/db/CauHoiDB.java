@@ -22,9 +22,8 @@ public class CauHoiDB extends AbstractDB {
             CauHoi temp = new CauHoi(
                     context,
                     c.getInt(0),
-                    c.getInt(1),
-                    c.getString(2),
-                    c.getString(3)
+                    c.getString(1),
+                    c.getString(2)
             );
             data.add(temp);
         }

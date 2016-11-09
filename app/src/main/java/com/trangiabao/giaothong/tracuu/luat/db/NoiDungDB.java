@@ -20,8 +20,7 @@ public class NoiDungDB extends AbstractDB {
         while (c.moveToNext()) {
             NoiDung temp = new NoiDung(
                     c.getInt(0),
-                    c.getInt(1),
-                    c.getString(2)
+                    c.getString(1)
             );
             data.add(temp);
         }

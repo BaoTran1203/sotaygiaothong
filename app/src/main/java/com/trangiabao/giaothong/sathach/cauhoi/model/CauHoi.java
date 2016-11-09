@@ -20,7 +20,6 @@ import java.util.List;
 public class CauHoi extends AbstractItem<CauHoi, CauHoi.ViewHolder> {
 
     private int id;
-    private int nhomCauHoi;
     private String cauHoi;
     private String giaiThich;
     private List<HinhCauHoi> lstHinhCauHoi = new ArrayList<>();
@@ -28,13 +27,12 @@ public class CauHoi extends AbstractItem<CauHoi, CauHoi.ViewHolder> {
     private boolean traLoi;
     private int stt;
 
-    public CauHoi(Context context, int id, int nhomCauHoi, String cauHoi, String giaiThich) {
+    public CauHoi(Context context, int id, String cauHoi, String giaiThich) {
         this.id = id;
-        this.nhomCauHoi = nhomCauHoi;
         this.cauHoi = cauHoi;
         this.giaiThich = giaiThich;
-        this.lstCauTraLoi = new CauTraLoiDB(context).getListByIdCauHoi(id);
-        this.lstHinhCauHoi = new HinhCauHoiDB(context).getByIdCauHoi(id);
+        this.lstCauTraLoi = new CauTraLoiDB(context).getListByIdCauHoi(id + "");
+        this.lstHinhCauHoi = new HinhCauHoiDB(context).getByIdCauHoi(id + "");
         this.traLoi = false;
     }
 

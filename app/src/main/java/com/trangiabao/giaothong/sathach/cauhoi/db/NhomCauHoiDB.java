@@ -29,9 +29,9 @@ public class NhomCauHoiDB extends AbstractDB {
         return lstNhomCauHoi;
     }
 
-    public NhomCauHoi getItemById(int id) {
+    public NhomCauHoi getItemById(String id) {
         NhomCauHoi data = null;
-        Cursor c = database.rawQuery("select * from NhomCauHoi where id = ?", new String[]{String.valueOf(id)});
+        Cursor c = database.rawQuery("select * from NhomCauHoi where id = ?", new String[]{id});
         if (c.moveToNext()) {
             data = new NhomCauHoi(
                     c.getInt(0),

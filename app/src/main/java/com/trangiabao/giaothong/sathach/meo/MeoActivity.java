@@ -13,8 +13,6 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.trangiabao.giaothong.R;
-import com.trangiabao.giaothong.sathach.meo.db.MeoDB;
-import com.trangiabao.giaothong.sathach.meo.model.Meo;
 
 import java.util.List;
 

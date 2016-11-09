@@ -20,9 +20,8 @@ public class ChuongDB extends AbstractDB {
         while (c.moveToNext()) {
             Chuong temp = new Chuong(
                     c.getInt(0),
-                    c.getInt(1),
-                    c.getString(2),
-                    c.getString(3)
+                    c.getString(1),
+                    c.getString(2)
             );
             data.add(temp);
         }
@@ -37,9 +36,8 @@ public class ChuongDB extends AbstractDB {
         while (c.moveToNext()) {
             data = new Chuong(
                     c.getInt(0),
-                    c.getInt(1),
-                    c.getString(2),
-                    c.getString(3)
+                    c.getString(1),
+                    c.getString(2)
             );
         }
         c.close();
