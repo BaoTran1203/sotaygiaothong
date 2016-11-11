@@ -40,7 +40,7 @@ public class Chuong extends AbstractItem<Chuong, Chuong.ViewHolder> {
 
     @Override
     public int getLayoutRes() {
-        return R.layout.item_6;
+        return R.layout.item_chuong;
     }
 
     @Override

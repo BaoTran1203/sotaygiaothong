@@ -4,8 +4,6 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,21 +12,18 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
+import com.mikepenz.fastadapter.IItemAdapter;
 import com.mikepenz.fastadapter.adapters.FastItemAdapter;
 import com.trangiabao.giaothong.R;
-import com.trangiabao.giaothong.ex.ViewPagerAdapter;
-import com.trangiabao.giaothong.ex.ViewPagerTransformer;
+import com.trangiabao.giaothong.ex.MyMethod;
 import com.trangiabao.giaothong.tracuu.hotline.db.HotLineDB;
-import com.trangiabao.giaothong.tracuu.hotline.db.NhomHotLineDB;
 import com.trangiabao.giaothong.tracuu.hotline.model.HotLine;
-import com.trangiabao.giaothong.tracuu.hotline.model.NhomHotLine;
 
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 
@@ -42,7 +37,6 @@ public class HotLineActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private FastItemAdapter<HotLine> adapter;
     private AdView adView;
-    private SearchTask searchTask;
 
     private String id;
     private List<HotLine> lst;
@@ -93,6 +87,16 @@ public class HotLineActivity extends AppCompatActivity {
             }
         });
 
+        adapter.withFilterPredicate(new IItemAdapter.Predicate<HotLine>() {
+            @Override
+            public boolean filter(HotLine item, CharSequence value) {
+                String filter = MyMethod.unAccent(String.valueOf(value)).toLowerCase();
+                String ten = MyMethod.unAccent(item.getTen()).toLowerCase();
+                String phone = MyMethod.unAccent(item.getPhone()).toLowerCase().replace(".", "").replace(" ", "");
+                return !(ten.contains(filter) || phone.contains(filter));
+            }
+        });
+
         searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -101,17 +105,7 @@ public class HotLineActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                if (newText.length() == 0) {
-                    adapter.clear();
-                    adapter.add(lst);
-                    adapter.notifyAdapterDataSetChanged();
-                } else if (newText.length() >= 2) {
-                    String lastChar = String.valueOf(newText.charAt(newText.length() - 1));
-                    if (!lastChar.equals(" ")) {
-                        searchTask = new SearchTask();
-                        searchTask.execute(newText);
-                    }
-                }
+                adapter.filter(newText);
                 return false;
             }
         });
@@ -125,9 +119,6 @@ public class HotLineActivity extends AppCompatActivity {
             @Override
             public void onSearchViewClosed() {
                 adView.setVisibility(View.VISIBLE);
-                adapter.clear();
-                adapter.add(lst);
-                adapter.notifyAdapterDataSetChanged();
             }
         });
     }
@@ -181,22 +172,6 @@ public class HotLineActivity extends AppCompatActivity {
             adView.destroy();
         }
         super.onDestroy();
-    }
-
-    class SearchTask extends AsyncTask<String, Void, List<HotLine>> {
-
-        @Override
-        protected void onPostExecute(List<HotLine> lstHotLine) {
-            super.onPostExecute(lstHotLine);
-            adapter.clear();
-            adapter.add(lstHotLine);
-            adapter.notifyAdapterDataSetChanged();
-        }
-
-        @Override
-        protected List<HotLine> doInBackground(String... params) {
-            return new HotLineDB(context).filter(id, params[0]);
-        }
     }
 
     public class LoadData extends AsyncTask<Void, Void, Void> {

@@ -54,7 +54,7 @@ public class NhomBienBao extends AbstractItem<NhomBienBao, NhomBienBao.ViewHolde
 
     @Override
     public int getLayoutRes() {
-        return R.layout.item_5;
+        return R.layout.item_list;
     }
 
     @Override

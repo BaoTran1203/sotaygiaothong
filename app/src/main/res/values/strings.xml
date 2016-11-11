@@ -36,13 +36,13 @@
     <string name="ket_thuc">Kết thúc</string>
     <string name="bai_thi">Bài thi</string>
     <string name="dap_an">Đáp án</string>
-    <string name="dac_diem">Đặc điểm</string>
     <string name="gui">Gửi</string>
     <string name="internet">*Bạn phải kết nối Internet</string>
     <string name="noi_dung">Nội dung</string>
     <string name="email">Email</string>
     <string name="tieu_de">Tiêu đề</string>
     <string name="feedback">Mọi ý kiến đóng góp, phản hồi, báo lỗi. Xin gửi thông tin cho nhà phát triển</string>
+    <string name="chia_se">Chia sẽ ứng dụng với bạn bè</string>
 
     <!-- AdMob ad unit IDs -->
     <string name="test_device_id">9C22A30BC18128F577CA9F35BC508E43</string>
@@ -55,5 +55,4 @@
     <string name="biensoxe">ca-app-pub-5798426578498335/4291215601</string>
     <string name="hotline">ca-app-pub-5798426578498335/5767948800</string>
     <string name="other">ca-app-pub-5798426578498335/7244682000</string>
-    <string name="chia_se">Chia sẽ ứng dụng với bạn bè</string>
 </resources>

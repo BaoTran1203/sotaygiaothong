@@ -36,6 +36,8 @@ public class NhomBienSoXeActivity extends AppCompatActivity {
     private FastItemAdapter<NhomBienSoXe> adapter;
     private AdView adView;
 
+    private List<NhomBienSoXe> lst;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -149,13 +151,13 @@ public class NhomBienSoXeActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+            adapter.add(lst);
             dialog.dismiss();
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
-            List<NhomBienSoXe> lst = new NhomBienSoXeDB(context).getAll();
-            adapter.add(lst);
+            lst = new NhomBienSoXeDB(context).getAll();
             return null;
         }
     }

@@ -155,7 +155,6 @@ public class NhomBienBaoActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... voids) {
             List<NhomBienBao> lst = new NhomBienBaoDB(context).getAll();
-            Log.d("TAG", lst.size() + "");
             adapter.add(lst);
             return null;
         }

@@ -3,7 +3,6 @@ package com.trangiabao.giaothong.tracuu.biensoxe.model;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -54,7 +53,7 @@ public class NhomBienSoXe extends AbstractItem<NhomBienSoXe, NhomBienSoXe.ViewHo
 
     @Override
     public int getLayoutRes() {
-        return R.layout.item_5;
+        return R.layout.item_list;
     }
 
     @Override

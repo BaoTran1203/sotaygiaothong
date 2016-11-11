@@ -41,7 +41,8 @@
             android:theme="@android:style/Theme.Translucent" />
         <activity android:name=".tracuu.bienbao.NhomBienBaoActivity" />
         <activity android:name=".tracuu.biensoxe.NhomBienSoXeActivity" />
-        <activity android:name=".tracuu.hotline.NhomHotLineActivity"></activity>
+        <activity android:name=".tracuu.hotline.NhomHotLineActivity" />
+        <activity android:name=".tracuu.xuphat.PhuongTienActivity"></activity>
     </application>
 
 </manifest>

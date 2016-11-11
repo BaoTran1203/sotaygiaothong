@@ -5,31 +5,26 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
+import com.mikepenz.fastadapter.IItemAdapter;
 import com.mikepenz.fastadapter.adapters.FastItemAdapter;
-import com.trangiabao.giaothong.ex.ViewPagerTransformer;
+import com.trangiabao.giaothong.ex.MyMethod;
 import com.trangiabao.giaothong.R;
-import com.trangiabao.giaothong.ex.ViewPagerAdapter;
 import com.trangiabao.giaothong.tracuu.biensoxe.db.KiHieuDB;
-import com.trangiabao.giaothong.tracuu.biensoxe.db.NhomBienSoXeDB;
 import com.trangiabao.giaothong.tracuu.biensoxe.model.KiHieu;
-import com.trangiabao.giaothong.tracuu.biensoxe.model.NhomBienSoXe;
+import com.trangiabao.giaothong.tracuu.biensoxe.model.Seri;
 
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 
@@ -43,7 +38,6 @@ public class BienSoXeActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private FastItemAdapter<KiHieu> adapter;
     private AdView adView;
-    private SearchTask searchTask;
 
     private String id;
     private List<KiHieu> lst;
@@ -94,6 +88,29 @@ public class BienSoXeActivity extends AppCompatActivity {
             }
         });
 
+        adapter.withFilterPredicate(new IItemAdapter.Predicate<KiHieu>() {
+            @Override
+            public boolean filter(KiHieu item, CharSequence value) {
+                String filter = MyMethod.unAccent(String.valueOf(value)).toLowerCase();
+                String kiHieu = MyMethod.unAccent(item.getKiHieu()).toLowerCase();
+                String tenKiHieu = MyMethod.unAccent(item.getTenKiHieu()).toLowerCase();
+                List<Seri> lstSeri = item.getLstSeri();
+                boolean isContainsSeri = false;
+                for (Seri seri : lstSeri) {
+                    String mSeri = MyMethod.unAccent(seri.getSeri()).toLowerCase();
+                    String moTa = MyMethod.unAccent(seri.getMoTa()).toLowerCase();
+                    if (mSeri.contains(filter) || moTa.contains(filter)) {
+                        isContainsSeri = true;
+                        break;
+                    }
+                }
+
+                return !(kiHieu.contains(filter) ||
+                        tenKiHieu.contains(filter) ||
+                        isContainsSeri);
+            }
+        });
+
         searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -102,17 +119,7 @@ public class BienSoXeActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                if (newText.length() == 0) {
-                    adapter.clear();
-                    adapter.add(lst);
-                    adapter.notifyAdapterDataSetChanged();
-                } else if (newText.length() >= 2) {
-                    String lastChar = String.valueOf(newText.charAt(newText.length() - 1));
-                    if (!lastChar.equals(" ")) {
-                        searchTask = new SearchTask();
-                        searchTask.execute(newText);
-                    }
-                }
+                adapter.filter(newText);
                 return false;
             }
         });
@@ -126,9 +133,6 @@ public class BienSoXeActivity extends AppCompatActivity {
             @Override
             public void onSearchViewClosed() {
                 adView.setVisibility(View.VISIBLE);
-                adapter.clear();
-                adapter.add(lst);
-                adapter.notifyAdapterDataSetChanged();
             }
         });
     }
@@ -182,22 +186,6 @@ public class BienSoXeActivity extends AppCompatActivity {
             adView.destroy();
         }
         super.onDestroy();
-    }
-
-    class SearchTask extends AsyncTask<String, Void, List<KiHieu>> {
-
-        @Override
-        protected void onPostExecute(List<KiHieu> lstKiHieu) {
-            super.onPostExecute(lstKiHieu);
-            adapter.clear();
-            adapter.add(lstKiHieu);
-            adapter.notifyAdapterDataSetChanged();
-        }
-
-        @Override
-        protected List<KiHieu> doInBackground(String... params) {
-            return new KiHieuDB(context).filter(id, params[0]);
-        }
     }
 
     class LoadDataTask extends AsyncTask<Void, Void, Void> {

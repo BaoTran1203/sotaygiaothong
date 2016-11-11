@@ -54,7 +54,7 @@ public class NhomHotLine extends AbstractItem<NhomHotLine, NhomHotLine.ViewHolde
 
     @Override
     public int getLayoutRes() {
-        return R.layout.item_5;
+        return R.layout.item_list;
     }
 
     @Override

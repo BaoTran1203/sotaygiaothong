@@ -9,7 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,8 +18,10 @@ import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
+import com.mikepenz.fastadapter.IItemAdapter;
 import com.mikepenz.fastadapter.adapters.FastItemAdapter;
 import com.trangiabao.giaothong.R;
+import com.trangiabao.giaothong.ex.MyMethod;
 import com.trangiabao.giaothong.tracuu.bienbao.db.BienBaoDB;
 import com.trangiabao.giaothong.tracuu.bienbao.model.BienBao;
 
@@ -36,7 +37,6 @@ public class BienBaoActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private FastItemAdapter<BienBao> adapter;
     private AdView adView;
-    private SearchTask searchTask;
 
     private String id;
     private List<BienBao> lst;
@@ -87,6 +87,20 @@ public class BienBaoActivity extends AppCompatActivity {
             }
         });
 
+        adapter.withFilterPredicate(new IItemAdapter.Predicate<BienBao>() {
+            @Override
+            public boolean filter(BienBao item, CharSequence value) {
+                String filter = MyMethod.unAccent(String.valueOf(value)).toLowerCase();
+                String ma = MyMethod.unAccent(item.getMaBienBao()).toLowerCase();
+                String ten = MyMethod.unAccent(item.getTenBienBao()).toLowerCase();
+                String noiDung = MyMethod.unAccent(item.getNoiDungBienBao()).toLowerCase();
+
+                return !(ma.contains(filter) ||
+                        ten.contains(filter) ||
+                        noiDung.contains(filter));
+            }
+        });
+
         searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -95,17 +109,7 @@ public class BienBaoActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                if (newText.length() == 0) {
-                    adapter.clear();
-                    adapter.add(lst);
-                    adapter.notifyAdapterDataSetChanged();
-                } else if (newText.length() >= 3) {
-                    String lastChar = String.valueOf(newText.charAt(newText.length() - 1));
-                    if (!lastChar.equals(" ")) {
-                        searchTask = new SearchTask();
-                        searchTask.execute(newText);
-                    }
-                }
+                adapter.filter(newText);
                 return false;
             }
         });
@@ -119,9 +123,6 @@ public class BienBaoActivity extends AppCompatActivity {
             @Override
             public void onSearchViewClosed() {
                 adView.setVisibility(View.VISIBLE);
-                adapter.clear();
-                adapter.add(lst);
-                adapter.notifyAdapterDataSetChanged();
             }
         });
     }
@@ -175,22 +176,6 @@ public class BienBaoActivity extends AppCompatActivity {
             adView.destroy();
         }
         super.onDestroy();
-    }
-
-    class SearchTask extends AsyncTask<String, Void, List<BienBao>> {
-
-        @Override
-        protected void onPostExecute(List<BienBao> lstBienBao) {
-            super.onPostExecute(lstBienBao);
-            adapter.clear();
-            adapter.add(lstBienBao);
-            adapter.notifyAdapterDataSetChanged();
-        }
-
-        @Override
-        protected List<BienBao> doInBackground(String... params) {
-            return new BienBaoDB(context).filter(id, params[0]);
-        }
     }
 
     class LoadDataTask extends AsyncTask<Void, Void, Void> {

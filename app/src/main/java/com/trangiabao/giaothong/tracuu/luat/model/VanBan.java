@@ -59,7 +59,7 @@ public class VanBan extends AbstractItem<VanBan, VanBan.ViewHolder> {
 
     @Override
     public int getLayoutRes() {
-        return R.layout.item_5;
+        return R.layout.item_list;
     }
 
     @Override

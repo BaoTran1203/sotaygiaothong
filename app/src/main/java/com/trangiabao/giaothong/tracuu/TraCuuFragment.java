@@ -18,15 +18,11 @@ import com.mikepenz.fastadapter.FastAdapter;
 import com.mikepenz.fastadapter.IAdapter;
 import com.mikepenz.fastadapter.adapters.FastItemAdapter;
 import com.trangiabao.giaothong.R;
-import com.trangiabao.giaothong.tracuu.bienbao.BienBaoActivity;
 import com.trangiabao.giaothong.tracuu.bienbao.NhomBienBaoActivity;
-import com.trangiabao.giaothong.tracuu.bienbao.model.NhomBienBao;
-import com.trangiabao.giaothong.tracuu.biensoxe.BienSoXeActivity;
 import com.trangiabao.giaothong.tracuu.biensoxe.NhomBienSoXeActivity;
-import com.trangiabao.giaothong.tracuu.hotline.HotLineActivity;
 import com.trangiabao.giaothong.tracuu.hotline.NhomHotLineActivity;
 import com.trangiabao.giaothong.tracuu.luat.VanBanActivity;
-import com.trangiabao.giaothong.tracuu.xuphat.XuPhatActivity;
+import com.trangiabao.giaothong.tracuu.xuphat.PhuongTienActivity;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -122,7 +118,7 @@ public class TraCuuFragment extends Fragment {
                         startActivity(new Intent(context, NhomBienBaoActivity.class));
                         break;
                     case 2:
-                        startActivity(new Intent(context, XuPhatActivity.class));
+                        startActivity(new Intent(context, PhuongTienActivity.class));
                         break;
                     case 3:
                         startActivity(new Intent(context, NhomBienSoXeActivity.class));

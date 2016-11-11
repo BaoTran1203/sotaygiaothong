@@ -17,9 +17,7 @@
             android:layout_height="?attr/actionBarSize"
             android:background="@color/material_drawer_primary"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:theme="@style/ToolBarStyle">
-
-        </android.support.v7.widget.Toolbar>
+            app:theme="@style/ToolBarStyle" />
 
         <com.miguelcatalan.materialsearchview.MaterialSearchView
             android:id="@+id/searchView"
@@ -27,34 +25,21 @@
             android:layout_height="wrap_content" />
     </FrameLayout>
 
-    <LinearLayout
-        android:id="@+id/layout_viewPager"
+    <com.jaredrummler.materialspinner.MaterialSpinner
+        android:id="@+id/spinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/adView"
         android:layout_below="@+id/toolbar_container"
-        android:orientation="vertical">
-
-        <android.support.design.widget.TabLayout
-            android:id="@+id/tabs"
-            style="@style/TabStyle"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize" />
-
-        <android.support.v4.view.ViewPager
-            android:id="@+id/viewpager"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-    </LinearLayout>
+        app:ms_arrow_tint="@color/accent"
+        app:ms_dropdown_max_height="300dp" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_above="@+id/adView"
-        android:layout_below="@+id/toolbar_container"
-        android:visibility="gone" />
+        android:layout_below="@+id/spinner"
+        android:adjustViewBounds="true" />
 
     <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
         android:id="@+id/adView"

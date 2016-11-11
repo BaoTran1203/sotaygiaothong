@@ -48,7 +48,7 @@ public class NhomHotLineActivity extends AppCompatActivity {
 
     private void addControls() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Nhóm hotline");
+        toolbar.setTitle("Đường dây nóng");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -57,7 +57,6 @@ public class NhomHotLineActivity extends AppCompatActivity {
         adapter.withSelectable(true);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        recyclerView.setHasFixedSize(false);
         recyclerView.setAdapter(adapter);
 
         adView = (AdView) findViewById(R.id.adView);
