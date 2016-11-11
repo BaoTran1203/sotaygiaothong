@@ -19,8 +19,12 @@ import com.mikepenz.fastadapter.IAdapter;
 import com.mikepenz.fastadapter.adapters.FastItemAdapter;
 import com.trangiabao.giaothong.R;
 import com.trangiabao.giaothong.tracuu.bienbao.BienBaoActivity;
+import com.trangiabao.giaothong.tracuu.bienbao.NhomBienBaoActivity;
+import com.trangiabao.giaothong.tracuu.bienbao.model.NhomBienBao;
 import com.trangiabao.giaothong.tracuu.biensoxe.BienSoXeActivity;
+import com.trangiabao.giaothong.tracuu.biensoxe.NhomBienSoXeActivity;
 import com.trangiabao.giaothong.tracuu.hotline.HotLineActivity;
+import com.trangiabao.giaothong.tracuu.hotline.NhomHotLineActivity;
 import com.trangiabao.giaothong.tracuu.luat.VanBanActivity;
 import com.trangiabao.giaothong.tracuu.xuphat.XuPhatActivity;
 
@@ -115,16 +119,16 @@ public class TraCuuFragment extends Fragment {
                         startActivity(new Intent(context, VanBanActivity.class));
                         break;
                     case 1:
-                        startActivity(new Intent(context, BienBaoActivity.class));
+                        startActivity(new Intent(context, NhomBienBaoActivity.class));
                         break;
                     case 2:
                         startActivity(new Intent(context, XuPhatActivity.class));
                         break;
                     case 3:
-                        startActivity(new Intent(context, BienSoXeActivity.class));
+                        startActivity(new Intent(context, NhomBienSoXeActivity.class));
                         break;
                     case 4:
-                        startActivity(new Intent(context, HotLineActivity.class));
+                        startActivity(new Intent(context, NhomHotLineActivity.class));
                         break;
                 }
                 return false;

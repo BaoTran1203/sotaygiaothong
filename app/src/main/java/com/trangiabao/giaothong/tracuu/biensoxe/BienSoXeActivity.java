@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -38,15 +39,14 @@ public class BienSoXeActivity extends AppCompatActivity {
 
     private Context context = BienSoXeActivity.this;
     private Toolbar toolbar;
-    private TabLayout tabLayout;
-    private ViewPager viewPager;
-    private ViewPagerAdapter pagerAdapter;
     private MaterialSearchView searchView;
-    private LinearLayout layout_viewPager;
     private RecyclerView recyclerView;
     private FastItemAdapter<KiHieu> adapter;
     private AdView adView;
     private SearchTask searchTask;
+
+    private String id;
+    private List<KiHieu> lst;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,16 +60,11 @@ public class BienSoXeActivity extends AppCompatActivity {
 
     private void addControls() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Tra cứu biển số xe");
+        toolbar.setTitle(getIntent().getExtras().getString("ten"));
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
-        viewPager.setPageTransformer(true, new ViewPagerTransformer());
-        tabLayout = (TabLayout) findViewById(R.id.tabs);
-        pagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         searchView = (MaterialSearchView) findViewById(R.id.searchView);
-        layout_viewPager = (LinearLayout) findViewById(R.id.layout_viewPager);
 
         adapter = new FastItemAdapter<>();
         adapter.setHasStableIds(true);
@@ -107,9 +102,16 @@ public class BienSoXeActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                if (newText.length() >= 2) {
-                    searchTask = new SearchTask();
-                    searchTask.execute(newText);
+                if (newText.length() == 0) {
+                    adapter.clear();
+                    adapter.add(lst);
+                    adapter.notifyAdapterDataSetChanged();
+                } else if (newText.length() >= 2) {
+                    String lastChar = String.valueOf(newText.charAt(newText.length() - 1));
+                    if (!lastChar.equals(" ")) {
+                        searchTask = new SearchTask();
+                        searchTask.execute(newText);
+                    }
                 }
                 return false;
             }
@@ -118,14 +120,15 @@ public class BienSoXeActivity extends AppCompatActivity {
         searchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
             @Override
             public void onSearchViewShown() {
-                layout_viewPager.setVisibility(View.GONE);
-                recyclerView.setVisibility(View.VISIBLE);
+                adView.setVisibility(View.GONE);
             }
 
             @Override
             public void onSearchViewClosed() {
-                layout_viewPager.setVisibility(View.VISIBLE);
-                recyclerView.setVisibility(View.GONE);
+                adView.setVisibility(View.VISIBLE);
+                adapter.clear();
+                adapter.add(lst);
+                adapter.notifyAdapterDataSetChanged();
             }
         });
     }
@@ -193,7 +196,7 @@ public class BienSoXeActivity extends AppCompatActivity {
 
         @Override
         protected List<KiHieu> doInBackground(String... params) {
-            return new KiHieuDB(context).filter(params[0]);
+            return new KiHieuDB(context).filter(id, params[0]);
         }
     }
 
@@ -204,6 +207,8 @@ public class BienSoXeActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            id = getIntent().getExtras().getString("id");
+
             Drawable icon = MaterialDrawableBuilder.with(context)
                     .setIcon(MaterialDrawableBuilder.IconValue.DOWNLOAD)
                     .setColor(Color.parseColor("#1976D2"))
@@ -220,18 +225,13 @@ public class BienSoXeActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+            adapter.add(lst);
             dialog.dismiss();
-            viewPager.setAdapter(pagerAdapter);
-            tabLayout.setupWithViewPager(viewPager);
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
-            List<NhomBienSoXe> lstNhomBienSoXe = new NhomBienSoXeDB(context).getAll();
-            for (NhomBienSoXe nhomBienSoXe : lstNhomBienSoXe) {
-                List<KiHieu> lstKiHieu = new KiHieuDB(context).getByIdNhomBienSoXe(nhomBienSoXe.getId() + "");
-                pagerAdapter.addFragment(new BienSoXeFragment(lstKiHieu, nhomBienSoXe), nhomBienSoXe.getTen());
-            }
+            lst = new KiHieuDB(context).getByIdNhomBienSoXe(id);
             return null;
         }
     }

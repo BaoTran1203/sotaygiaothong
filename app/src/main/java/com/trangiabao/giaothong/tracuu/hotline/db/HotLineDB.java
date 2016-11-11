@@ -16,9 +16,9 @@ public class HotLineDB extends AbstractDB {
         super(context);
     }
 
-    public List<HotLine> getByIdNhomHotline(String idNhomHotLine) {
+    public List<HotLine> getByIdNhomHotline(String idNhom) {
         List<HotLine> data = new ArrayList<>();
-        Cursor c = database.rawQuery("select * from HotLine where idNhomHotLine = ?", new String[]{idNhomHotLine});
+        Cursor c = database.rawQuery("select * from HotLine where idNhomHotLine = " + idNhom, null);
         while (c.moveToNext()) {
             HotLine temp = new HotLine(
                     c.getInt(0),
@@ -32,9 +32,9 @@ public class HotLineDB extends AbstractDB {
         return data;
     }
 
-    public List<HotLine> filter(String filter) {
+    public List<HotLine> filter(String idNhom, String filter) {
         List<HotLine> data = new ArrayList<>();
-        Cursor c = database.rawQuery("select * from HotLine", null);
+        Cursor c = database.rawQuery("select * from HotLine where idNhomHotLine = " + idNhom, null);
         while (c.moveToNext()) {
             HotLine temp = new HotLine(
                     c.getInt(0),

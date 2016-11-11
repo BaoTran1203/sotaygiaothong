@@ -19,11 +19,11 @@ public class NhomBienSoXeDB extends AbstractDB {
         Cursor c = database.rawQuery("select * from NhomBienSoXe", null);
         while (c.moveToNext()) {
             NhomBienSoXe temp = new NhomBienSoXe(
+                    context,
                     c.getInt(0),
                     c.getString(1),
                     c.getString(2),
-                    c.getString(3),
-                    c.getString(4)
+                    c.getString(3)
             );
             data.add(temp);
         }

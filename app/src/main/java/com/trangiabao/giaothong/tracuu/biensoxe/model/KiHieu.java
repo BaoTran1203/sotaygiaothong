@@ -56,7 +56,7 @@ public class KiHieu extends AbstractItem<KiHieu, KiHieu.ViewHolder> {
 
     @Override
     public int getType() {
-        return R.id.item_layout_bien_so_xe;
+        return R.id.item_layout;
     }
 
     @Override
@@ -67,8 +67,8 @@ public class KiHieu extends AbstractItem<KiHieu, KiHieu.ViewHolder> {
     @Override
     public void bindView(ViewHolder viewHolder, List payloads) {
         super.bindView(viewHolder, payloads);
-        viewHolder.txtTenKiHieu.setText(getTenKiHieu());
-        viewHolder.txtKiHieu.setText(getKiHieu());
+        viewHolder.txtSubject.setText(getTenKiHieu());
+        viewHolder.txtSubject2.setText(getKiHieu());
         String seri = "";
         if (lstSeri.size() > 0) {
             for (int i = 0; i < lstSeri.size(); i++) {
@@ -77,11 +77,11 @@ public class KiHieu extends AbstractItem<KiHieu, KiHieu.ViewHolder> {
         }
 
         if (seri.equals("")) {
-            viewHolder.txtSeri.setVisibility(View.GONE);
+            viewHolder.txtContent.setVisibility(View.GONE);
         } else {
-            viewHolder.txtSeri.setVisibility(View.VISIBLE);
+            viewHolder.txtContent.setVisibility(View.VISIBLE);
             seri = seri.substring(0, seri.length() - 4);
-            viewHolder.txtSeri.setText(Html.fromHtml(seri));
+            viewHolder.txtContent.setText(Html.fromHtml(seri));
         }
 
         Drawable drawable = null;
@@ -94,18 +94,18 @@ public class KiHieu extends AbstractItem<KiHieu, KiHieu.ViewHolder> {
         viewHolder.imgHinh.setImageDrawable(drawable);
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView txtTenKiHieu;
-        private TextView txtKiHieu;
-        private TextView txtSeri;
+        private TextView txtSubject;
+        private TextView txtSubject2;
+        private TextView txtContent;
         private ImageView imgHinh;
 
         public ViewHolder(View view) {
             super(view);
-            this.txtTenKiHieu = (TextView) itemView.findViewById(R.id.txtTenKiHieu);
-            this.txtKiHieu = (TextView) itemView.findViewById(R.id.txtKiHieu);
-            this.txtSeri = (TextView) itemView.findViewById(R.id.txtSeri);
+            this.txtSubject = (TextView) itemView.findViewById(R.id.txtSubject);
+            this.txtSubject2 = (TextView) itemView.findViewById(R.id.txtSubject2);
+            this.txtContent = (TextView) itemView.findViewById(R.id.txtContent);
             this.imgHinh = (ImageView) itemView.findViewById(R.id.imgHinh);
         }
     }

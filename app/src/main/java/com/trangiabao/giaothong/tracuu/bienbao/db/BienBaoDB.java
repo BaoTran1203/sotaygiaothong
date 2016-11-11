@@ -16,9 +16,9 @@ public class BienBaoDB extends AbstractDB {
         super(context);
     }
 
-    public List<BienBao> getByIdNhomBienBao(String idNhomBienBao) {
+    public List<BienBao> getByIdNhomBienBao(String idNhom) {
         List<BienBao> data = new ArrayList<>();
-        Cursor c = database.rawQuery("select * from BienBao where idNhomBienBao = ?", new String[]{idNhomBienBao});
+        Cursor c = database.rawQuery("select * from BienBao where IdNhomBienBao = " + idNhom, null);
         while (c.moveToNext()) {
             BienBao temp = new BienBao(
                     context,
@@ -35,9 +35,9 @@ public class BienBaoDB extends AbstractDB {
         return data;
     }
 
-    public List<BienBao> filter(String filter) {
+    public List<BienBao> filter(String idNhom, String filter) {
         List<BienBao> data = new ArrayList<>();
-        Cursor c = database.rawQuery("select * from BienBao", null);
+        Cursor c = database.rawQuery("select * from BienBao where IdNhomBienBao = " + idNhom, null);
         while (c.moveToNext()) {
             BienBao temp = new BienBao(
                     context,

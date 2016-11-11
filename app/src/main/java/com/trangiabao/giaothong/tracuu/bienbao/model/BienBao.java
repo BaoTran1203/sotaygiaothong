@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -66,6 +67,7 @@ public class BienBao extends AbstractItem<BienBao, BienBao.ViewHolder> {
     @Override
     public void bindView(ViewHolder viewHolder, List payloads) {
         super.bindView(viewHolder, payloads);
+
         viewHolder.txtMaBienBao.setText(Html.fromHtml("Mã: " + getMaBienBao()));
         viewHolder.txtTenBienBao.setText(Html.fromHtml(getTenBienBao()));
         viewHolder.txtNoiDungBienBao.setText(Html.fromHtml(getNoiDungBienBao()));
@@ -77,6 +79,7 @@ public class BienBao extends AbstractItem<BienBao, BienBao.ViewHolder> {
             e.printStackTrace();
         }
         viewHolder.imgHinh.setImageDrawable(drawable);
+
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {

@@ -5,16 +5,14 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.android.gms.ads.AdListener;
@@ -22,13 +20,9 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import com.mikepenz.fastadapter.adapters.FastItemAdapter;
-import com.trangiabao.giaothong.ex.ViewPagerTransformer;
 import com.trangiabao.giaothong.R;
-import com.trangiabao.giaothong.ex.ViewPagerAdapter;
 import com.trangiabao.giaothong.tracuu.bienbao.db.BienBaoDB;
-import com.trangiabao.giaothong.tracuu.bienbao.db.NhomBienBaoDB;
 import com.trangiabao.giaothong.tracuu.bienbao.model.BienBao;
-import com.trangiabao.giaothong.tracuu.bienbao.model.NhomBienBao;
 
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 
@@ -38,15 +32,14 @@ public class BienBaoActivity extends AppCompatActivity {
 
     private Context context = BienBaoActivity.this;
     private Toolbar toolbar;
-    private TabLayout tabLayout;
-    private ViewPager viewPager;
-    private ViewPagerAdapter pagerAdapter;
     private MaterialSearchView searchView;
-    private LinearLayout layout_viewPager;
     private RecyclerView recyclerView;
     private FastItemAdapter<BienBao> adapter;
     private AdView adView;
     private SearchTask searchTask;
+
+    private String id;
+    private List<BienBao> lst;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,16 +53,11 @@ public class BienBaoActivity extends AppCompatActivity {
 
     private void addControls() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Tra cứu biển báo hiệu");
+        toolbar.setTitle(getIntent().getExtras().getString("ten"));
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
-        viewPager.setPageTransformer(true, new ViewPagerTransformer());
-        tabLayout = (TabLayout) findViewById(R.id.tabs);
-        pagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         searchView = (MaterialSearchView) findViewById(R.id.searchView);
-        layout_viewPager = (LinearLayout) findViewById(R.id.layout_viewPager);
 
         adapter = new FastItemAdapter<>();
         adapter.setHasStableIds(true);
@@ -107,9 +95,16 @@ public class BienBaoActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                if (newText.length() >= 3) {
-                    searchTask = new SearchTask();
-                    searchTask.execute(newText);
+                if (newText.length() == 0) {
+                    adapter.clear();
+                    adapter.add(lst);
+                    adapter.notifyAdapterDataSetChanged();
+                } else if (newText.length() >= 3) {
+                    String lastChar = String.valueOf(newText.charAt(newText.length() - 1));
+                    if (!lastChar.equals(" ")) {
+                        searchTask = new SearchTask();
+                        searchTask.execute(newText);
+                    }
                 }
                 return false;
             }
@@ -118,14 +113,15 @@ public class BienBaoActivity extends AppCompatActivity {
         searchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
             @Override
             public void onSearchViewShown() {
-                layout_viewPager.setVisibility(View.GONE);
-                recyclerView.setVisibility(View.VISIBLE);
+                adView.setVisibility(View.GONE);
             }
 
             @Override
             public void onSearchViewClosed() {
-                layout_viewPager.setVisibility(View.VISIBLE);
-                recyclerView.setVisibility(View.GONE);
+                adView.setVisibility(View.VISIBLE);
+                adapter.clear();
+                adapter.add(lst);
+                adapter.notifyAdapterDataSetChanged();
             }
         });
     }
@@ -193,7 +189,7 @@ public class BienBaoActivity extends AppCompatActivity {
 
         @Override
         protected List<BienBao> doInBackground(String... params) {
-            return new BienBaoDB(context).filter(params[0]);
+            return new BienBaoDB(context).filter(id, params[0]);
         }
     }
 
@@ -204,6 +200,8 @@ public class BienBaoActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            id = getIntent().getExtras().getString("id");
+
             Drawable icon = MaterialDrawableBuilder.with(context)
                     .setIcon(MaterialDrawableBuilder.IconValue.DOWNLOAD)
                     .setColor(Color.parseColor("#1976D2"))
@@ -220,18 +218,13 @@ public class BienBaoActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+            adapter.add(lst);
             dialog.dismiss();
-            viewPager.setAdapter(pagerAdapter);
-            tabLayout.setupWithViewPager(viewPager);
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
-            List<NhomBienBao> lstNhomBienBao = new NhomBienBaoDB(context).getAll();
-            for (NhomBienBao nhomBienBao : lstNhomBienBao) {
-                List<BienBao> lstBienBao = new BienBaoDB(context).getByIdNhomBienBao(nhomBienBao.getId() + "");
-                pagerAdapter.addFragment(new BienBaoFragment(lstBienBao, nhomBienBao), nhomBienBao.getTenNhomBienBao());
-            }
+            lst = new BienBaoDB(context).getByIdNhomBienBao(id);
             return null;
         }
     }

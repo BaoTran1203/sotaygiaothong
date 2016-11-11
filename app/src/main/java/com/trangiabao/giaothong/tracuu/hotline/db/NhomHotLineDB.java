@@ -20,9 +20,11 @@ public class NhomHotLineDB extends AbstractDB {
         Cursor c = database.rawQuery("select * from NhomHotLine", null);
         while (c.moveToNext()) {
             NhomHotLine temp = new NhomHotLine(
+                    context,
                     c.getInt(0),
                     c.getString(1),
-                    c.getString(2)
+                    c.getString(2),
+                    ""
             );
             data.add(temp);
         }

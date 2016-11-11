@@ -38,15 +38,14 @@ public class HotLineActivity extends AppCompatActivity {
 
     private Context context = HotLineActivity.this;
     private Toolbar toolbar;
-    private TabLayout tabLayout;
-    private ViewPager viewPager;
-    private ViewPagerAdapter pagerAdapter;
     private MaterialSearchView searchView;
-    private LinearLayout layout_viewPager;
     private RecyclerView recyclerView;
     private FastItemAdapter<HotLine> adapter;
     private AdView adView;
     private SearchTask searchTask;
+
+    private String id;
+    private List<HotLine> lst;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,16 +59,11 @@ public class HotLineActivity extends AppCompatActivity {
 
     private void addControls() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Đường dây nóng");
+        toolbar.setTitle(getIntent().getExtras().getString("ten"));
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
-        viewPager.setPageTransformer(true, new ViewPagerTransformer());
-        tabLayout = (TabLayout) findViewById(R.id.tabs);
-        pagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
         searchView = (MaterialSearchView) findViewById(R.id.searchView);
-        layout_viewPager = (LinearLayout) findViewById(R.id.layout_viewPager);
 
         adapter = new FastItemAdapter<>();
         adapter.setHasStableIds(true);
@@ -107,9 +101,16 @@ public class HotLineActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                if (newText.length() >= 2) {
-                    searchTask = new SearchTask();
-                    searchTask.execute(newText);
+                if (newText.length() == 0) {
+                    adapter.clear();
+                    adapter.add(lst);
+                    adapter.notifyAdapterDataSetChanged();
+                } else if (newText.length() >= 2) {
+                    String lastChar = String.valueOf(newText.charAt(newText.length() - 1));
+                    if (!lastChar.equals(" ")) {
+                        searchTask = new SearchTask();
+                        searchTask.execute(newText);
+                    }
                 }
                 return false;
             }
@@ -118,14 +119,15 @@ public class HotLineActivity extends AppCompatActivity {
         searchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
             @Override
             public void onSearchViewShown() {
-                layout_viewPager.setVisibility(View.GONE);
-                recyclerView.setVisibility(View.VISIBLE);
+                adView.setVisibility(View.GONE);
             }
 
             @Override
             public void onSearchViewClosed() {
-                layout_viewPager.setVisibility(View.VISIBLE);
-                recyclerView.setVisibility(View.GONE);
+                adView.setVisibility(View.VISIBLE);
+                adapter.clear();
+                adapter.add(lst);
+                adapter.notifyAdapterDataSetChanged();
             }
         });
     }
@@ -193,18 +195,19 @@ public class HotLineActivity extends AppCompatActivity {
 
         @Override
         protected List<HotLine> doInBackground(String... params) {
-            return new HotLineDB(context).filter(params[0]);
+            return new HotLineDB(context).filter(id, params[0]);
         }
     }
 
     public class LoadData extends AsyncTask<Void, Void, Void> {
 
-        private List<NhomHotLine> lstNhomHotLine;
         private MaterialDialog dialog;
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            id = getIntent().getExtras().getString("id");
+
             Drawable icon = MaterialDrawableBuilder.with(context)
                     .setIcon(MaterialDrawableBuilder.IconValue.DOWNLOAD)
                     .setColor(Color.parseColor("#1976D2"))
@@ -221,18 +224,13 @@ public class HotLineActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+            adapter.add(lst);
             dialog.dismiss();
-            viewPager.setAdapter(pagerAdapter);
-            tabLayout.setupWithViewPager(viewPager);
         }
 
         @Override
         protected Void doInBackground(Void... aVoid) {
-            lstNhomHotLine = new NhomHotLineDB(context).getAll();
-            for (NhomHotLine nhomHotLine : lstNhomHotLine) {
-                List<HotLine> lstHotLine = new HotLineDB(context).getByIdNhomHotline(nhomHotLine.getId() + "");
-                pagerAdapter.addFragment(new HotLineFragment(lstHotLine, nhomHotLine), nhomHotLine.getNhom());
-            }
+            lst = new HotLineDB(context).getByIdNhomHotline(id);
             return null;
         }
     }

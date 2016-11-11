@@ -54,12 +54,12 @@ public class VanBan extends AbstractItem<VanBan, VanBan.ViewHolder> {
 
     @Override
     public int getType() {
-        return R.id.item_layout_van_ban;
+        return R.id.item_layout;
     }
 
     @Override
     public int getLayoutRes() {
-        return R.layout.item_van_ban;
+        return R.layout.item_5;
     }
 
     @Override
@@ -85,8 +85,8 @@ public class VanBan extends AbstractItem<VanBan, VanBan.ViewHolder> {
 
         public ViewHolder(View view) {
             super(view);
-            this.txtTenVanBan = (TextView) view.findViewById(R.id.txtTenVanBan);
-            this.txtMoTa = (TextView) view.findViewById(R.id.txtMoTa);
+            this.txtTenVanBan = (TextView) view.findViewById(R.id.txtSubject);
+            this.txtMoTa = (TextView) view.findViewById(R.id.txtContent);
             this.imgHinh = (ImageView) view.findViewById(R.id.imgHinh);
         }
     }

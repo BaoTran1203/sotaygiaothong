@@ -35,37 +35,37 @@ public class Chuong extends AbstractItem<Chuong, Chuong.ViewHolder> {
 
     @Override
     public int getType() {
-        return R.id.item_layout_chuong;
+        return R.id.item_layout;
     }
 
     @Override
     public int getLayoutRes() {
-        return R.layout.item_chuong;
+        return R.layout.item_6;
     }
 
     @Override
     public void bindView(ViewHolder viewHolder, List payloads) {
         super.bindView(viewHolder, payloads);
 
-        viewHolder.txtChuong.setText(getTenChuong());
+        viewHolder.txtSubject.setText(getTenChuong());
 
         if (getMuc().equals("")) {
-            viewHolder.txtMuc.setVisibility(View.GONE);
+            viewHolder.txtContent.setVisibility(View.GONE);
         } else {
-            viewHolder.txtMuc.setVisibility(View.VISIBLE);
-            viewHolder.txtMuc.setText(getMuc());
+            viewHolder.txtContent.setVisibility(View.VISIBLE);
+            viewHolder.txtContent.setText(getMuc());
         }
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView txtChuong;
-        private TextView txtMuc;
+        private TextView txtSubject;
+        private TextView txtContent;
 
         public ViewHolder(View view) {
             super(view);
-            this.txtChuong = (TextView) view.findViewById(R.id.txtChuong);
-            this.txtMuc = (TextView) view.findViewById(R.id.txtMuc);
+            this.txtSubject = (TextView) view.findViewById(R.id.txtSubject);
+            this.txtContent = (TextView) view.findViewById(R.id.txtContent);
         }
     }
 }

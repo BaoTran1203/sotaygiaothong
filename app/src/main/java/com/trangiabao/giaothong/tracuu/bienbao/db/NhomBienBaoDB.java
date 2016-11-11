@@ -19,9 +19,11 @@ public class NhomBienBaoDB extends AbstractDB {
         Cursor c = database.rawQuery("select * from NhomBienBao", null);
         while (c.moveToNext()) {
             NhomBienBao temp = new NhomBienBao(
+                    context,
                     c.getInt(0),
                     c.getString(1),
-                    c.getString(2)
+                    c.getString(2),
+                    c.getString(3)
             );
             data.add(temp);
         }
