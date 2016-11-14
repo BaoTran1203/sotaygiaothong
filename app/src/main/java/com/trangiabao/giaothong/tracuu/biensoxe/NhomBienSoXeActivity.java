@@ -36,8 +36,6 @@ public class NhomBienSoXeActivity extends AppCompatActivity {
     private FastItemAdapter<NhomBienSoXe> adapter;
     private AdView adView;
 
-    private List<NhomBienSoXe> lst;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -131,6 +129,7 @@ public class NhomBienSoXeActivity extends AppCompatActivity {
     class LoadDataTask extends AsyncTask<Void, Void, Void> {
 
         private MaterialDialog dialog;
+        private List<NhomBienSoXe> lst;
 
         @Override
         protected void onPreExecute() {

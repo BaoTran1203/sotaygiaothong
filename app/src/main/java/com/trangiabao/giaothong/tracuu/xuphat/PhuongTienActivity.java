@@ -129,6 +129,7 @@ public class PhuongTienActivity extends AppCompatActivity {
     class LoadDataTask extends AsyncTask<Void, Void, Void> {
 
         private MaterialDialog dialog;
+        private List<PhuongTien> lst;
 
         @Override
         protected void onPreExecute() {
@@ -149,13 +150,13 @@ public class PhuongTienActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+            adapter.add(lst);
             dialog.dismiss();
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
-            List<PhuongTien> lst = new PhuongTienDB(context).getAll();
-            adapter.add(lst);
+            lst = new PhuongTienDB(context).getAll();
             return null;
         }
     }

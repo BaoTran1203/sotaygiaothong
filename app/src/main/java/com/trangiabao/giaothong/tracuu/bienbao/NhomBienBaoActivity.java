@@ -129,6 +129,7 @@ public class NhomBienBaoActivity extends AppCompatActivity {
     class LoadDataTask extends AsyncTask<Void, Void, Void> {
 
         private MaterialDialog dialog;
+        private List<NhomBienBao> lst;
 
         @Override
         protected void onPreExecute() {
@@ -149,13 +150,13 @@ public class NhomBienBaoActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+            adapter.add(lst);
             dialog.dismiss();
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
-            List<NhomBienBao> lst = new NhomBienBaoDB(context).getAll();
-            adapter.add(lst);
+            lst = new NhomBienBaoDB(context).getAll();
             return null;
         }
     }

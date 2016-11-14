@@ -59,7 +59,6 @@ public class VanBanActivity extends AppCompatActivity {
 
         rvVanBan = (RecyclerView) findViewById(R.id.rvVanBan);
         rvVanBan.setLayoutManager(new LinearLayoutManager(context));
-        rvVanBan.setHasFixedSize(true);
         rvVanBan.setAdapter(adapter);
 
         adView = (AdView) findViewById(R.id.adView);
@@ -89,7 +88,7 @@ public class VanBanActivity extends AppCompatActivity {
                 VanBan vanBan = lstVanBan.get(position);
                 List<Chuong> lstChuong = new ChuongDB(context).getByIdVanBan(vanBan.getId() + "");
                 Intent intent;
-                if (lstChuong.size() == 1) {
+                if (lstChuong.size() == 0) {
                     intent = new Intent(context, NoiDungActivity.class);
                     intent.putExtra("ID_CHUONG", lstChuong.get(0).getId() + "");
                 } else {

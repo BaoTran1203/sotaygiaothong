@@ -128,6 +128,7 @@ public class NhomHotLineActivity extends AppCompatActivity {
     class LoadDataTask extends AsyncTask<Void, Void, Void> {
 
         private MaterialDialog dialog;
+        private List<NhomHotLine> lst;
 
         @Override
         protected void onPreExecute() {
@@ -148,13 +149,13 @@ public class NhomHotLineActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+            adapter.add(lst);
             dialog.dismiss();
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
-            List<NhomHotLine> lst = new NhomHotLineDB(context).getAll();
-            adapter.add(lst);
+            lst = new NhomHotLineDB(context).getAll();
             return null;
         }
     }
