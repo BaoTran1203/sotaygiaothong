@@ -79,8 +79,8 @@ public class VanBan extends AbstractItem<VanBan, VanBan.ViewHolder> {
 
     protected static class ViewHolder extends RecyclerView.ViewHolder {
 
-        protected TextView txtTenVanBan;
-        protected TextView txtMoTa;
+        TextView txtTenVanBan;
+        TextView txtMoTa;
         protected ImageView imgHinh;
 
         public ViewHolder(View view) {

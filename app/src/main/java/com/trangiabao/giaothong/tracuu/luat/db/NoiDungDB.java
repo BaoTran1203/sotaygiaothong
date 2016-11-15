@@ -14,9 +14,9 @@ public class NoiDungDB extends AbstractDB {
         super(context);
     }
 
-    public ArrayList<NoiDung> getByIdDieu(String idDieu) {
+    public ArrayList<NoiDung> getByIdChuong(String idChuong) {
         ArrayList<NoiDung> data = new ArrayList<>();
-        Cursor c = database.rawQuery("select * from NoiDung where idDieu = ?", new String[]{idDieu});
+        Cursor c = database.rawQuery("select * from NoiDung where idChuong = " + idChuong, null);
         while (c.moveToNext()) {
             NoiDung temp = new NoiDung(
                     c.getInt(0),

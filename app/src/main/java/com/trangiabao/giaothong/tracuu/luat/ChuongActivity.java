@@ -2,14 +2,19 @@ package com.trangiabao.giaothong.tracuu.luat;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -20,21 +25,17 @@ import com.trangiabao.giaothong.R;
 import com.trangiabao.giaothong.tracuu.luat.db.ChuongDB;
 import com.trangiabao.giaothong.tracuu.luat.model.Chuong;
 
+import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
+
 import java.util.List;
 
 public class ChuongActivity extends AppCompatActivity {
 
-    // controls
     private Context context = ChuongActivity.this;
     private Toolbar toolbar;
     private FastItemAdapter<Chuong> adapter;
-    private RecyclerView rvChuong;
+    private RecyclerView recyclerView;
     private AdView adView;
-
-    // datas
-    private List<Chuong> lstChuong;
-    private Chuong chuong;
-    private String idVanBan;
     private String vanBan;
 
     @Override
@@ -42,9 +43,8 @@ public class ChuongActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chuong);
 
-        idVanBan = getIntent().getExtras().getString("ID_VAN_BAN");
-        vanBan = getIntent().getExtras().getString("VANBAN");
-        lstChuong = new ChuongDB(context).getByIdVanBan(idVanBan);
+        vanBan = getIntent().getExtras().getString("ten");
+        new LoadData().execute();
         addControls();
         addEvents();
     }
@@ -55,16 +55,12 @@ public class ChuongActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        rvChuong = (RecyclerView) findViewById(R.id.rvChuong);
-        rvChuong.setLayoutManager(new LinearLayoutManager(context));
-        rvChuong.setHasFixedSize(true);
-
         adapter = new FastItemAdapter<>();
         adapter.setHasStableIds(true);
         adapter.withSelectable(true);
-
-        rvChuong.setAdapter(adapter);
-        adapter.add(lstChuong);
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        recyclerView.setAdapter(adapter);
 
         adView = (AdView) findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder()
@@ -90,10 +86,9 @@ public class ChuongActivity extends AppCompatActivity {
         adapter.withOnClickListener(new FastAdapter.OnClickListener<Chuong>() {
             @Override
             public boolean onClick(View v, IAdapter<Chuong> adapter, Chuong item, int position) {
-                chuong = lstChuong.get(position);
                 Intent intent = new Intent(context, NoiDungActivity.class);
-                intent.putExtra("ID_CHUONG", chuong.getId() + "");
-                intent.putExtra("VANBAN", vanBan);
+                intent.putExtra("id", item.getId() + "");
+                intent.putExtra("ten", vanBan);
                 startActivity(intent);
                 return false;
             }
@@ -131,5 +126,43 @@ public class ChuongActivity extends AppCompatActivity {
             adView.destroy();
         }
         super.onDestroy();
+    }
+
+    class LoadData extends AsyncTask<Void, Void, Void> {
+
+        private MaterialDialog dialog;
+        private List<Chuong> lst;
+        private String id;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            id = getIntent().getExtras().getString("id");
+
+            Drawable icon = MaterialDrawableBuilder.with(context)
+                    .setIcon(MaterialDrawableBuilder.IconValue.DOWNLOAD)
+                    .setColor(Color.parseColor("#1976D2"))
+                    .build();
+
+            dialog = new MaterialDialog.Builder(context)
+                    .title("Đang tải dữ liệu...")
+                    .progress(true, 0)
+                    .icon(icon)
+                    .autoDismiss(false).cancelable(false).canceledOnTouchOutside(false)
+                    .show();
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            adapter.add(lst);
+            dialog.dismiss();
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            lst = new ChuongDB(context).getByIdVanBan(id);
+            return null;
+        }
     }
 }

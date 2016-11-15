@@ -16,7 +16,7 @@ public class ChuongDB extends AbstractDB {
 
     public ArrayList<Chuong> getByIdVanBan(String idVanBan) {
         ArrayList<Chuong> data = new ArrayList<>();
-        Cursor c = database.rawQuery("select * from Chuong where idVanBan = ?", new String[]{idVanBan});
+        Cursor c = database.rawQuery("select * from Chuong where idVanBan = " + idVanBan, null);
         while (c.moveToNext()) {
             Chuong temp = new Chuong(
                     c.getInt(0),

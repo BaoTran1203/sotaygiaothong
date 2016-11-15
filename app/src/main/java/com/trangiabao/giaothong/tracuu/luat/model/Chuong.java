@@ -57,15 +57,15 @@ public class Chuong extends AbstractItem<Chuong, Chuong.ViewHolder> {
         }
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    protected static class ViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView txtSubject;
-        private TextView txtContent;
+        protected TextView txtSubject;
+        protected TextView txtContent;
 
         public ViewHolder(View view) {
             super(view);
-            this.txtSubject = (TextView) view.findViewById(R.id.txtSubject);
-            this.txtContent = (TextView) view.findViewById(R.id.txtContent);
+            this.txtSubject = (TextView) itemView.findViewById(R.id.txtSubject);
+            this.txtContent = (TextView) itemView.findViewById(R.id.txtContent);
         }
     }
 }

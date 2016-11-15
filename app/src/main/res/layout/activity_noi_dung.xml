@@ -50,12 +50,6 @@
                 android:background="@android:color/darker_gray" />
 
             <TextView
-                android:id="@+id/txtDieu"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textStyle="bold" />
-
-            <TextView
                 android:id="@+id/txtNoiDung"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -79,11 +73,11 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:baselineAligned="false"
             android:divider="?android:attr/dividerHorizontal"
             android:dividerPadding="5dp"
             android:orientation="horizontal"
-            android:showDividers="middle"
-            android:baselineAligned="false">
+            android:showDividers="middle">
 
             <LinearLayout
                 android:layout_width="0dp"

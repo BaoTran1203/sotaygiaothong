@@ -2,14 +2,19 @@ package com.trangiabao.giaothong.tracuu.luat;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -22,6 +27,8 @@ import com.trangiabao.giaothong.tracuu.luat.db.VanBanDB;
 import com.trangiabao.giaothong.tracuu.luat.model.Chuong;
 import com.trangiabao.giaothong.tracuu.luat.model.VanBan;
 
+import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
+
 import java.util.List;
 
 public class VanBanActivity extends AppCompatActivity {
@@ -30,18 +37,15 @@ public class VanBanActivity extends AppCompatActivity {
     private Context context = VanBanActivity.this;
     private Toolbar toolbar;
     private FastItemAdapter<VanBan> adapter;
-    private RecyclerView rvVanBan;
+    private RecyclerView recyclerView;
     private AdView adView;
-
-    // datas
-    private List<VanBan> lstVanBan;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_van_ban);
 
-        lstVanBan = new VanBanDB(context).getAll();
+        new LoadDataTask().execute();
         addControls();
         addEvents();
     }
@@ -55,11 +59,9 @@ public class VanBanActivity extends AppCompatActivity {
         adapter = new FastItemAdapter<>();
         adapter.setHasStableIds(true);
         adapter.withSelectable(true);
-        adapter.add(lstVanBan);
-
-        rvVanBan = (RecyclerView) findViewById(R.id.rvVanBan);
-        rvVanBan.setLayoutManager(new LinearLayoutManager(context));
-        rvVanBan.setAdapter(adapter);
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        recyclerView.setAdapter(adapter);
 
         adView = (AdView) findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder()
@@ -85,17 +87,19 @@ public class VanBanActivity extends AppCompatActivity {
         adapter.withOnClickListener(new FastAdapter.OnClickListener<VanBan>() {
             @Override
             public boolean onClick(View v, IAdapter<VanBan> adapter, VanBan item, int position) {
-                VanBan vanBan = lstVanBan.get(position);
-                List<Chuong> lstChuong = new ChuongDB(context).getByIdVanBan(vanBan.getId() + "");
-                Intent intent;
-                if (lstChuong.size() == 0) {
-                    intent = new Intent(context, NoiDungActivity.class);
-                    intent.putExtra("ID_CHUONG", lstChuong.get(0).getId() + "");
+                List<Chuong> lstChuong = new ChuongDB(context).getByIdVanBan(item.getId() + "");
+                Class aClass;
+                String id;
+                if (lstChuong.size() == 1) {
+                    aClass = NoiDungActivity.class;
+                    id = lstChuong.get(0).getId() + "";
                 } else {
-                    intent = new Intent(context, ChuongActivity.class);
-                    intent.putExtra("ID_VAN_BAN", vanBan.getId() + "");
+                    aClass = ChuongActivity.class;
+                    id = item.getId() + "";
                 }
-                intent.putExtra("VANBAN", vanBan.getTenVietTat());
+                Intent intent = new Intent(context, aClass);
+                intent.putExtra("id", id);
+                intent.putExtra("ten", item.getTenVietTat());
                 startActivity(intent);
                 return false;
             }
@@ -133,5 +137,40 @@ public class VanBanActivity extends AppCompatActivity {
             adView.destroy();
         }
         super.onDestroy();
+    }
+
+    class LoadDataTask extends AsyncTask<Void, Void, Void> {
+
+        private MaterialDialog dialog;
+        private List<VanBan> lst;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            Drawable icon = MaterialDrawableBuilder.with(context)
+                    .setIcon(MaterialDrawableBuilder.IconValue.DOWNLOAD)
+                    .setColor(Color.parseColor("#1976D2"))
+                    .build();
+
+            dialog = new MaterialDialog.Builder(context)
+                    .title("Đang tải dữ liệu...")
+                    .progress(true, 0)
+                    .icon(icon)
+                    .autoDismiss(false).cancelable(false).canceledOnTouchOutside(false)
+                    .show();
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            adapter.add(lst);
+            dialog.dismiss();
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            lst = new VanBanDB(context).getAll();
+            return null;
+        }
     }
 }
