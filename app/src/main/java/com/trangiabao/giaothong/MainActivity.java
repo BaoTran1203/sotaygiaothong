@@ -23,10 +23,10 @@ import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.util.DrawerUIUtils;
 import com.mikepenz.materialize.util.UIUtils;
-import com.trangiabao.giaothong.chiase.ChiaSeFragment;
-import com.trangiabao.giaothong.feedback.FeedbackFragment;
-import com.trangiabao.giaothong.gioithieu.GioiThieuFragment;
-import com.trangiabao.giaothong.lienhe.LienHeFragment;
+import com.trangiabao.giaothong.khac.ChiaSeFragment;
+import com.trangiabao.giaothong.khac.FeedbackFragment;
+import com.trangiabao.giaothong.khac.GioiThieuFragment;
+import com.trangiabao.giaothong.khac.LienHeFragment;
 import com.trangiabao.giaothong.sathach.SatHachFragment;
 import com.trangiabao.giaothong.tracuu.TraCuuFragment;
 

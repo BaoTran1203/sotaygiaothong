@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".lienhe.LienHeFragment">
+    tools:context=".khac.LienHeFragment">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -344,6 +344,7 @@
 
                 <!-- TODO source -->
                 <LinearLayout
+                    android:id="@+id/layout_source"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
@@ -399,7 +400,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        ads:adSize="BANNER"
+        ads:adSize="SMART_BANNER"
         ads:adUnitId="@string/other" />
 </RelativeLayout>
 
