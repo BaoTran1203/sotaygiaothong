@@ -1,8 +1,10 @@
 package com.trangiabao.giaothong.tracuu.hotline;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,6 +20,8 @@ import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
+import com.mikepenz.fastadapter.FastAdapter;
+import com.mikepenz.fastadapter.IAdapter;
 import com.mikepenz.fastadapter.IItemAdapter;
 import com.mikepenz.fastadapter.adapters.FastItemAdapter;
 import com.trangiabao.giaothong.R;
@@ -94,6 +98,17 @@ public class HotLineActivity extends AppCompatActivity {
                 String ten = MyMethod.unAccent(item.getTen()).toLowerCase();
                 String phone = MyMethod.unAccent(item.getPhone()).toLowerCase().replace(".", "").replace(" ", "");
                 return !(ten.contains(filter) || phone.contains(filter));
+            }
+        });
+
+        adapter.withOnClickListener(new FastAdapter.OnClickListener<HotLine>() {
+            @Override
+            public boolean onClick(View v, IAdapter<HotLine> adapter, HotLine item, int position) {
+                String phone = item.getPhone();
+                Uri number = Uri.parse("tel:" + phone);
+                Intent callIntent = new Intent(Intent.ACTION_DIAL, number);
+                startActivity(callIntent);
+                return false;
             }
         });
 
