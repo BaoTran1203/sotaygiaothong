@@ -59,14 +59,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void processCopy() {
-        CopyDataBaseFromAsset();
-        /*File dbFile = getDatabasePath(DATABASE_NAME);
+        //CopyDataBaseFromAsset();
+        File dbFile = getDatabasePath(DATABASE_NAME);
         if (!dbFile.exists()) {
             try {
                 CopyDataBaseFromAsset();
             } catch (Exception ignored) {
             }
-        }*/
+        }
     }
 
     private void CopyDataBaseFromAsset() {

@@ -172,6 +172,7 @@ public class TuyChonCauHoiActivity extends AppCompatActivity {
         LoaiBang loaiBang = lstLoaiBang.get(i);
         txtMoTa.setText(Html.fromHtml(loaiBang.getMoTa()));
         List<QuyTacRaDe> lstQuyTacRaDe = new QuyTacRaDeDB(context).getByIdLoaiBang(loaiBang.getId() + "");
+
         // create List Nhom Cau Hoi
         List<NhomCauHoi> lstNhomCauHoi = new ArrayList<>();
         for (QuyTacRaDe quyTacRaDe : lstQuyTacRaDe) {

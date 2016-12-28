@@ -16,7 +16,7 @@ import com.trangiabao.giaothong.R;
 
 import java.util.List;
 
-public class MeoActivity extends AppCompatActivity {
+public class  MeoActivity extends AppCompatActivity {
 
     // controls
     private Context context = MeoActivity.this;
