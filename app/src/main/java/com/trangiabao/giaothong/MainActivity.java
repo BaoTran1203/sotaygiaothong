@@ -39,14 +39,9 @@ import java.io.OutputStream;
 public class MainActivity extends AppCompatActivity {
 
     private Context context = MainActivity.this;
-
     private Toolbar toolbar;
     private Drawer result;
-    private MiniDrawer miniResult;
     private CrossfadeDrawerLayout crossfadeDrawerLayout;
-
-    private static final String DB_PATH_SUFFIX = "/databases/";
-    private static final String DATABASE_NAME = "giaothong.db";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,34 +54,26 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void processCopy() {
-        //CopyDataBaseFromAsset();
-        File dbFile = getDatabasePath(DATABASE_NAME);
+        File dbFile = getDatabasePath(getString(R.string.dbname));
         if (!dbFile.exists()) {
             try {
-                CopyDataBaseFromAsset();
-            } catch (Exception ignored) {
+                InputStream myInput = getAssets().open(getString(R.string.dbname));
+                String outFileName = getApplicationInfo().dataDir + "/databases/" + getString(R.string.dbname);
+                File f = new File(getApplicationInfo().dataDir + "/databases/");
+                if (!f.exists())
+                    f.mkdir();
+                OutputStream myOutput = new FileOutputStream(outFileName);
+                byte[] buffer = new byte[1024];
+                int length;
+                while ((length = myInput.read(buffer)) > 0) {
+                    myOutput.write(buffer, 0, length);
+                }
+                myOutput.flush();
+                myOutput.close();
+                myInput.close();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        }
-    }
-
-    private void CopyDataBaseFromAsset() {
-        try {
-            InputStream myInput = getAssets().open(DATABASE_NAME);
-            String outFileName = getApplicationInfo().dataDir + DB_PATH_SUFFIX + DATABASE_NAME;
-            File f = new File(getApplicationInfo().dataDir + DB_PATH_SUFFIX);
-            if (!f.exists())
-                f.mkdir();
-            OutputStream myOutput = new FileOutputStream(outFileName);
-            byte[] buffer = new byte[1024];
-            int length;
-            while ((length = myInput.read(buffer)) > 0) {
-                myOutput.write(buffer, 0, length);
-            }
-            myOutput.flush();
-            myOutput.close();
-            myInput.close();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
@@ -123,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
                         new DividerDrawerItem(),
                         new PrimaryDrawerItem().withIdentifier(5).withName("Đánh giá ứng dụng").withIcon(R.drawable.ic_danh_gia),
                         new PrimaryDrawerItem().withIdentifier(6).withName("Chia sẽ với mọi người").withIcon(R.drawable.ic_chia_se),
-                        new PrimaryDrawerItem().withIdentifier(7).withName("Feedback").withIcon(R.drawable.ic_gop_y),
+                        //new PrimaryDrawerItem().withIdentifier(7).withName("Feedback").withIcon(R.drawable.ic_gop_y),
                         new PrimaryDrawerItem().withIdentifier(8).withName("Liên hệ nhà phát triển").withIcon(R.drawable.ic_lien_he)
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
@@ -171,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
         crossfadeDrawerLayout = (CrossfadeDrawerLayout) result.getDrawerLayout();
         crossfadeDrawerLayout.setMaxWidthPx(DrawerUIUtils.getOptimalDrawerWidth(context));
 
-        miniResult = result.getMiniDrawer();
+        MiniDrawer miniResult = result.getMiniDrawer();
         View view = miniResult.build(context);
         view.setBackgroundColor(UIUtils.getThemeColorFromAttrOrRes(
                 this,

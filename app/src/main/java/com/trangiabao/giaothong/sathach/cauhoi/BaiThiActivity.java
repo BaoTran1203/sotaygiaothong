@@ -15,6 +15,7 @@ import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -45,6 +46,7 @@ import com.trangiabao.giaothong.sathach.cauhoi.model.CauTraLoi;
 import com.trangiabao.giaothong.sathach.cauhoi.model.HinhCauHoi;
 import com.trangiabao.giaothong.sathach.cauhoi.model.LoaiBang;
 import com.trangiabao.giaothong.sathach.cauhoi.model.NhomCauHoi;
+import com.trangiabao.giaothong.sathach.cauhoi.model.QuyTacRaDe;
 
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder;
 import net.steamcrafted.materialiconlib.MaterialIconView;
@@ -638,17 +640,16 @@ public class BaiThiActivity extends AppCompatActivity {
             }
             lstCauHoi = new ArrayList<>();
             List<NhomCauHoi> lstNhomCauHoi = new NhomCauHoiDB(context).getAll();
-            int index = 1;
+            List<QuyTacRaDe> lstQuyTac = new QuyTacRaDeDB(context).getByIdLoaiBang2(loaiBang.getId() + "");
+            int stt = 1;
             for (int i = 0; i < lstNhomCauHoi.size(); i++) {
-                String idNhomCauHoi = (i + 1) + "";
-                List<CauHoi> temp = new CauHoiDB(context).getCauHoi(query + idNhomCauHoi);
-                int soCau = new QuyTacRaDeDB(context).getSoCau(loaiBang.getId() + "", idNhomCauHoi);
-                if (soCau != 0) {
-                    for (int j = 1; j <= soCau; j++) {
-                        CauHoi cauHoi = temp.get(new Random().nextInt(temp.size()));
-                        cauHoi.setStt(index++);
-                        lstCauHoi.add(cauHoi);
-                    }
+                int soCau = lstQuyTac.get(i).getSoCauThi();
+                String newQuery = query + (i + 1) + " ORDER BY RANDOM() LIMIT " + soCau;
+                List<CauHoi> lstTemp = new CauHoiDB(context).getCauHoi(newQuery);
+                for (CauHoi cauHoi : lstTemp) {
+                    cauHoi.setStt(stt);
+                    lstCauHoi.add(cauHoi);
+                    stt++;
                 }
             }
             return null;

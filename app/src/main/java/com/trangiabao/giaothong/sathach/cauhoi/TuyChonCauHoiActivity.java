@@ -36,8 +36,6 @@ public class TuyChonCauHoiActivity extends AppCompatActivity {
 
     private Context context = TuyChonCauHoiActivity.this;
 
-    // controls
-    private Toolbar toolbar;
     private MaterialSpinner spinnerHang;
     private TextView txtMoTa;
     private Button btnStart;
@@ -62,7 +60,7 @@ public class TuyChonCauHoiActivity extends AppCompatActivity {
     }
 
     private void addControls() {
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Tùy chọn câu hỏi");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -186,27 +184,20 @@ public class TuyChonCauHoiActivity extends AppCompatActivity {
             AppCompatCheckBox chk = new AppCompatCheckBox(context);
             chk.setText(nhomCauHoi.getTenNhom());
             chk.setHint(nhomCauHoi.getId() + "");
+            chk.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (!isChecked) {
+                        chkTatCa.setChecked(false);
+                        count--;
+                    } else count++;
+                    if (count == lstCheckBoxNhomCauHoi.size())
+                        chkTatCa.setChecked(true);
+                }
+            });
             lstCheckBoxNhomCauHoi.add(chk);
             layoutNhomCauHoi.addView(chk);
         }
-        // check List CheckBox
-        new Thread(new Runnable() {
-            public void run() {
-                for (final CheckBox chk : lstCheckBoxNhomCauHoi) {
-                    chk.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                        @Override
-                        public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                            if (!isChecked) {
-                                chkTatCa.setChecked(false);
-                                count--;
-                            } else count++;
-                            if (count == lstCheckBoxNhomCauHoi.size())
-                                chkTatCa.setChecked(true);
-                        }
-                    });
-                }
-            }
-        }).start();
     }
 
     @Override

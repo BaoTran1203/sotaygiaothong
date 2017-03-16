@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.webkit.WebView;
-import android.widget.Toast;
 
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
@@ -34,7 +33,6 @@ public class SaHinhActivity extends AppCompatActivity {
     };
 
     private Context context = SaHinhActivity.this;
-    private Toolbar toolbar;
     private YouTubePlayerSupportFragment youtube_fragment;
     private WebView webView;
     private MaterialSpinner spinner;
@@ -50,7 +48,7 @@ public class SaHinhActivity extends AppCompatActivity {
     }
 
     private void addControls() {
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Bài thi sa hình");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -84,10 +82,6 @@ public class SaHinhActivity extends AppCompatActivity {
                                                 YouTubeInitializationResult errorReason) {
                 if (errorReason.isUserRecoverableError()) {
                     errorReason.getErrorDialog((Activity) context, RECOVERY_DIALOG_REQUEST).show();
-                } else {
-                    String errorMessage = String.format(
-                            getString(R.string.error_player), errorReason.toString());
-                    Toast.makeText(context, errorMessage, Toast.LENGTH_LONG).show();
                 }
             }
         });

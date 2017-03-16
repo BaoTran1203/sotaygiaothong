@@ -10,7 +10,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -32,9 +31,7 @@ import java.util.List;
 public class ChuongActivity extends AppCompatActivity {
 
     private Context context = ChuongActivity.this;
-    private Toolbar toolbar;
     private FastItemAdapter<Chuong> adapter;
-    private RecyclerView recyclerView;
     private AdView adView;
     private String vanBan;
 
@@ -50,7 +47,7 @@ public class ChuongActivity extends AppCompatActivity {
     }
 
     private void addControls() {
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Chương");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -58,7 +55,7 @@ public class ChuongActivity extends AppCompatActivity {
         adapter = new FastItemAdapter<>();
         adapter.setHasStableIds(true);
         adapter.withSelectable(true);
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.setAdapter(adapter);
 

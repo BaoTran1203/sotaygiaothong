@@ -38,14 +38,6 @@ public class LienHeFragment extends Fragment implements View.OnClickListener {
 
     private Context context;
     private View view;
-    private TextView txtAppName, txtAppVersion;
-    private LinearLayout layout_info_app;
-    private LinearLayout layout_profile;
-    private LinearLayout layout_mail;
-    private LinearLayout layout_phone;
-    private LinearLayout layout_facebook;
-    private LinearLayout layout_skype;
-    private LinearLayout layout_source;
     private AdView adView;
 
     private String version;
@@ -58,15 +50,15 @@ public class LienHeFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_lien_he, container, false);
         context = getActivity();
-        txtAppName = (TextView) view.findViewById(R.id.txtAppName);
-        txtAppVersion = (TextView) view.findViewById(R.id.txtAppVersion);
-        layout_info_app = (LinearLayout) view.findViewById(R.id.layout_info_app);
-        layout_profile = (LinearLayout) view.findViewById(R.id.layout_profile);
-        layout_mail = (LinearLayout) view.findViewById(R.id.layout_mail);
-        layout_phone = (LinearLayout) view.findViewById(R.id.layout_phone);
-        layout_facebook = (LinearLayout) view.findViewById(R.id.layout_facebook);
-        layout_skype = (LinearLayout) view.findViewById(R.id.layout_skype);
-        layout_source = (LinearLayout) view.findViewById(R.id.layout_source);
+        TextView txtAppName = (TextView) view.findViewById(R.id.txtAppName);
+        TextView txtAppVersion = (TextView) view.findViewById(R.id.txtAppVersion);
+        LinearLayout layout_info_app = (LinearLayout) view.findViewById(R.id.layout_info_app);
+        LinearLayout layout_profile = (LinearLayout) view.findViewById(R.id.layout_profile);
+        LinearLayout layout_mail = (LinearLayout) view.findViewById(R.id.layout_mail);
+        LinearLayout layout_phone = (LinearLayout) view.findViewById(R.id.layout_phone);
+        LinearLayout layout_facebook = (LinearLayout) view.findViewById(R.id.layout_facebook);
+        LinearLayout layout_skype = (LinearLayout) view.findViewById(R.id.layout_skype);
+        LinearLayout layout_source = (LinearLayout) view.findViewById(R.id.layout_source);
 
         PackageInfo pInfo = null;
         try {

@@ -10,7 +10,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -35,9 +34,7 @@ public class VanBanActivity extends AppCompatActivity {
 
     // controls
     private Context context = VanBanActivity.this;
-    private Toolbar toolbar;
     private FastItemAdapter<VanBan> adapter;
-    private RecyclerView recyclerView;
     private AdView adView;
 
     @Override
@@ -51,7 +48,7 @@ public class VanBanActivity extends AppCompatActivity {
     }
 
     private void addControls() {
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Văn bản");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -59,7 +56,7 @@ public class VanBanActivity extends AppCompatActivity {
         adapter = new FastItemAdapter<>();
         adapter.setHasStableIds(true);
         adapter.withSelectable(true);
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.setAdapter(adapter);
 

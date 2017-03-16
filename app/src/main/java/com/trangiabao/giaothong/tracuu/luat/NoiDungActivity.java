@@ -38,9 +38,8 @@ public class NoiDungActivity extends AppCompatActivity {
     private GestureDetector gestureDetector;
     private Toolbar toolbar;
     private ViewGroup container;
-    private TextView txtChuong, txtMuc, txtNoiDung;
+    private TextView txtNoiDung;
     private Button btnTruoc, btnSau;
-    private View line;
     private ScrollView scroll;
     private AdView adView;
 
@@ -60,18 +59,14 @@ public class NoiDungActivity extends AppCompatActivity {
 
     private void addControls() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle(getIntent().getExtras().getString("ten"));
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         container = (ViewGroup) findViewById(R.id.container);
         gestureDetector = new GestureDetector(new SwipeDetector());
-        txtChuong = (TextView) findViewById(R.id.txtChuong);
-        txtMuc = (TextView) findViewById(R.id.txtMuc);
         txtNoiDung = (TextView) findViewById(R.id.txtNoiDung);
         btnTruoc = (Button) findViewById(R.id.btnTruoc);
         btnSau = (Button) findViewById(R.id.btnSau);
-        line = findViewById(R.id.line);
         scroll = (ScrollView) findViewById(R.id.scroll);
 
         adView = (AdView) findViewById(R.id.adView);
@@ -126,10 +121,6 @@ public class NoiDungActivity extends AppCompatActivity {
         txtNoiDung.setText(Html.fromHtml(noiDung));
 
         container.removeAllViews();
-        container.addView(txtChuong);
-        if (!txtMuc.getText().toString().equals(""))
-            container.addView(txtMuc);
-        container.addView(line);
         container.addView(txtNoiDung);
         scroll.fullScroll(ScrollView.FOCUS_UP);
     }
@@ -235,8 +226,10 @@ public class NoiDungActivity extends AppCompatActivity {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             dialog.dismiss();
-            txtChuong.setText(chuong.getTenChuong());
-            txtMuc.setText(chuong.getMuc());
+            if (chuong.getTenChuong().equals(""))
+                toolbar.setTitle(getIntent().getExtras().getString("ten"));
+            else
+                toolbar.setTitle(chuong.getTenChuong());
             hienThiNoiDung(1);
         }
 
